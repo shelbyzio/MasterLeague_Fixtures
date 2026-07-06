@@ -20,7 +20,7 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .glass-panel { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(212, 175, 55, 0.2); transition: all 0.2s; }
         .glass-panel:active { transform: scale(0.98); background: rgba(212, 175, 55, 0.1); }
-        .score-box { background: #000; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: 900; font-size: 16px; border: 1px solid #333; }
+        .score-box { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: 900; font-size: 16px; border: 1px solid #333; background: #000; }
         .group-header { background: linear-gradient(90deg, rgba(212,175,55,0.1) 0%, transparent 100%); border-left: 3px solid var(--world-gold); }
         .team-link { color: #ffffff !important; text-decoration: none; }
         .team-link:hover { color: var(--world-gold) !important; text-decoration: underline; }
@@ -52,21 +52,13 @@
 <script>
     const TELEGRAM_LINKS = {
         "Argentina": "https://t.me/Mgzay8", "Australia": "https://t.me/Aungpyinnyar", "Austria": "https://t.me/oakjar",
-        
         "Belgium": "https://t.me/Heinminmdy", "Bosnia and Herzegovina": "https://t.me/SonyaMuller9", "Brazil": "https://t.me/ChanAung1178",
-        
         "Canada": "https://t.me/AungZinPhyo1992", "Cape Verde": "https://t.me/Heropool", "Colombia": "https://t.me/AHtikeZ",
-        
         "Croatia": "https://t.me/nzp567", "Curaçao": "https://t.me/iz_szlai", "Czechia": "https://t.me/PK2142022",
-        
         "DR Congo": "https://t.me/kenzjust", "Ecuador": "https://t.me/Nyanzayar", "Egypt": "https://t.me/Bel_kyaw",
-        
-        "England": "https://t.me/", "France": "https://t.me/nicorizer", "Germany": "https://t.me/everton55555",
-        
+        "England": "https://t.me/HmMmOnFiRe", "France": "https://t.me/nicorizer", "Germany": "https://t.me/everton55555",
         "Ghana": "https://t.me/khantkyawthu_01", "Haiti": "https://t.me/Doraemoncat77", "Iran": "https://t.me/Sanminoo",
-        
         "Iraq": "https://t.me/kharkhar1225", "Japan": "https://t.me/Nyan428925", "Jordan": "https://t.me/Lnferno_017",
-        
         "Mexico": "https://t.me/lokidemon99", "Morocco": "https://t.me/Myan_Khun", "Netherlands": "https://t.me/oki6k",
         "New Zealand": "https://t.me/mikeyjn", "Norway": "https://t.me/kiteedgeyidicy", "Panama": "https://t.me/Gameefootball710",
         "Paraguay": "https://t.me/HmMmOnFiRe", "Portugal": "https://t.me/Wallker29", "Qatar": "https://t.me/ZawThatPaingSoe",
@@ -102,7 +94,31 @@
                 state.matches.push({ id: mid++, group: g, round: p.r, home: gt[p.h].name, away: gt[p.a].name, hS: null, aS: null }); 
             });
         });
+        
+        const results = [
+            {h:"Argentina", a:"Australia", r:1, hS:4, aS:0}, {h:"Austria", a:"Belgium", r:1, hS:0, aS:2},
+            {h:"Bosnia and Herzegovina", a:"Brazil", r:1, hS:1, aS:3}, {h:"Canada", a:"Cape Verde", r:1, hS:7, aS:3},
+            {h:"Colombia", a:"Croatia", r:1, hS:2, aS:2}, {h:"Curaçao", a:"Czechia", r:1, hS:5, aS:4},
+            {h:"Egypt", a:"England", r:1, hS:6, aS:1}, {h:"France", a:"Germany", r:1, hS:2, aS:2},
+            {h:"Ghana", a:"Haiti", r:1, hS:5, aS:0}, {h:"Iran", a:"Iraq", r:1, hS:3, aS:6},
+            {h:"Japan", a:"Jordan", r:1, hS:8, aS:0}, {h:"Mexico", a:"Morocco", r:1, hS:4, aS:2},
+            {h:"Netherlands", a:"New Zealand", r:1, hS:1, aS:4}, {h:"Paraguay", a:"Portugal", r:1, hS:2, aS:3},
+            {h:"Scotland", a:"Senegal", r:1, hS:1, aS:10}, {h:"South Africa", a:"South Korea", r:1, hS:1, aS:2},
+            {h:"Türkiye", a:"United States", r:1, hS:3, aS:5}, {h:"Uruguay", a:"Uzbekistan", r:1, hS:9, aS:3},
+            {h:"Algeria", a:"Côte d'Ivoire", r:1, hS:0, aS:10}
+        ];
+        results.forEach(res => {
+            const m = state.matches.find(ma => ma.home === res.h && ma.away === res.a && ma.round === res.r);
+            if(m) { m.hS = res.hS; m.aS = res.aS; }
+        });
+        updateStandings();
         render();
+    }
+
+    function getScoreColor(s1, s2) {
+        if (s1 === null || s2 === null) return "";
+        if (s1 === s2) return "text-yellow-400";
+        return s1 > s2 ? "text-green-500" : "text-red-500";
     }
 
     function editMatch(id) {
@@ -137,13 +153,15 @@
             let header = m.group !== lastG ? (lastG = m.group, `<div class="group-header py-2 px-4 mb-3 text-[10px] font-black text-[var(--world-gold)] uppercase italic">Group ${m.group}</div>`) : "";
             const home = state.teams.find(t => t.name === m.home);
             const away = state.teams.find(t => t.name === m.away);
+            const hColor = getScoreColor(m.hS, m.aS);
+            const aColor = getScoreColor(m.aS, m.hS);
             return header + `<div class="glass-panel p-4 rounded-2xl flex items-center justify-between mb-2">
                 <div class="flex-1 text-right pr-4 text-[11px] font-bold truncate">
                    ${home.link !== "#" ? `<a href="${home.link}" target="_blank" class="team-link">${m.home}</a>` : m.home}
                 </div>
                 <div onclick="editMatch(${m.id})" class="flex items-center space-x-2 cursor-pointer">
-                    <div class="score-box">${m.hS !== null ? m.hS : '-'}</div>
-                    <div class="score-box">${m.aS !== null ? m.aS : '-'}</div>
+                    <div class="score-box ${hColor}">${m.hS !== null ? m.hS : '-'}</div>
+                    <div class="score-box ${aColor}">${m.aS !== null ? m.aS : '-'}</div>
                 </div>
                 <div class="flex-1 text-left pl-4 text-[11px] font-bold truncate">
                    ${away.link !== "#" ? `<a href="${away.link}" target="_blank" class="team-link">${m.away}</a>` : m.away}
