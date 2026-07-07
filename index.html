@@ -105,7 +105,7 @@
         // Round 2
         const round2 = [
             { h: "Australia", a: "Belgium", r: 2, hS: 1, aS: 3 }, { h: "Bosnia and Herzegovina", a: "Canada", r: 2, hS: 1, aS: 2 },
-            { h: "Brazil", a: "Cape Verde", r: 2, hS: 4, aS: 2 }, { h: "Colombia", a: "Curaçao", r: 2, hS: 4, aS: 2 },
+            { h: "Brazil", a: "Cape Verde", r: 2, hS: 4, aS: 2 }, { h: "Colombia", a: "Curaçao", r: 2, hS: 2, aS: 4 },
             { h: "Croatia", a: "Czechia", r: 2, hS: 3, aS: 1 }, { h: "DR Congo", a: "Egypt", r: 2, hS: 2, aS: 8 },
             { h: "Ecuador", a: "England", r: 2, hS: 5, aS: 0 }, { h: "France", a: "Ghana", r: 2, hS: 4, aS: 0 },
             { h: "Germany", a: "Haiti", r: 2, hS: 0, aS: 5 }, { h: "Iran", a: "Japan", r: 2, hS: 4, aS: 3 },
@@ -113,7 +113,7 @@
             { h: "Morocco", a: "New Zealand", r: 2, hS: 3, aS: 3 }, { h: "Norway", a: "Paraguay", r: 2, hS: 0, aS: 3 },
             { h: "Panama", a: "Portugal", r: 2, hS: 1, aS: 2 }, { h: "Qatar", a: "Scotland", r: 2, hS: 0, aS: 3 },
             { h: "South Africa", a: "Spain", r: 2, hS: 6, aS: 2 }, { h: "South Korea", a: "Sweden", r: 2, hS: 4, aS: 1 },
-            { h: "Switzerland", a: "Türkiye", r: 2, hS: 3, aS: 3 }, { h: "Tunisia", a: "United States", r: 2, hS: 2, aS: 3 },
+            { h: "Switzerland", a: "Türkiye", r: 2, hS: 3, aS: 1 }, { h: "Tunisia", a: "United States", r: 2, hS: 2, aS: 3 },
             { h: "Uzbekistan", a: "Côte d'Ivoire", r: 2, hS: 0, aS: 3 }
         ];
         round2.forEach(res => { const m = state.matches.find(mt => mt.home === res.h && mt.away === res.a && mt.round === 2); if(m) { m.hS = res.hS; m.aS = res.aS; } });
