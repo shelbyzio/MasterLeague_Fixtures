@@ -24,6 +24,15 @@
         .group-header { background: linear-gradient(90deg, rgba(212,175,55,0.1) 0%, transparent 100%); border-left: 3px solid var(--world-gold); }
         .team-link { color: #ffffff !important; text-decoration: none; }
         .team-link:hover { color: var(--world-gold) !important; text-decoration: underline; }
+
+        /* Smooth fade-in transition for round tab switching */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
     </style>
 </head>
 <body class="no-scrollbar pb-24">
@@ -40,33 +49,71 @@
 <main class="p-5 max-w-4xl mx-auto">
     <div class="flex space-x-2 overflow-x-auto no-scrollbar mb-8">
         <button onclick="setRound(1)" id="round-1" class="round-btn flex-1 py-4 rounded-xl text-[10px] font-black uppercase transition-all bg-[var(--world-gold)] text-black">Round 1</button>
-        <button onclick="setRound(2)" id="round-2" class="round-btn flex-1 py-4 rounded-xl text-[10px] font-black uppercase transition-all bg-zinc-900">Round 2</button>
-        <button onclick="setRound(3)" id="round-3" class="round-btn flex-1 py-4 rounded-xl text-[10px] font-black uppercase transition-all bg-zinc-900">Round 3</button>
+        <button onclick="setRound(2)" id="round-2" class="round-btn flex-1 py-4 rounded-xl text-[10px] font-black uppercase transition-all bg-zinc-900 text-white">Round 2</button>
+        <button onclick="setRound(3)" id="round-3" class="round-btn flex-1 py-4 rounded-xl text-[10px] font-black uppercase transition-all bg-zinc-900 text-white">Round 3</button>
     </div>
     <div class="space-y-12">
-        <div><h2 class="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-4 px-2 italic">Match Fixtures</h2><div id="fixture-container" class="space-y-4"></div></div>
-        <div><h2 class="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-4 px-2 italic">League Standings</h2><div id="standings-container" class="space-y-8"></div></div>
+        <div>
+            <h2 class="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-4 px-2 italic">Match Fixtures</h2>
+            <div id="fixture-container" class="space-y-4"></div>
+        </div>
+        <div>
+            <h2 class="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-4 px-2 italic">League Standings</h2>
+            <div id="standings-container" class="space-y-8"></div>
+        </div>
     </div>
 </main>
 
 <script>
     const TELEGRAM_LINKS = {
-        "Argentina": "https://t.me/Mgzay8", "Australia": "https://t.me/Aungpyinnyar", "Austria": "https://t.me/oakjar",
-        "Belgium": "https://t.me/Heinminmdy", "Bosnia and Herzegovina": "https://t.me/SonyaMuller9", "Brazil": "https://t.me/ChanAung1178",
-        "Canada": "https://t.me/AungZinPhyo1992", "Cape Verde": "https://t.me/Heropool", "Colombia": "https://t.me/AHtikeZ",
-        "Croatia": "https://t.me/nzp567", "Curaçao": "https://t.me/iz_szlai", "Czechia": "https://t.me/PK2142022",
-        "DR Congo": "https://t.me/kenzjust", "Ecuador": "https://t.me/Nyanzayar", "Egypt": "https://t.me/Bel_kyaw",
-        "England": "https://t.me/HmMmOnFiRe", "France": "https://t.me/nicorizer", "Germany": "https://t.me/everton55555",
-        "Ghana": "https://t.me/khantkyawthu_01", "Haiti": "https://t.me/Doraemoncat77", "Iran": "https://t.me/Sanminoo",
-        "Iraq": "https://t.me/kharkhar1225", "Japan": "https://t.me/Nyan428925", "Jordan": "https://t.me/Lnferno_017",
-        "Mexico": "https://t.me/lokidemon99", "Morocco": "https://t.me/Myan_Khun", "Netherlands": "https://t.me/oki6k",
-        "New Zealand": "https://t.me/mikeyjn", "Norway": "https://t.me/kiteedgeyidicy", "Panama": "https://t.me/Gameefootball710",
-        "Paraguay": "https://t.me/HmMmOnFiRe", "Portugal": "https://t.me/Wallker29", "Qatar": "https://t.me/ZawThatPaingSoe",
-        "Saudi Arabia": "https://t.me/lakham212", "Scotland": "https://t.me/Mg1108", "Senegal": "#",
-        "South Africa": "https://t.me/aungnayzan", "South Korea": "https://t.me/Hemaljr10", "Spain": "https://t.me/Bhone3245",
-        "Sweden": "https://t.me/lexaonyx", "Switzerland": "https://t.me/ThuriMin2355", "Tunisia": "https://t.me/Ranger13102003",
-        "Türkiye": "https://t.me/Ferdico99", "United States": "https://t.me/ShadowFang191", "Uruguay": "https://t.me/HeinHtet_Nai",
-        "Uzbekistan": "https://t.me/zawphyothant10", "Algeria": "https://t.me/Unoebm123", "Côte d'Ivoire": "https://t.me/Khant0079"
+        "Argentina": "https://t.me/agust_HML",
+        "Australia": "https://t.me/KoKyaw_KYT",
+        "Austria": "https://t.me/Khine_Lin_Htay",
+        "Belgium": "https://t.me/Garniya",
+        "Bosnia and Herzegovina": "https://t.me/MinThwe18",
+        "Brazil": "https://t.me/Doraemoncat77",
+        "Canada": "https://t.me/zam57493",
+        "Cape Verde": "https://t.me/yminchit69",
+        "Colombia": "#",
+        "Croatia": "https://t.me/EiXiao7",
+        "Curaçao": "https://t.me/Badrul11",
+        "Czechia": "https://t.me/Ranger13102003",
+        "DR Congo": "https://t.me/zeusace0",
+        "Ecuador": "https://t.me/Wallker29",
+        "Egypt": "https://t.me/Phir_tayin",
+        "England": "https://t.me/Youpop556",
+        "France": "https://t.me/MRTONE3",
+        "Germany": "https://t.me/Crikxnt7",
+        "Ghana": "https://t.me/khantkyawthu_01",
+        "Haiti": "https://t.me/Dijeaan",
+        "Iran": "https://t.me/heinkyawthuang",
+        "Iraq": "https://t.me/Theinau",
+        "Japan": "https://t.me/Aungpyinnyar",
+        "Jordan": "https://t.me/BlackEaglessuper",
+        "Mexico": "https://t.me/Nyishein77",
+        "Morocco": "https://t.me/shineshine013",
+        "Netherlands": "https://t.me/Khualpu199",
+        "New Zealand": "https://t.me/jthu23",
+        "Norway": "https://t.me/Orodevice",
+        "Panama": "https://t.me/Kyawthaik468",
+        "Paraguay": "https://t.me/ventus2940",
+        "Portugal": "https://t.me/MUCHExt",
+        "Qatar": "https://t.me/GwaytolayZLT",
+        "Saudi Arabia": "https://t.me/MCngakaung",
+        "Scotland": "https://t.me/ceeyg",
+        "Senegal": "https://t.me/Ricechat13579",
+        "South Africa": "https://t.me/paingqt",
+        "South Korea": "https://t.me/MayJu2004",
+        "Spain": "https://t.me/Hein040",
+        "Sweden": "https://t.me/luhan123456",
+        "Switzerland": "https://t.me/oki6k",
+        "Tunisia": "#",
+        "Türkiye": "https://t.me/an_Idiot1",
+        "United States": "https://t.me/kyawlwintun17",
+        "Uruguay": "https://t.me/everton55555",
+        "Uzbekistan": "https://t.me/lord_voldemort101",
+        "Algeria": "https://t.me/kenzjust",
+        "Côte d'Ivoire": "https://t.me/mrleon006"
     };
 
     const PLAYER_NAMES = ["Argentina", "Australia", "Austria", "Belgium", "Bosnia and Herzegovina", "Brazil", "Canada", "Cape Verde", "Colombia", "Croatia", "Curaçao", "Czechia", "DR Congo", "Ecuador", "Egypt", "England", "France", "Germany", "Ghana", "Haiti", "Iran", "Iraq", "Japan", "Jordan", "Mexico", "Morocco", "Netherlands", "New Zealand", "Norway", "Panama", "Paraguay", "Portugal", "Qatar", "Saudi Arabia", "Scotland", "Senegal", "South Africa", "South Korea", "Spain", "Sweden", "Switzerland", "Tunisia", "Türkiye", "United States", "Uruguay", "Uzbekistan", "Algeria", "Côte d'Ivoire"];
@@ -86,40 +133,6 @@
             const pairings = [{h:0, a:1, r:1}, {h:2, a:3, r:1}, {h:0, a:2, r:2}, {h:1, a:3, r:2}, {h:0, a:3, r:3}, {h:1, a:2, r:3}];
             pairings.forEach(p => { state.matches.push({ id: mid++, group: g, round: p.r, home: gt[p.h].name, away: gt[p.a].name, hS: null, aS: null }); });
         });
-
-        // Round 1 Updated Results
-        const round1 = [
-            {h:"Argentina", a:"Australia", r:1, hS:0, aS:4}, {h:"Austria", a:"Belgium", r:1, hS:0, aS:2}, 
-            {h:"Bosnia and Herzegovina", a:"Brazil", r:1, hS:1, aS:3}, {h:"Canada", a:"Cape Verde", r:1, hS:7, aS:3}, 
-            {h:"Colombia", a:"Croatia", r:1, hS:2, aS:2}, {h:"Curaçao", a:"Czechia", r:1, hS:5, aS:4}, 
-            {h:"DR Congo", a:"Ecuador", r:1, hS:1, aS:1}, {h:"Egypt", a:"England", r:1, hS:6, aS:1}, 
-            {h:"France", a:"Germany", r:1, hS:2, aS:2}, {h:"Ghana", a:"Haiti", r:1, hS:5, aS:0}, 
-            {h:"Iran", a:"Iraq", r:1, hS:3, aS:6}, {h:"Japan", a:"Jordan", r:1, hS:8, aS:0}, 
-            {h:"Mexico", a:"Morocco", r:1, hS:4, aS:2}, {h:"Netherlands", a:"New Zealand", r:1, hS:1, aS:4}, 
-            {h:"Norway", a:"Panama", r:1, hS:0, aS:3}, {h:"Paraguay", a:"Portugal", r:1, hS:3, aS:2}, 
-            {h:"Qatar", a:"Saudi Arabia", r:1, hS:0, aS:5}, {h:"Scotland", a:"Senegal", r:1, hS:1, aS:10}, 
-            {h:"South Africa", a:"South Korea", r:1, hS:1, aS:2}, {h:"Spain", a:"Sweden", r:1, hS:2, aS:0}, 
-            {h:"Switzerland", a:"Tunisia", r:1, hS:5, aS:1}, {h:"Türkiye", a:"United States", r:1, hS:3, aS:5}, 
-            {h:"Uruguay", a:"Uzbekistan", r:1, hS:9, aS:3}, {h:"Algeria", a:"Côte d'Ivoire", r:1, hS:0, aS:10}
-        ];
-        round1.forEach(res => { const m = state.matches.find(ma => ma.home === res.h && ma.away === res.a && ma.round === res.r); if(m) { m.hS = res.hS; m.aS = res.aS; } });
-
-        // Round 2 (Keeping existing)
-        const round2 = [
-            { h: "Argentina", a: "Austria", r: 2, hS: 1, aS: 3 }, { h: "Australia", a: "Belgium", r: 2, hS: 1, aS: 3 },
-            { h: "Bosnia and Herzegovina", a: "Canada", r: 2, hS: 1, aS: 2 }, { h: "Brazil", a: "Cape Verde", r: 2, hS: 4, aS: 2 },
-            { h: "Colombia", a: "Curaçao", r: 2, hS: 2, aS: 4 }, { h: "Croatia", a: "Czechia", r: 2, hS: 3, aS: 1 },
-            { h: "DR Congo", a: "Egypt", r: 2, hS: 2, aS: 8 }, { h: "Ecuador", a: "England", r: 2, hS: 5, aS: 0 },
-            { h: "France", a: "Ghana", r: 2, hS: 4, aS: 0 }, { h: "Germany", a: "Haiti", r: 2, hS: 0, aS: 5 },
-            { h: "Iran", a: "Japan", r: 2, hS: 4, aS: 3 }, { h: "Iraq", a: "Jordan", r: 2, hS: 8, aS: 1 },
-            { h: "Mexico", a: "Netherlands", r: 2, hS: 5, aS: 6 }, { h: "Morocco", a: "New Zealand", r: 2, hS: 3, aS: 3 },
-            { h: "Norway", a: "Paraguay", r: 2, hS: 0, aS: 3 }, { h: "Panama", a: "Portugal", r: 2, hS: 1, aS: 2 },
-            { h: "Qatar", a: "Scotland", r: 2, hS: 0, aS: 3 }, { h: "Saudi Arabia", a: "Senegal", r: 2, hS: 4, aS: 4 },
-            { h: "South Africa", a: "Spain", r: 2, hS: 6, aS: 2 }, { h: "South Korea", a: "Sweden", r: 2, hS: 4, aS: 1 },
-            { h: "Switzerland", a: "Türkiye", r: 2, hS: 3, aS: 3 }, { h: "Tunisia", a: "United States", r: 2, hS: 2, aS: 3 },
-            { h: "Uruguay", a: "Algeria", r: 2, hS: 3, aS: 0 }, { h: "Uzbekistan", a: "Côte d'Ivoire", r: 2, hS: 0, aS: 3 }
-        ];
-        round2.forEach(res => { const m = state.matches.find(mt => mt.home === res.h && mt.away === res.a && mt.round === 2); if(m) { m.hS = res.hS; m.aS = res.aS; } });
         
         updateStandings();
         render();
@@ -159,7 +172,9 @@
     function render() {
         const rdMatches = state.matches.filter(m => m.round === state.activeRound);
         let lastG = "";
-        document.getElementById('fixture-container').innerHTML = rdMatches.map(m => {
+        
+        const fixtureContainer = document.getElementById('fixture-container');
+        fixtureContainer.innerHTML = rdMatches.map(m => {
             let header = m.group !== lastG ? (lastG = m.group, `<div class="group-header py-2 px-4 mb-3 text-[10px] font-black text-[var(--world-gold)] uppercase italic">Group ${m.group}</div>`) : "";
             const home = state.teams.find(t => t.name === m.home);
             const away = state.teams.find(t => t.name === m.away);
@@ -178,6 +193,11 @@
                 </div>
             </div>`;
         }).join('');
+
+        // Apply smooth transition motion without layout flickering
+        fixtureContainer.classList.remove('fade-in');
+        void fixtureContainer.offsetWidth; // trigger reflow
+        fixtureContainer.classList.add('fade-in');
 
         document.getElementById('standings-container').innerHTML = G_NAMES.map(g => {
             const gt = state.teams.filter(t => t.group === g).sort((a,b) => b.pts - a.pts || b.gd - a.gd);
@@ -199,8 +219,13 @@
 
     window.setRound = (r) => { 
         state.activeRound = r; 
-        document.querySelectorAll('.round-btn').forEach(btn => btn.classList.remove('bg-[var(--world-gold)]', 'text-black'));
-        document.getElementById('round-'+r).classList.add('bg-[var(--world-gold)]', 'text-black');
+        document.querySelectorAll('.round-btn').forEach(btn => {
+            btn.classList.remove('bg-[var(--world-gold)]', 'text-black');
+            btn.classList.add('bg-zinc-900', 'text-white');
+        });
+        const activeBtn = document.getElementById('round-'+r);
+        activeBtn.classList.remove('bg-zinc-900', 'text-white');
+        activeBtn.classList.add('bg-[var(--world-gold)]', 'text-black');
         render(); 
     };
 
