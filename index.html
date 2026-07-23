@@ -77,7 +77,7 @@
         "Australia": "https://t.me/KoKyaw_KYT",
         "Austria": "https://t.me/Khine_Lin_Htay",
         "Belgium": "https://t.me/Garniya",
-        "Bosnia and Herzegovina": "https://t.me/MinThwe18",
+        "Bosnia": "https://t.me/MinThwe18",
         "Brazil": "https://t.me/Doraemoncat77",
         "Canada": "https://t.me/zam57493",
         "Cape Verde": "https://t.me/yminchit69",
@@ -122,7 +122,26 @@
         "Côte d'Ivoire": "https://t.me/mrleon006"
     };
 
-    const PLAYER_NAMES = ["Argentina", "Australia", "Austria", "Belgium", "Bosnia and Herzegovina", "Brazil", "Canada", "Cape Verde", "Colombia", "Croatia", "Curaçao", "Czechia", "DR Congo", "Ecuador", "Egypt", "England", "France", "Germany", "Ghana", "Haiti", "Iran", "Iraq", "Japan", "Jordan", "Mexico", "Morocco", "Netherlands", "New Zealand", "Norway", "Panama", "Paraguay", "Portugal", "Qatar", "Saudi Arabia", "Scotland", "Senegal", "South Africa", "South Korea", "Spain", "Sweden", "Switzerland", "Tunisia", "Türkiye", "United States", "Uruguay", "Uzbekistan", "Algeria", "Côte d'Ivoire"];
+    const COUNTRY_CODES = {
+        "Algeria": "dz", "Argentina": "ar", "Australia": "au", "Austria": "at", "Belgium": "be",
+        "Bosnia": "ba", "Brazil": "br", "Canada": "ca", "Cape Verde": "cv", "Colombia": "co",
+        "Croatia": "hr", "Curaçao": "cw", "Czechia": "cz", "DR Congo": "cd", "Ecuador": "ec",
+        "Egypt": "eg", "England": "gb-eng", "France": "fr", "Germany": "de", "Ghana": "gh",
+        "Haiti": "ht", "Iran": "ir", "Iraq": "iq", "Japan": "jp", "Jordan": "jo",
+        "Mexico": "mx", "Morocco": "ma", "Netherlands": "nl", "New Zealand": "nz", "Norway": "no",
+        "Panama": "pa", "Paraguay": "py", "Portugal": "pt", "Qatar": "qa", "Saudi Arabia": "sa",
+        "Scotland": "gb-sct", "Senegal": "sn", "South Africa": "za", "South Korea": "kr", "Spain": "es",
+        "Sweden": "se", "Switzerland": "ch", "Tunisia": "tn", "Türkiye": "tr", "United States": "us",
+        "Uruguay": "uy", "Uzbekistan": "uz", "Côte d'Ivoire": "ci"
+    };
+
+    function getFlagHtml(teamName) {
+        const code = COUNTRY_CODES[teamName];
+        if (!code) return '';
+        return `<img src="https://flagcdn.com/24x18/${code}.png" srcset="https://flagcdn.com/48x36/${code}.png 2x" width="18" height="13" alt="${teamName} flag" class="inline-block rounded-[2px] shadow-sm flex-shrink-0">`;
+    }
+
+    const PLAYER_NAMES = ["Argentina", "Australia", "Austria", "Belgium", "Bosnia", "Brazil", "Canada", "Cape Verde", "Colombia", "Croatia", "Curaçao", "Czechia", "DR Congo", "Ecuador", "Egypt", "England", "France", "Germany", "Ghana", "Haiti", "Iran", "Iraq", "Japan", "Jordan", "Mexico", "Morocco", "Netherlands", "New Zealand", "Norway", "Panama", "Paraguay", "Portugal", "Qatar", "Saudi Arabia", "Scotland", "Senegal", "South Africa", "South Korea", "Spain", "Sweden", "Switzerland", "Tunisia", "Türkiye", "United States", "Uruguay", "Uzbekistan", "Algeria", "Côte d'Ivoire"];
     
     const G_NAMES = "ABCDEFGHIJKL".split("");
     let state = { teams: [], matches: [], activeRound: 1 };
@@ -186,16 +205,20 @@
             const away = state.teams.find(t => t.name === m.away);
             const hColor = getScoreColor(m.hS, m.aS);
             const aColor = getScoreColor(m.aS, m.hS);
+
+            const homeTeamContent = `${getFlagHtml(m.home)} ${home.link && home.link !== "#" && home.link !== "https://t.me/" ? `<a href="${home.link}" target="_blank" class="team-link">${m.home}</a>` : m.home}`;
+            const awayTeamContent = `${away.link && away.link !== "#" && away.link !== "https://t.me/" ? `<a href="${away.link}" target="_blank" class="team-link">${m.away}</a>` : m.away} ${getFlagHtml(m.away)}`;
+
             return header + `<div class="glass-panel p-4 rounded-2xl flex items-center justify-between mb-2">
-                <div class="flex-1 text-right pr-4 text-[11px] font-bold truncate">
-                   ${home.link && home.link !== "#" && home.link !== "https://t.me/" ? `<a href="${home.link}" target="_blank" class="team-link">${m.home}</a>` : m.home}
+                <div class="flex-1 text-right pr-3 text-[11px] font-bold truncate flex items-center justify-end space-x-2">
+                   ${homeTeamContent}
                 </div>
-                <div onclick="editMatch(${m.id})" class="flex items-center space-x-2 cursor-pointer">
+                <div onclick="editMatch(${m.id})" class="flex items-center space-x-2 cursor-pointer flex-shrink-0">
                     <div class="score-box ${hColor}">${m.hS !== null ? m.hS : '-'}</div>
                     <div class="score-box ${aColor}">${m.aS !== null ? m.aS : '-'}</div>
                 </div>
-                <div class="flex-1 text-left pl-4 text-[11px] font-bold truncate">
-                   ${away.link && away.link !== "#" && away.link !== "https://t.me/" ? `<a href="${away.link}" target="_blank" class="team-link">${m.away}</a>` : m.away}
+                <div class="flex-1 text-left pl-3 text-[11px] font-bold truncate flex items-center space-x-2">
+                   ${awayTeamContent}
                 </div>
             </div>`;
         }).join('');
@@ -213,9 +236,10 @@
                     <thead><tr class="text-zinc-500"><th class="text-left">TEAM</th><th>M</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr></thead>
                     <tbody class="divide-y divide-white/5">${gt.map((t, idx) => `<tr class="h-14 ${idx < 2 ? 'bg-white/[0.02]' : ''}">
                         <td class="text-left py-2">
-                            <div class="font-bold flex items-center space-x-1">
-                                <span class="text-zinc-500 font-mono text-[9px] mr-1">${idx+1}.</span>
-                                ${t.link && t.link !== "#" && t.link !== "https://t.me/" ? `<a href="${t.link}" target="_blank" class="team-link">${t.name}</a>` : t.name}
+                            <div class="font-bold flex items-center space-x-1.5">
+                                <span class="text-zinc-500 font-mono text-[9px] mr-0.5">${idx+1}.</span>
+                                ${getFlagHtml(t.name)}
+                                ${t.link && t.link !== "#" && t.link !== "https://t.me/" ? `<a href="${t.link}" target="_blank" class="team-link truncate">${t.name}</a>` : `<span class="truncate">${t.name}</span>`}
                             </div>
                         </td>
                         <td>${t.m}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gf}</td><td>${t.ga}</td><td>${t.gd}</td>
@@ -237,9 +261,10 @@
                     <thead><tr class="text-zinc-500"><th class="text-left">TEAM</th><th>GRP</th><th>M</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr></thead>
                     <tbody class="divide-y divide-white/5">${thirdPlaceTeams.map((t, idx) => `<tr class="h-14 ${idx < 8 ? 'bg-[var(--world-gold)]/5' : 'opacity-60'}">
                         <td class="text-left py-2">
-                            <div class="font-bold flex items-center space-x-1">
-                                <span class="${idx < 8 ? 'text-[var(--world-gold)]' : 'text-zinc-500'} font-mono text-[9px] mr-1">${idx+1}.</span>
-                                ${t.link && t.link !== "#" && t.link !== "https://t.me/" ? `<a href="${t.link}" target="_blank" class="team-link">${t.name}</a>` : t.name}
+                            <div class="font-bold flex items-center space-x-1.5">
+                                <span class="${idx < 8 ? 'text-[var(--world-gold)]' : 'text-zinc-500'} font-mono text-[9px] mr-0.5">${idx+1}.</span>
+                                ${getFlagHtml(t.name)}
+                                ${t.link && t.link !== "#" && t.link !== "https://t.me/" ? `<a href="${t.link}" target="_blank" class="team-link truncate">${t.name}</a>` : `<span class="truncate">${t.name}</span>`}
                             </div>
                         </td>
                         <td><span class="px-1.5 py-0.5 rounded bg-zinc-800 text-[var(--world-gold)] font-bold">${t.group}</span></td>
