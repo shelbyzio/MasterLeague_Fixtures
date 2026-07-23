@@ -25,7 +25,6 @@
         .team-link { color: #ffffff !important; text-decoration: none; }
         .team-link:hover { color: var(--world-gold) !important; text-decoration: underline; }
 
-        /* Smooth fade-in transition for round tab switching */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
@@ -52,14 +51,21 @@
         <button onclick="setRound(2)" id="round-2" class="round-btn flex-1 py-4 rounded-xl text-[10px] font-black uppercase transition-all bg-zinc-900 text-white">Round 2</button>
         <button onclick="setRound(3)" id="round-3" class="round-btn flex-1 py-4 rounded-xl text-[10px] font-black uppercase transition-all bg-zinc-900 text-white">Round 3</button>
     </div>
+
     <div class="space-y-12">
         <div>
             <h2 class="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-4 px-2 italic">Match Fixtures</h2>
             <div id="fixture-container" class="space-y-4"></div>
         </div>
+
         <div>
             <h2 class="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-4 px-2 italic">League Standings</h2>
             <div id="standings-container" class="space-y-8"></div>
+        </div>
+
+        <div>
+            <h2 class="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-4 px-2 italic">Best 3rd Place Teams (Top 8 Qualify)</h2>
+            <div id="best-third-container" class="space-y-4"></div>
         </div>
     </div>
 </main>
@@ -198,15 +204,19 @@
         void fixtureContainer.offsetWidth; // trigger reflow
         fixtureContainer.classList.add('fade-in');
 
+        // Render main group tables
         document.getElementById('standings-container').innerHTML = G_NAMES.map(g => {
-            const gt = state.teams.filter(t => t.group === g).sort((a,b) => b.pts - a.pts || b.gd - a.gd);
+            const gt = state.teams.filter(t => t.group === g).sort((a,b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf);
             return `<div class="bg-black/40 rounded-3xl p-5 border border-[var(--world-gold)]/10 overflow-x-auto">
                 <div class="text-[10px] font-black text-[var(--world-gold)] mb-4">GROUP ${g}</div>
                 <table class="w-full text-[10px] text-center min-w-[300px]">
                     <thead><tr class="text-zinc-500"><th class="text-left">TEAM</th><th>M</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr></thead>
-                    <tbody class="divide-y divide-white/5">${gt.map(t => `<tr class="h-14">
+                    <tbody class="divide-y divide-white/5">${gt.map((t, idx) => `<tr class="h-14 ${idx < 2 ? 'bg-white/[0.02]' : ''}">
                         <td class="text-left py-2">
-                            <div class="font-bold">${t.link && t.link !== "#" && t.link !== "https://t.me/" ? `<a href="${t.link}" target="_blank" class="team-link">${t.name}</a>` : t.name}</div>
+                            <div class="font-bold flex items-center space-x-1">
+                                <span class="text-zinc-500 font-mono text-[9px] mr-1">${idx+1}.</span>
+                                ${t.link && t.link !== "#" && t.link !== "https://t.me/" ? `<a href="${t.link}" target="_blank" class="team-link">${t.name}</a>` : t.name}
+                            </div>
                         </td>
                         <td>${t.m}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gf}</td><td>${t.ga}</td><td>${t.gd}</td>
                         <td class="font-bold text-[var(--world-gold)]">${t.pts}</td>
@@ -214,6 +224,31 @@
                 </table>
             </div>`;
         }).join('');
+
+        const thirdPlaceTeams = G_NAMES.map(g => {
+            const gt = state.teams.filter(t => t.group === g).sort((a,b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf);
+            return { ...gt[2], group: g };
+        }).sort((a,b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf);
+
+        document.getElementById('best-third-container').innerHTML = `
+            <div class="bg-black/40 rounded-3xl p-5 border border-[var(--world-gold)]/10 overflow-x-auto">
+                <div class="text-[10px] font-black text-[var(--world-gold)] mb-4">RANKING OF 3RD PLACED TEAMS (TOP 8 QUALIFY)</div>
+                <table class="w-full text-[10px] text-center min-w-[300px]">
+                    <thead><tr class="text-zinc-500"><th class="text-left">TEAM</th><th>GRP</th><th>M</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr></thead>
+                    <tbody class="divide-y divide-white/5">${thirdPlaceTeams.map((t, idx) => `<tr class="h-14 ${idx < 8 ? 'bg-[var(--world-gold)]/5' : 'opacity-60'}">
+                        <td class="text-left py-2">
+                            <div class="font-bold flex items-center space-x-1">
+                                <span class="${idx < 8 ? 'text-[var(--world-gold)]' : 'text-zinc-500'} font-mono text-[9px] mr-1">${idx+1}.</span>
+                                ${t.link && t.link !== "#" && t.link !== "https://t.me/" ? `<a href="${t.link}" target="_blank" class="team-link">${t.name}</a>` : t.name}
+                            </div>
+                        </td>
+                        <td><span class="px-1.5 py-0.5 rounded bg-zinc-800 text-[var(--world-gold)] font-bold">${t.group}</span></td>
+                        <td>${t.m}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gf}</td><td>${t.ga}</td><td>${t.gd}</td>
+                        <td class="font-bold text-[var(--world-gold)]">${t.pts}</td>
+                    </tr>`).join('')}</tbody>
+                </table>
+            </div>
+        `;
     }
 
     window.setRound = (r) => { 
