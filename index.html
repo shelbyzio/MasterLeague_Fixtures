@@ -66,6 +66,7 @@
 
 <script>
     const TELEGRAM_LINKS = {
+        "Algeria": "https://t.me/kenzjust",
         "Argentina": "https://t.me/agust_HML",
         "Australia": "https://t.me/KoKyaw_KYT",
         "Austria": "https://t.me/Khine_Lin_Htay",
@@ -74,17 +75,17 @@
         "Brazil": "https://t.me/Doraemoncat77",
         "Canada": "https://t.me/zam57493",
         "Cape Verde": "https://t.me/yminchit69",
-        "Colombia": "#",
+        "Colombia": "https://t.me/",
         "Croatia": "https://t.me/EiXiao7",
         "Curaçao": "https://t.me/Badrul11",
         "Czechia": "https://t.me/Ranger13102003",
         "DR Congo": "https://t.me/zeusace0",
         "Ecuador": "https://t.me/Wallker29",
         "Egypt": "https://t.me/Phir_tayin",
-        "England": "https://t.me/Youpop556",
+        "England": "https://t.me/",
         "France": "https://t.me/MRTONE3",
         "Germany": "https://t.me/Crikxnt7",
-        "Ghana": "https://t.me/khantkyawthu_01",
+        "Ghana": "https://t.me/Kyawthaik468",
         "Haiti": "https://t.me/Dijeaan",
         "Iran": "https://t.me/heinkyawthuang",
         "Iraq": "https://t.me/Theinau",
@@ -95,7 +96,7 @@
         "Netherlands": "https://t.me/Khualpu199",
         "New Zealand": "https://t.me/jthu23",
         "Norway": "https://t.me/Orodevice",
-        "Panama": "https://t.me/Kyawthaik468",
+        "Panama": "https://t.me/Youpop556",
         "Paraguay": "https://t.me/ventus2940",
         "Portugal": "https://t.me/MUCHExt",
         "Qatar": "https://t.me/GwaytolayZLT",
@@ -112,7 +113,6 @@
         "United States": "https://t.me/kyawlwintun17",
         "Uruguay": "https://t.me/everton55555",
         "Uzbekistan": "https://t.me/lord_voldemort101",
-        "Algeria": "https://t.me/kenzjust",
         "Côte d'Ivoire": "https://t.me/mrleon006"
     };
 
@@ -182,19 +182,18 @@
             const aColor = getScoreColor(m.aS, m.hS);
             return header + `<div class="glass-panel p-4 rounded-2xl flex items-center justify-between mb-2">
                 <div class="flex-1 text-right pr-4 text-[11px] font-bold truncate">
-                   ${home.link !== "#" ? `<a href="${home.link}" target="_blank" class="team-link">${m.home}</a>` : m.home}
+                   ${home.link && home.link !== "#" && home.link !== "https://t.me/" ? `<a href="${home.link}" target="_blank" class="team-link">${m.home}</a>` : m.home}
                 </div>
                 <div onclick="editMatch(${m.id})" class="flex items-center space-x-2 cursor-pointer">
                     <div class="score-box ${hColor}">${m.hS !== null ? m.hS : '-'}</div>
                     <div class="score-box ${aColor}">${m.aS !== null ? m.aS : '-'}</div>
                 </div>
                 <div class="flex-1 text-left pl-4 text-[11px] font-bold truncate">
-                   ${away.link !== "#" ? `<a href="${away.link}" target="_blank" class="team-link">${m.away}</a>` : m.away}
+                   ${away.link && away.link !== "#" && away.link !== "https://t.me/" ? `<a href="${away.link}" target="_blank" class="team-link">${m.away}</a>` : m.away}
                 </div>
             </div>`;
         }).join('');
 
-        // Apply smooth transition motion without layout flickering
         fixtureContainer.classList.remove('fade-in');
         void fixtureContainer.offsetWidth; // trigger reflow
         fixtureContainer.classList.add('fade-in');
@@ -207,7 +206,7 @@
                     <thead><tr class="text-zinc-500"><th class="text-left">TEAM</th><th>M</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr></thead>
                     <tbody class="divide-y divide-white/5">${gt.map(t => `<tr class="h-14">
                         <td class="text-left py-2">
-                            <div class="font-bold">${t.link !== "#" ? `<a href="${t.link}" target="_blank" class="team-link">${t.name}</a>` : t.name}</div>
+                            <div class="font-bold">${t.link && t.link !== "#" && t.link !== "https://t.me/" ? `<a href="${t.link}" target="_blank" class="team-link">${t.name}</a>` : t.name}</div>
                         </td>
                         <td>${t.m}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gf}</td><td>${t.ga}</td><td>${t.gd}</td>
                         <td class="font-bold text-[var(--world-gold)]">${t.pts}</td>
