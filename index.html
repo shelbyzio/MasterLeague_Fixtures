@@ -94,7 +94,6 @@
             return { id: i + 1, name: name, group: G_NAMES[groupIndex] || "Z", link: TELEGRAM_LINKS[name] || "#", m: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 };
         });
         
-        // Define matches structure
         state.matches = [];
         let mid = 1;
         G_NAMES.forEach(g => {
@@ -103,25 +102,19 @@
             pairings.forEach(p => { state.matches.push({ id: mid++, group: g, round: p.r, home: gt[p.h].name, away: gt[p.a].name, hS: p.hS, aS: p.aS }); });
         });
 
-        // Insert provided Round 1 results
         const results = [
-            {h: "Argentina", a: "Australia", hS: 0, aS: 10},
-            {h: "Bosnia", a: "Brazil", hS: 3, aS: 2},
-            {h: "Canada", a: "Cape Verde", hS: 2, aS: 8},
-            {h: "Colombia", a: "Croatia", hS: 9, aS: 4},
-            {h: "Curaçao", a: "Czechia", hS: 4, aS: 1},
-            {h: "DR Congo", a: "Ecuador", hS: 7, aS: 1},
-            {h: "France", a: "Germany", hS: 4, aS: 2},
-            {h: "Ghana", a: "Haiti", hS: 6, aS: 5},
-            {h: "Mexico", a: "Morocco", hS: 3, aS: 2},
-            {h: "Netherlands", a: "New Zealand", hS: 5, aS: 1},
-            {h: "Norway", a: "Panama", hS: 5, aS: 2},
-            {h: "Paraguay", a: "Portugal", hS: 2, aS: 2},
-            {h: "Qatar", a: "Saudi Arabia", hS: 2, aS: 6},
-            {h: "Scotland", a: "Senegal", hS: 3, aS: 1},
-            {h: "South Africa", a: "South Korea", hS: 3, aS: 1},
-            {h: "Türkiye", a: "United States", hS: 2, aS: 3},
-            {h: "Uruguay", a: "Uzbekistan", hS: 1, aS: 8}
+            {h: "Argentina", a: "Australia", hS: 0, aS: 10}, {h: "Austria", a: "Belgium", hS: 3, aS: 4},
+            {h: "Bosnia", a: "Brazil", hS: 3, aS: 2}, {h: "Canada", a: "Cape Verde", hS: 2, aS: 8},
+            {h: "Colombia", a: "Croatia", hS: 9, aS: 4}, {h: "Curaçao", a: "Czechia", hS: 4, aS: 1},
+            {h: "DR Congo", a: "Ecuador", hS: 0, aS: 3}, {h: "Egypt", a: "England", hS: null, aS: null},
+            {h: "France", a: "Germany", hS: 4, aS: 2}, {h: "Ghana", a: "Haiti", hS: 6, aS: 5},
+            {h: "Iran", a: "Iraq", hS: 7, aS: 3}, {h: "Japan", a: "Jordan", hS: 2, aS: 3},
+            {h: "Mexico", a: "Morocco", hS: 3, aS: 2}, {h: "Netherlands", a: "New Zealand", hS: 5, aS: 1},
+            {h: "Norway", a: "Panama", hS: 5, aS: 2}, {h: "Paraguay", a: "Portugal", hS: 2, aS: 2},
+            {h: "Qatar", a: "Saudi Arabia", hS: 2, aS: 6}, {h: "Scotland", a: "Senegal", hS: 3, aS: 1},
+            {h: "South Africa", a: "South Korea", hS: 3, aS: 1}, {h: "Spain", a: "Sweden", hS: 4, aS: 2},
+            {h: "Switzerland", a: "Tunisia", hS: 6, aS: 1}, {h: "Türkiye", a: "United States", hS: 2, aS: 3},
+            {h: "Uruguay", a: "Uzbekistan", hS: 1, aS: 8}, {h: "Algeria", a: "Côte d'Ivoire", hS: 2, aS: 3}
         ];
         
         results.forEach(res => {
