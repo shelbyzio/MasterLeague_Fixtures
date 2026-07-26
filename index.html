@@ -22,9 +22,7 @@
         .glass-panel:active { transform: scale(0.98); background: rgba(212, 175, 55, 0.1); }
         .score-box { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: 900; font-size: 16px; border: 1px solid #333; background: #000; }
         .group-header { background: linear-gradient(90deg, rgba(212,175,55,0.1) 0%, transparent 100%); border-left: 3px solid var(--world-gold); }
-        .team-link { color: #ffffff !important; text-decoration: none; }
-        .team-link:hover { color: var(--world-gold) !important; text-decoration: underline; }
-
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
@@ -73,7 +71,7 @@
     const G_NAMES = "ABCDEFGHIJKL".split("");
     let state = { teams: [], matches: [], activeRound: 3 };
 
-    function getFlagHtml(teamName) { const code = COUNTRY_CODES[teamName]; if (!code) return ''; return `<img src="https://flagcdn.com/24x18/${code}.png" srcset="https://flagcdn.com/48x36/${code}.png 2x" width="18" height="13" alt="${teamName} flag" class="inline-block rounded-[2px] shadow-sm flex-shrink-0">`; }
+    function getFlagHtml(teamName) { const code = COUNTRY_CODES[teamName]; if (!code) return ''; return `<img src="https://flagcdn.com/24x18/${code}.png" srcset="https://flagcdn.com/48x36/${code}.png 2x" width="18" height="13" alt="${teamName} flag" class="inline-block rounded-[2px] shadow-sm flex-shrink-0 mr-2">`; }
 
     function initLeague() {
         state.teams = PLAYER_NAMES.map((name, i) => { const groupIndex = Math.floor(i / 4); return { id: i + 1, name: name, group: G_NAMES[groupIndex] || "Z", link: TELEGRAM_LINKS[name] || "#", m: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 }; });
@@ -81,8 +79,8 @@
         G_NAMES.forEach(g => { const gt = state.teams.filter(t => t.group === g); const pairings = [{h:0, a:1, r:1}, {h:2, a:3, r:1}, {h:0, a:2, r:2}, {h:1, a:3, r:2}, {h:0, a:3, r:3}, {h:1, a:2, r:3}]; pairings.forEach(p => { state.matches.push({ id: mid++, group: g, round: p.r, home: gt[p.h].name, away: gt[p.a].name, hS: null, aS: null }); }); });
 
         const results = [
-            {h: "Argentina", a: "Australia", hS: 0, aS: 10}, {h: "Austria", a: "Belgium", hS: 3, aS: 4}, {h: "Bosnia", a: "Brazil", hS: 3, aS: 2}, {h: "Canada", a: "Cape Verde", hS: 2, aS: 8}, {h: "Colombia", a: "Croatia", hS: 9, aS: 4}, {h: "Curaçao", a: "Czechia", hS: 4, aS: 1}, {h: "DR Congo", a: "Ecuador", hS: 0, aS: 3}, {h: "Egypt", a: "England", hS: 1, aS: 6}, {h: "France", a: "Germany", hS: 4, aS: 2}, {h: "Ghana", a: "Haiti", hS: 6, aS: 5}, {h: "Iran", a: "Iraq", hS: 7, aS: 3}, {h: "Japan", a: "Jordan", hS: 2, aS: 3}, {h: "Mexico", a: "Morocco", hS: 3, aS: 2}, {h: "Netherlands", a: "New Zealand", hS: 1, aS: 5}, {h: "Norway", a: "Panama", hS: 5, aS: 2}, {h: "Paraguay", a: "Portugal", hS: 2, aS: 2}, {h: "Qatar", a: "Saudi Arabia", hS: 2, aS: 6}, {h: "Scotland", a: "Senegal", hS: 3, aS: 1}, {h: "South Africa", a: "South Korea", hS: 3, aS: 1}, {h: "Spain", a: "Sweden", hS: 4, aS: 2}, {h: "Switzerland", a: "Tunisia", hS: 6, aS: 1}, {h: "Türkiye", a: "United States", hS: 2, aS: 3}, {h: "Uruguay", a: "Uzbekistan", hS: 1, aS: 8}, {h: "Algeria", a: "Côte d'Ivoire", hS: 2, aS: 3},
-            {h: "Argentina", a: "Austria", hS: 0, aS: 11}, {h: "Australia", a: "Belgium", hS: 6, aS: 1}, {h: "Bosnia", a: "Canada", hS: 2, aS: 5}, {h: "Brazil", a: "Cape Verde", hS: 0, aS: 6}, {h: "Colombia", a: "Curaçao", hS: 2, aS: 6}, {h: "Croatia", a: "Czechia", hS: 5, aS: 2}, {h: "DR Congo", a: "Egypt", hS: 4, aS: 0}, {h: "Ecuador", a: "England", hS: 3, aS: 2}, {h: "France", a: "Ghana", hS: 3, aS: 2}, {h: "Germany", a: "Haiti", hS: 2, aS: 7}, {h: "Iran", a: "Japan", hS: 3, aS: 2}, {h: "Iraq", a: "Jordan", hS: 3, aS: 2}, {h: "Mexico", a: "Netherlands", hS: 4, aS: 4}, {h: "Morocco", a: "New Zealand", hS: 2, aS: 15}, {h: "Norway", a: "Paraguay", hS: 3, aS: 2}, {h: "Panama", a: "Portugal", hS: 1, aS: 5}, {h: "Qatar", a: "Scotland", hS: 0, aS: 2}, {h: "Saudi Arabia", a: "Senegal", hS: 5, aS: 3}, {h: "South Africa", a: "Spain", hS: 3, aS: 1}, {h: "South Korea", a: "Sweden", hS: 6, aS: 2}, {h: "Switzerland", a: "Türkiye", hS: 5, aS: 5}, {h: "Tunisia", a: "United States", hS: 2, aS: 4}, {h: "Uruguay", a: "Algeria", hS: 1, aS: 2}, {h: "Uzbekistan", a: "Côte d'Ivoire", hS: 2, aS: 3},
+            {h: "Argentina", a: "Australia", hS: 0, aS: 10}, {h: "Austria", a: "Belgium", hS: 3, aS: 4}, {h: "Bosnia", a: "Brazil", hS: 3, aS: 2}, {h: "Canada", a: "Cape Verde", hS: 2, aS: 8}, {h: "Colombia", a: "Croatia", hS: 9, aS: 4}, {h: "Curaçao", a: "Czechia", hS: 4, aS: 1}, {h: "DR Congo", a: "Ecuador", hS: 0, aS: 3}, {h: "Egypt", a: "England", hS: 1, aS: 6}, {h: "France", a: "Germany", hS: 4, aS: 2}, {h: "Ghana", a: "Haiti", hS: 6, aS: 5}, {h: "Iran", a: "Iraq", hS: 7, aS: 3}, {h: "Japan", a: "Jordan", hS: 2, aS: 3}, {h: "Mexico", a: "Morocco", hS: 3, aS: 2}, {h: "Netherlands", a: "New Zealand", hS: 1, aS: 5}, {h: "Norway", a: "Panama", hS: 5, aS: 2}, {h: "Paraguay", a: "Portugal", hS: 2, aS: 2}, {h: "Qatar", a: "Saudi Arabia", hS: 2, aS: 6}, {h: "Scotland", a: "Senegal", hS: 3, aS: 1}, {h: "South Africa", a: "Spain", hS: 1, aS: 2}, {h: "South Korea", a: "Sweden", hS: 6, aS: 6}, {h: "Switzerland", a: "Türkiye", hS: 5, aS: 5}, {h: "Tunisia", a: "United States", hS: 2, aS: 4}, {h: "Uruguay", a: "Algeria", hS: 1, aS: 2}, {h: "Uzbekistan", a: "Côte d'Ivoire", hS: 2, aS: 3},
+            {h: "Argentina", a: "Austria", hS: 0, aS: 11}, {h: "Australia", a: "Belgium", hS: 6, aS: 1}, {h: "Bosnia", a: "Canada", hS: 2, aS: 5}, {h: "Brazil", a: "Cape Verde", hS: 0, aS: 6}, {h: "Colombia", a: "Curaçao", hS: 2, aS: 6}, {h: "Croatia", a: "Czechia", hS: 5, aS: 2}, {h: "DR Congo", a: "Egypt", hS: 4, aS: 0}, {h: "Ecuador", a: "England", hS: 3, aS: 2}, {h: "France", a: "Ghana", hS: 3, aS: 2}, {h: "Germany", a: "Haiti", hS: 2, aS: 7}, {h: "Iran", a: "Japan", hS: 3, aS: 2}, {h: "Iraq", a: "Jordan", hS: 3, aS: 2}, {h: "Mexico", a: "Netherlands", hS: 4, aS: 4}, {h: "Morocco", a: "New Zealand", hS: 2, aS: 15}, {h: "Norway", a: "Paraguay", hS: 3, aS: 2}, {h: "Panama", a: "Portugal", hS: 1, aS: 5}, {h: "Qatar", a: "Scotland", hS: 0, aS: 2}, {h: "Saudi Arabia", a: "Senegal", hS: 5, aS: 3}, {h: "South Africa", a: "Spain", hS: 1, aS: 2}, {h: "South Korea", a: "Sweden", hS: 6, aS: 6}, {h: "Switzerland", a: "Türkiye", hS: 5, aS: 5}, {h: "Tunisia", a: "United States", hS: 2, aS: 4}, {h: "Uruguay", a: "Algeria", hS: 1, aS: 2}, {h: "Uzbekistan", a: "Côte d'Ivoire", hS: 2, aS: 3},
             {h: "Argentina", a: "Belgium", hS: 0, aS: 2}, {h: "Australia", a: "Austria", hS: 5, aS: 1}, {h: "Bosnia", a: "Cape Verde", hS: 1, aS: 1}, {h: "Brazil", a: "Canada", hS: 1, aS: 2}, {h: "Colombia", a: "Czechia", hS: 3, aS: 0}, {h: "Croatia", a: "Curaçao", hS: 0, aS: 3}, {h: "DR Congo", a: "England", hS: 8, aS: 1}, {h: "Ecuador", a: "Egypt", hS: 3, aS: 0}, {h: "France", a: "Haiti", hS: 1, aS: 3}, {h: "Germany", a: "Ghana", hS: 4, aS: 3}, {h: "Iran", a: "Jordan", hS: 5, aS: 3}, {h: "Iraq", a: "Japan", hS: 3, aS: 2}, {h: "Mexico", a: "New Zealand", hS: 1, aS: 11}, {h: "Morocco", a: "Netherlands", hS: 2, aS: 6}, {h: "Norway", a: "Portugal", hS: 2, aS: 2}, {h: "Panama", a: "Paraguay", hS: 2, aS: 9}, {h: "Qatar", a: "Senegal", hS: 1, aS: 10}, {h: "Saudi Arabia", a: "Scotland", hS: 1, aS: 3}, {h: "South Africa", a: "Sweden", hS: 3, aS: 0}, {h: "South Korea", a: "Spain", hS: 5, aS: 5}, {h: "Switzerland", a: "United States", hS: 3, aS: 2}, {h: "Tunisia", a: "Türkiye", hS: 1, aS: 0}, {h: "Uruguay", a: "Côte d'Ivoire", hS: 0, aS: 3}, {h: "Uzbekistan", a: "Algeria", hS: 7, aS: 1}
         ];
         results.forEach(res => { const match = state.matches.find(m => m.home === res.h && m.away === res.a); if(match) { match.hS = res.hS; match.aS = res.aS; } });
@@ -105,15 +103,13 @@
         const rdMatches = state.matches.filter(m => m.round === state.activeRound); let lastG = "";
         document.getElementById('fixture-container').innerHTML = rdMatches.map(m => {
             let header = m.group !== lastG ? (lastG = m.group, `<div class="group-header py-2 px-4 mb-3 text-[10px] font-black text-[var(--world-gold)] uppercase italic">Group ${m.group}</div>`) : "";
-            const hColor = m.hS > m.aS ? "text-green-500" : (m.hS < m.aS ? "text-red-500" : "text-yellow-400");
-            const aColor = m.aS > m.hS ? "text-green-500" : (m.aS < m.hS ? "text-red-500" : "text-yellow-400");
             return header + `<div class="glass-panel p-4 rounded-2xl flex items-center justify-between mb-2">
-                <div class="flex-1 text-right pr-3 text-[11px] font-bold truncate flex items-center justify-end space-x-2">${getFlagHtml(m.home)} ${m.home}</div>
-                <div onclick="const s=prompt('Enter score (H-A):'); if(s){const[h,a]=s.split('-'); state.matches.find(m=>m.home==='${m.home}'&&m.away==='${m.away}').hS=parseInt(h); state.matches.find(m=>m.home==='${m.home}'&&m.away==='${m.away}').aS=parseInt(a); updateStandings(); render();}" class="flex items-center space-x-2 cursor-pointer flex-shrink-0">
-                    <div class="score-box ${m.hS!==null?hColor:''}">${m.hS !== null ? m.hS : '-'}</div>
-                    <div class="score-box ${m.aS!==null?aColor:''}">${m.aS !== null ? m.aS : '-'}</div>
+                <div class="flex-1 text-right pr-3 text-[11px] font-bold truncate flex items-center justify-end">${getFlagHtml(m.home)} ${m.home}</div>
+                <div class="flex items-center space-x-2 flex-shrink-0">
+                    <div class="score-box ${m.hS!==null?'bg-zinc-800':''}">${m.hS !== null ? m.hS : '-'}</div>
+                    <div class="score-box ${m.aS!==null?'bg-zinc-800':''}">${m.aS !== null ? m.aS : '-'}</div>
                 </div>
-                <div class="flex-1 text-left pl-3 text-[11px] font-bold truncate flex items-center space-x-2">${m.away} ${getFlagHtml(m.away)}</div>
+                <div class="flex-1 text-left pl-3 text-[11px] font-bold truncate flex items-center">${m.away} ${getFlagHtml(m.away)}</div>
             </div>`;
         }).join('');
 
@@ -123,19 +119,42 @@
                 <div class="text-[10px] font-black text-[var(--world-gold)] mb-4">GROUP ${g}</div>
                 <table class="w-full text-[10px] text-center min-w-[300px]">
                     <thead><tr class="text-zinc-500"><th class="text-left">TEAM</th><th>M</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>PTS</th></tr></thead>
-                    <tbody class="divide-y divide-white/5">${gt.map((t, idx) => `<tr class="h-14">
-                        <td class="text-left py-2 font-bold">${idx+1}. ${getFlagHtml(t.name)} ${t.name}</td>
-                        <td>${t.m}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gd}</td><td class="text-[var(--world-gold)]">${t.pts}</td>
-                    </tr>`).join('')}</tbody>
+                    <tbody class="divide-y divide-white/5">${gt.map((t, idx) => `<tr class="h-12"><td class="text-left py-2 font-bold">${idx+1}. ${getFlagHtml(t.name)} ${t.name}</td><td>${t.m}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gd}</td><td class="text-[var(--world-gold)] font-bold">${t.pts}</td></tr>`).join('')}</tbody>
                 </table>
             </div>`;
         }).join('');
 
         const thirdPlaceTeams = G_NAMES.map(g => ({ ...state.teams.filter(t => t.group === g).sort((a,b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf)[2], group: g })).sort((a,b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf);
-        document.getElementById('best-third-container').innerHTML = `<div class="bg-black/40 rounded-3xl p-5 border border-[var(--world-gold)]/10 overflow-x-auto"><table class="w-full text-[10px] text-center min-w-[300px]"><thead><tr class="text-zinc-500"><th>TEAM</th><th>GRP</th><th>PTS</th></tr></thead><tbody>${thirdPlaceTeams.map(t => `<tr class="h-10"><td>${t.name}</td><td>${t.group}</td><td class="text-[var(--world-gold)] font-bold">${t.pts}</td></tr>`).join('')}</tbody></table></div>`;
+        document.getElementById('best-third-container').innerHTML = `
+            <div class="bg-black/40 rounded-3xl p-5 border border-[var(--world-gold)]/10 overflow-x-auto">
+                <table class="w-full text-[10px] text-center min-w-[400px]">
+                    <thead>
+                        <tr class="text-zinc-500 border-b border-white/10">
+                            <th class="text-left py-2">TEAM</th>
+                            <th>GRP</th>
+                            <th>M</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th>
+                            <th>PTS</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-white/5">
+                        ${thirdPlaceTeams.map((t, i) => `<tr class="h-10 ${i<8 ? 'bg-[var(--world-gold)]/5' : ''}">
+                            <td class="text-left font-bold py-2">${getFlagHtml(t.name)} ${t.name}</td>
+                            <td>${t.group}</td>
+                            <td>${t.m}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gf}</td><td>${t.ga}</td><td>${t.gd}</td>
+                            <td class="text-[var(--world-gold)] font-bold">${t.pts}</td>
+                        </tr>`).join('')}
+                    </tbody>
+                </table>
+            </div>`;
     }
 
-    window.setRound = (r) => { state.activeRound = r; document.querySelectorAll('.round-btn').forEach(btn => btn.classList.toggle('bg-[var(--world-gold)]', btn.id === 'round-'+r)); render(); };
+    window.setRound = (r) => { 
+        state.activeRound = r; 
+        document.querySelectorAll('.round-btn').forEach(btn => btn.classList.toggle('bg-[var(--world-gold)]', btn.id === 'round-'+r)); 
+        document.querySelectorAll('.round-btn').forEach(btn => btn.classList.toggle('text-black', btn.id === 'round-'+r)); 
+        document.querySelectorAll('.round-btn').forEach(btn => btn.classList.toggle('bg-zinc-900', btn.id !== 'round-'+r)); 
+        render(); 
+    };
     window.onload = initLeague;
 </script>
 </body>
