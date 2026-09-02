@@ -209,7 +209,7 @@
 
             <div class="bg-amber-500/10 border border-amber-500/20 p-3 rounded-2xl text-[11px] text-amber-300 text-left flex items-start gap-2">
                 <i class="fas fa-exclamation-circle text-amber-400 mt-0.5"></i>
-                <span><strong>Security Notice:</strong> Demo default password is <code class="bg-black/40 px-1.5 py-0.5 rounded text-white font-mono">admin</code>. You can submit results directly.</span>
+                <span><strong>Security Notice:</strong> Admin password ကို <code class="bg-black/40 px-1.5 py-0.5 rounded text-white font-mono">2024</code> ဟု သတ်မှတ်ထားပါသည်။</span>
             </div>
 
             <div class="space-y-3">
@@ -869,15 +869,21 @@
     }
 
     function handleLogin() {
-        const pass = document.getElementById('admin-passcode').value;
-        if (pass === "admin" || pass === "") {
+        const pass = document.getElementById('admin-passcode').value.trim();
+        
+        if (!pass) {
+            showToast("ကျေးဇူးပြု၍ Password ရိုက်ထည့်ပါ။", true);
+            return;
+        }
+
+        if (pass === "2024") {
             isAdminUnlocked = true;
             document.getElementById('auth-modal').classList.add('hidden');
             document.getElementById('admin-panel-content').classList.remove('hidden');
             renderAdminMatches();
             showToast("Admin portal unlocked successfully!");
         } else {
-            showToast("Invalid passcode! Try 'admin'", true);
+            showToast("Password မှားယွင်းနေပါသည်။", true);
         }
     }
 
