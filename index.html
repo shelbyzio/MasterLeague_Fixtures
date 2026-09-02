@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>World Cup Format</title>
+    <title>Master League | World Cup (Cloud Synced)</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Font Awesome CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Outfit:wght@700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@700;900&display=swap');
 
         :root {
             --world-gold: #ddec0f;
@@ -15,223 +17,1670 @@
             --dark-bg: #050b14;
         }
 
-        body { font-family: 'Inter', sans-serif; background-color: var(--dark-bg); color: #ffffff; -webkit-tap-highlight-color: transparent; overflow-x: hidden; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--dark-bg); 
+            color: #ffffff; 
+            -webkit-tap-highlight-color: transparent; 
+            overflow-x: hidden; 
+        }
+        
         .heading-font { font-family: 'Outfit', sans-serif; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .glass-panel { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(212, 175, 55, 0.2); transition: all 0.2s; }
-        .glass-panel:active { transform: scale(0.98); background: rgba(212, 175, 55, 0.1); }
-        .score-box { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: 900; font-size: 16px; border: 1px solid #333; background: #000; }
-        .group-header { background: linear-gradient(90deg, rgba(212,175,55,0.1) 0%, transparent 100%); border-left: 3px solid var(--world-gold); }
-        .team-link { color: #ffffff !important; text-decoration: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .glass-panel { 
+            background: rgba(255, 255, 255, 0.05); 
+            backdrop-filter: blur(10px); 
+            border: 1px solid rgba(212, 175, 55, 0.2); 
+            transition: all 0.2s; 
+        }
+        .glass-panel:active { transform: scale(0.99); }
+        
+        .score-box { 
+            width: 40px; 
+            height: 40px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border-radius: 10px; 
+            font-weight: 900; 
+            font-size: 16px; 
+            border: 1px solid #333; 
+            background: #000; 
+        }
+        
+        .group-header { 
+            background: linear-gradient(90deg, rgba(212,175,55,0.15) 0%, transparent 100%); 
+            border-left: 3px solid var(--world-gold); 
+        }
+        
+        .team-link { color: #ffffff !important; text-decoration: none; transition: color 0.2s; }
         .team-link:hover { color: var(--world-gold) !important; text-decoration: underline; }
 
-        /* Smooth fade-in transition for round tab switching */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .fade-in {
-            animation: fadeIn 0.3s ease-out forwards;
-        }
+        .fade-in { animation: fadeIn 0.3s ease-out forwards; }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #050b14; }
+        ::-webkit-scrollbar-thumb { background: rgba(221, 236, 15, 0.3); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(221, 236, 15, 0.6); }
     </style>
 </head>
-<body class="no-scrollbar pb-24">
+<body class="no-scrollbar pb-28">
 
-<header class="sticky top-0 z-40 bg-[var(--world-navy)]/90 backdrop-blur-lg border-b border-[var(--world-gold)]/20 px-6 py-5">
-    <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 bg-[var(--world-gold)] rounded-xl flex items-center justify-center shadow-lg">
-            <i class='fas fa-trophy text-black text-lg'></i>
+    <!-- HEADER -->
+    <header class="sticky top-0 z-40 bg-[var(--world-navy)]/95 backdrop-blur-lg border-b border-[var(--world-gold)]/20 px-6 py-4 flex items-center justify-between shadow-md">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-[var(--world-gold)] rounded-xl flex items-center justify-center shadow-lg">
+                <i class='fas fa-trophy text-black text-lg'></i>
+            </div>
+            <div>
+                <h1 class="heading-font text-base sm:text-lg leading-none italic font-black">Master League <span class="text-[var(--world-gold)]">| World Cup</span></h1>
+                <p id="header-subtitle" class="text-[10px] text-zinc-400 uppercase tracking-widest mt-0.5">Cloud Synced Live View</p>
+            </div>
         </div>
-        <h1 class="heading-font text-lg leading-none italic">Master League <span class="text-[var(--world-gold)]">| World Cup</span></h1>
-    </div>
-</header>
-
-<main class="p-5 max-w-4xl mx-auto">
-    <div class="flex space-x-2 overflow-x-auto no-scrollbar mb-8">
-        <button onclick="setRound(1)" id="round-1" class="round-btn flex-1 py-4 rounded-xl text-[10px] font-black uppercase transition-all bg-[var(--world-gold)] text-black">Round 1</button>
-        <button onclick="setRound(2)" id="round-2" class="round-btn flex-1 py-4 rounded-xl text-[10px] font-black uppercase transition-all bg-zinc-900 text-white">Round 2</button>
-        <button onclick="setRound(3)" id="round-3" class="round-btn flex-1 py-4 rounded-xl text-[10px] font-black uppercase transition-all bg-zinc-900 text-white">Round 3</button>
-    </div>
-    <div class="space-y-12">
-        <div>
-            <h2 class="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-4 px-2 italic">Match Fixtures</h2>
-            <div id="fixture-container" class="space-y-4"></div>
+        <div class="flex items-center space-x-2">
+            <div id="sync-status" class="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-bold">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>Synced</span>
+            </div>
+            <button onclick="toggleViewMode()" id="mode-toggle-btn" class="px-3.5 py-2 rounded-xl bg-zinc-900 border border-[var(--world-gold)]/30 text-[var(--world-gold)] font-bold text-xs flex items-center space-x-2 hover:bg-[var(--world-gold)] hover:text-black transition-all shadow-sm">
+                <i class="fas fa-cog"></i>
+                <span id="mode-btn-text">Admin</span>
+            </button>
         </div>
-        <div>
-            <h2 class="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-4 px-2 italic">League Standings</h2>
-            <div id="standings-container" class="space-y-8"></div>
+    </header>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+    <!-- CUSTOM MODAL CONTAINER -->
+    <div id="custom-modal-backdrop" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div id="custom-modal-box" class="bg-[var(--world-navy)] border border-[var(--world-gold)]/30 rounded-2xl w-full max-w-md p-6 shadow-2xl transform transition-all">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="modal-title" class="text-base font-bold text-[var(--world-gold)] uppercase tracking-wider">Confirmation</h3>
+                <button onclick="closeModal()" class="text-zinc-400 hover:text-white"><i class="fas fa-times text-lg"></i></button>
+            </div>
+            <div id="modal-content" class="text-sm text-zinc-300 mb-6"></div>
+            <div id="modal-actions" class="flex space-x-3 justify-end"></div>
         </div>
     </div>
-</main>
 
-<script>
-    const TELEGRAM_LINKS = {
-        "Argentina": "https://t.me/agust_HML",
-"Czech Republic": "https://t.me/minkhant090",
-"Mexico": "https://t.me/MRTONE3",
-"South Africa": "https://t.me/baycity006",
-"South Korea": "https://t.me/Wolfy21002",
-"Bosnia and Herzegovina": "https://t.me/aamk79",
-"Canada": "https://t.me/bobominhein",
-"Qatar": "https://t.me/Aungpyinnyar",
-"Switzerland": "https://t.me/Void_138",
-"Brazil": "https://t.me/Dijeaan",
-"Haiti": "https://t.me/MAXX014079",
-"Morocco": "https://t.me/Neotzy47",
-"Scotland": "https://t.me/zeusace0",
-       "Australia": "https://t.me/veva4344",
-"Paraguay": "https://t.me/SayarJuJu",
-"Turkey": "https://t.me/at3349",
-"USA": "https://t.me/Riyaz_Azam",
-"Curaçao": "https://t.me/ptkyaw87",
-"Ecuador": "https://t.me/Sanminoo",
-"Germany": "https://t.me/Zwelynnhtike",
-"Ivory Coast": "https://t.me/Garniya",
-"Japan": "https://t.me/NyeinCham77",
-"Netherlands": "https://t.me/APH_Design_Studio_97",
-"Sweden": "https://t.me/tom28626",
-"Tunisia": "https://t.me/Kyaw_Htoo15",
-"Belgium": "https://t.me/DumbzyLwinSmitch35",
-"Egypt": "https://t.me/",
-"Iran": "https://t.me/Hein1391996",
-"New Zealand": "https://t.me/lokidemon99",
-"Cape Verde": "https://t.me/",
-"Saudi Arabia": "https://t.me/KeeRan_kawor",
-"Spain": "https://t.me/pyaephyowai200",
-"Uruguay": "https://t.me/Fenix692008",
-"France": "https://t.me/Ricechat13579",
-"Iraq": "https://t.me/lucklyboy2025",
-"Norway": "https://t.me/iz_szlai",
-"Senegal": "https://t.me/MH202031",
-"Algeria": "https://t.me/kyawhtet112001",
-"Argentina": "https://t.me/h_002657",
-"Austria": "https://t.me/wishKHLcouldcare",
-"Jordan": "https://t.me/Naing11223344",
-"Colombia": "https://t.me/Fqiwxx",
-"DR Congo": "https://t.me/yeh200",
-"Portugal": "https://t.me/Kavin_9356",
-"Uzbekistan": "https://t.me/ThuriMin2355",
-"Croatia": "https://t.me/Khine_Lin_Htay",
-"Ghana": "https://t.me/Khant22921",
-"Panama": "https://t.me/zuki206",
-"England": "https://t.me/SayarKhar",
+    <!-- ADMIN LOGIN MODAL -->
+    <div id="admin-login-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-[var(--world-navy)] border border-[var(--world-gold)]/40 rounded-3xl w-full max-w-sm p-8 shadow-2xl relative">
+            <button onclick="closeLoginModal()" class="absolute top-5 right-5 text-zinc-400 hover:text-white"><i class="fas fa-times text-lg"></i></button>
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-[var(--world-gold)] rounded-2xl mx-auto flex items-center justify-center shadow-lg mb-3">
+                    <i class="fas fa-lock text-black text-xl"></i>
+                </div>
+                <h3 class="heading-font text-lg font-black uppercase italic">Admin Portal</h3>
+                <p class="text-xs text-zinc-400 mt-1">Enter credentials to manage tournament</p>
+            </div>
+            <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Username</label>
+                    <input type="text" id="login-username" required class="w-full bg-black/50 border border-zinc-700 rounded-xl px-4 py-3 text-sm text-white focus:border-[var(--world-gold)] focus:outline-none" placeholder="admin">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Password</label>
+                    <input type="password" id="login-password" required class="w-full bg-black/50 border border-zinc-700 rounded-xl px-4 py-3 text-sm text-white focus:border-[var(--world-gold)] focus:outline-none" placeholder="••••••••">
+                </div>
+                <div id="login-error" class="text-red-400 text-xs text-center hidden font-medium"></div>
+                <button type="submit" class="w-full py-3.5 bg-[var(--world-gold)] text-black rounded-xl font-extrabold text-xs uppercase tracking-wider hover:opacity-95 transition-all shadow-lg">
+                    Login to Dashboard
+                </button>
+            </form>
+            <div class="mt-4 text-center">
+                <p class="text-[10px] text-zinc-500">Demo Credentials: <span class="text-zinc-300">admin</span> / <span class="text-zinc-300">admin123</span></p>
+            </div>
+        </div>
+    </div>
 
-    };
+    <!-- MAIN APP CONTAINER -->
+    <main id="app-container" class="p-4 sm:p-6 max-w-5xl mx-auto">
+        <div class="glass-panel p-12 text-center rounded-3xl text-zinc-400 flex flex-col items-center justify-center space-y-4">
+            <div class="w-10 h-10 border-4 border-[var(--world-gold)] border-t-transparent rounded-full animate-spin"></div>
+            <p class="text-xs font-bold uppercase tracking-widest">Connecting to Firebase Cloud...</p>
+        </div>
+    </main>
 
-    const PLAYER_NAMES = ["Argentina", "Australia", "Austria", "Belgium", "Bosnia and Herzegovina", "Brazil", "Canada", "Cape Verde", "Colombia", "Croatia", "Curaçao", "Czechia", "DR Congo", "Ecuador", "Egypt", "England", "France", "Germany", "Ghana", "Haiti", "Iran", "Iraq", "Japan", "Jordan", "Mexico", "Morocco", "Netherlands", "New Zealand", "Norway", "Panama", "Paraguay", "Portugal", "Qatar", "Saudi Arabia", "Scotland", "Senegal", "South Africa", "South Korea", "Spain", "Sweden", "Switzerland", "Tunisia", "Türkiye", "United States", "Uruguay", "Uzbekistan", "Algeria", "Côte d'Ivoire"];
-    
-    const G_NAMES = "ABCDEFGHIJKL".split("");
-    let state = { teams: [], matches: [], activeRound: 1 };
+    <!-- FIREBASE & APP JAVASCRIPT LOGIC -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    function initLeague() {
-        state.teams = PLAYER_NAMES.map((name, i) => {
-            const groupIndex = Math.floor(i / 4);
-            return { id: i + 1, name: name, group: G_NAMES[groupIndex] || "Z", link: TELEGRAM_LINKS[name] || "#", m: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 };
-        });
-        state.matches = [];
-        let mid = 1;
-        G_NAMES.forEach(g => {
-            const gt = state.teams.filter(t => t.group === g);
-            const pairings = [{h:0, a:1, r:1}, {h:2, a:3, r:1}, {h:0, a:2, r:2}, {h:1, a:3, r:2}, {h:0, a:3, r:3}, {h:1, a:2, r:3}];
-            pairings.forEach(p => { state.matches.push({ id: mid++, group: g, round: p.r, home: gt[p.h].name, away: gt[p.a].name, hS: null, aS: null }); });
-        });
+        const firebaseConfig = {
+            apiKey: "AIzaSyBULCL5Oj4k6wC0If5SNDKU9Qy0HdaqVS8",
+            authDomain: "masterleague-8ebbb.firebaseapp.com",
+            projectId: "masterleague-8ebbb",
+            storageBucket: "masterleague-8ebbb.firebasestorage.app",
+            messagingSenderId: "81387077466",
+            appId: "1:81387077466:web:a245d8b87455d315ce92db"
+        };
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'master-league-world-cup-default';
         
-        updateStandings();
-        render();
-    }
+        let app, db, auth;
+        let currentUser = null;
+        let isSyncing = false;
 
-    function getScoreColor(s1, s2) {
-        if (s1 === null || s2 === null) return "";
-        if (s1 === s2) return "text-yellow-400";
-        return s1 > s2 ? "text-green-500" : "text-red-500";
-    }
+        const DEFAULT_TELEGRAM_LINKS = {
+            "Argentina": "https://t.me/agust_HML",
+            "Czech Republic": "https://t.me/minkhant090",
+            "Mexico": "https://t.me/MRTONE3",
+            "South Africa": "https://t.me/baycity006",
+            "South Korea": "https://t.me/Wolfy21002",
+            "Bosnia and Herzegovina": "https://t.me/aamk79",
+            "Canada": "https://t.me/bobominhein",
+            "Qatar": "https://t.me/Aungpyinnyar",
+            "Switzerland": "https://t.me/Void_138",
+            "Brazil": "https://t.me/Dijeaan",
+            "Haiti": "https://t.me/MAXX014079",
+            "Morocco": "https://t.me/Neotzy47",
+            "Scotland": "https://t.me/zeusace0",
+            "Australia": "https://t.me/veva4344",
+            "Paraguay": "https://t.me/SayarJuJu",
+            "Turkey": "https://t.me/at3349",
+            "USA": "https://t.me/Riyaz_Azam",
+            "Curaçao": "https://t.me/ptkyaw87",
+            "Ecuador": "https://t.me/Sanminoo",
+            "Germany": "https://t.me/Zwelynnhtike",
+            "Ivory Coast": "https://t.me/Garniya",
+            "Japan": "https://t.me/NyeinCham77",
+            "Netherlands": "https://t.me/APH_Design_Studio_97",
+            "Sweden": "https://t.me/tom28626",
+            "Tunisia": "https://t.me/Kyaw_Htoo15",
+            "Belgium": "https://t.me/DumbzyLwinSmitch35",
+            "Egypt": "https://t.me/",
+            "Iran": "https://t.me/Hein1391996",
+            "New Zealand": "https://t.me/lokidemon99",
+            "Cape Verde": "https://t.me/",
+            "Saudi Arabia": "https://t.me/KeeRan_kawor",
+            "Spain": "https://t.me/pyaephyowai200",
+            "Uruguay": "https://t.me/Fenix692008",
+            "France": "https://t.me/Ricechat13579",
+            "Iraq": "https://t.me/lucklyboy2025",
+            "Norway": "https://t.me/iz_szlai",
+            "Senegal": "https://t.me/MH202031",
+            "Algeria": "https://t.me/kyawhtet112001",
+            "Austria": "https://t.me/wishKHLcouldcare",
+            "Jordan": "https://t.me/Naing11223344",
+            "Colombia": "https://t.me/Fqiwxx",
+            "DR Congo": "https://t.me/yeh200",
+            "Portugal": "https://t.me/Kavin_9356",
+            "Uzbekistan": "https://t.me/ThuriMin2355",
+            "Croatia": "https://t.me/Khine_Lin_Htay",
+            "Ghana": "https://t.me/Khant22921",
+            "Panama": "https://t.me/zuki206",
+            "England": "https://t.me/SayarKhar",
+            "Côte d'Ivoire": "https://t.me/Garniya",
+            "Czechia": "https://t.me/minkhant090",
+            "Türkiye": "https://t.me/at3349",
+            "United States": "https://t.me/Riyaz_Azam"
+        };
 
-    function editMatch(id) {
-        const match = state.matches.find(m => m.id === id);
-        const score = prompt(`Enter score for ${match.home} vs ${match.away} (e.g. 2-1):`);
-        if (score && score.includes('-')) {
-            const [hS, aS] = score.split('-').map(Number);
-            match.hS = hS; match.aS = aS; updateStandings(); render();
-        }
-    }
+        const DEFAULT_PLAYER_NAMES = [
+            "Argentina", "Australia", "Austria", "Belgium", "Bosnia and Herzegovina", "Brazil", 
+            "Canada", "Cape Verde", "Colombia", "Croatia", "Curaçao", "Czechia", "DR Congo", 
+            "Ecuador", "Egypt", "England", "France", "Germany", "Ghana", "Haiti", "Iran", 
+            "Iraq", "Japan", "Jordan", "Mexico", "Morocco", "Netherlands", "New Zealand", 
+            "Norway", "Panama", "Paraguay", "Portugal", "Qatar", "Saudi Arabia", "Scotland", 
+            "Senegal", "South Africa", "South Korea", "Spain", "Sweden", "Switzerland", 
+            "Tunisia", "Türkiye", "United States", "Uruguay", "Uzbekistan", "Algeria", "Côte d'Ivoire"
+        ];
 
-    function updateStandings() {
-        state.teams.forEach(t => { t.m=t.w=t.d=t.l=t.gf=t.ga=t.gd=t.pts = 0; });
-        state.matches.forEach(m => {
-            if (m.hS !== null && m.aS !== null) {
-                const home = state.teams.find(t => t.name === m.home);
-                const away = state.teams.find(t => t.name === m.away);
-                home.m++; away.m++;
-                home.gf += m.hS; home.ga += m.aS; away.gf += m.aS; away.ga += m.hS;
-                if(m.hS > m.aS) { home.w++; home.pts += 3; away.l++; }
-                else if(m.hS < m.aS) { away.w++; away.pts += 3; home.l++; }
-                else { home.d++; away.d++; home.pts += 1; away.pts += 1; }
-                home.gd = home.gf - home.ga; away.gd = away.gf - away.ga;
+        const DEFAULT_GROUPS = "ABCDEFGHIJKL".split("");
+        const DEFAULT_ROUNDS = [
+            { id: 1, name: "Round 1", enabled: true },
+            { id: 2, name: "Round 2", enabled: true },
+            { id: 3, name: "Round 3", enabled: true }
+        ];
+
+        window.dbState = {
+            teams: [],
+            matches: [],
+            groups: DEFAULT_GROUPS,
+            rounds: DEFAULT_ROUNDS,
+            settings: { tournamentName: "Master League | World Cup" }
+        };
+
+        window.appViewMode = 'public';
+        window.activeAdminTab = 'dashboard';
+        window.publicActiveRound = 1;
+        window.adminMatchFilters = { round: 'all', group: 'all', status: 'all', search: '' };
+
+        async function initFirebase() {
+            try {
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    try {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } catch (tokenErr) {
+                        console.warn("Custom token sign-in failed, falling back to anonymous auth:", tokenErr);
+                        await signInAnonymously(auth);
+                    }
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                currentUser = auth.currentUser;
+                setupFirestoreSync();
+            } catch (err) {
+                console.error("Firebase Initialization Error:", err);
+                // Fallback to local storage if firebase offline
+                loadLocalDataFallback();
+                renderMain();
+                showToast("Offline Mode: Loaded local backup", "warning");
             }
-        });
-    }
+        }
 
-    function render() {
-        const rdMatches = state.matches.filter(m => m.round === state.activeRound);
-        let lastG = "";
-        
-        const fixtureContainer = document.getElementById('fixture-container');
-        fixtureContainer.innerHTML = rdMatches.map(m => {
-            let header = m.group !== lastG ? (lastG = m.group, `<div class="group-header py-2 px-4 mb-3 text-[10px] font-black text-[var(--world-gold)] uppercase italic">Group ${m.group}</div>`) : "";
-            const home = state.teams.find(t => t.name === m.home);
-            const away = state.teams.find(t => t.name === m.away);
-            const hColor = getScoreColor(m.hS, m.aS);
-            const aColor = getScoreColor(m.aS, m.hS);
-            return header + `<div class="glass-panel p-4 rounded-2xl flex items-center justify-between mb-2">
-                <div class="flex-1 text-right pr-4 text-[11px] font-bold truncate">
-                   ${home.link !== "#" ? `<a href="${home.link}" target="_blank" class="team-link">${m.home}</a>` : m.home}
-                </div>
-                <div onclick="editMatch(${m.id})" class="flex items-center space-x-2 cursor-pointer">
-                    <div class="score-box ${hColor}">${m.hS !== null ? m.hS : '-'}</div>
-                    <div class="score-box ${aColor}">${m.aS !== null ? m.aS : '-'}</div>
-                </div>
-                <div class="flex-1 text-left pl-4 text-[11px] font-bold truncဃate">
-                   ${away.link !== "#" ? `<a href="${away.link}" target="_blank" class="team-link">${m.away}</a>` : m.away}
-                </div>
-            </div>`;
-        }).join('');
+        function setupFirestoreSync() {
+            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'tournamentState');
+            
+            onSnapshot(docRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    window.dbState = docSnap.data();
+                } else {
+                    initDefaultTournamentState();
+                }
+                renderMain();
+            }, (error) => {
+                console.error("Firestore sync error:", error);
+                loadLocalDataFallback();
+                renderMain();
+            });
+        }
 
-        // Apply smooth transition motion without layout flickering
-        fixtureContainer.classList.remove('fade-in');
-        void fixtureContainer.offsetWidth; // trigger reflow
-        fixtureContainer.classList.add('fade-in');
+        async function saveCloudData() {
+            if (!currentUser || !db) return;
+            try {
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'tournamentState');
+                await setDoc(docRef, window.dbState);
+            } catch (err) {
+                console.error("Error saving to cloud:", err);
+                showToast("Failed to sync changes to cloud", "error");
+            }
+        }
 
-        document.getElementById('standings-container').innerHTML = G_NAMES.map(g => {
-            const gt = state.teams.filter(t => t.group === g).sort((a,b) => b.pts - a.pts || b.gd - a.gd);
-            return `<div class="bg-black/40 rounded-3xl p-5 border border-[var(--world-gold)]/10 overflow-x-auto">
-                <div class="text-[10px] font-black text-[var(--world-gold)] mb-4">GROUP ${g}</div>
-                <table class="w-full text-[10px] text-center min-w-[300px]">
-                    <thead><tr class="text-zinc-500"><th class="text-left">TEAM</th><th>M</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr></thead>
-                    <tbody class="divide-y divide-white/5">${gt.map(t => `<tr class="h-14">
-                        <td class="text-left py-2">
-                            <div class="font-bold">${t.link !== "#" ? `<a href="${t.link}" target="_blank" class="team-link">${t.name}</a>` : t.name}</div>
+        function loadLocalDataFallback() {
+            const saved = localStorage.getItem('tournamentStateBackup');
+            if (saved) {
+                window.dbState = JSON.parse(saved);
+            } else {
+                initDefaultTournamentState();
+            }
+        }
+
+        function initDefaultTournamentState() {
+            window.dbState.groups = DEFAULT_GROUPS;
+            window.dbState.rounds = DEFAULT_ROUNDS;
+            window.dbState.teams = DEFAULT_PLAYER_NAMES.map((name, i) => {
+                const groupIndex = Math.floor(i / 4);
+                const group = window.dbState.groups[groupIndex] || "Z";
+                return {
+                    id: i + 1,
+                    name: name,
+                    group: group,
+                    link: DEFAULT_TELEGRAM_LINKS[name] || ""
+                };
+            });
+            generateDefaultFixtures();
+            saveCloudData();
+        }
+
+        function generateDefaultFixtures() {
+            window.dbState.matches = [];
+            let mid = 1;
+            window.dbState.groups.forEach(g => {
+                const gt = window.dbState.teams.filter(t => t.group === g);
+                if (gt.length >= 4) {
+                    const pairings = [
+                        {h:0, a:1, r:1}, {h:2, a:3, r:1}, 
+                        {h:0, a:2, r:2}, {h:1, a:3, r:2}, 
+                        {h:0, a:3, r:3}, {h:1, a:2, r:3}
+                    ];
+                    pairings.forEach(p => {
+                        window.dbState.matches.push({
+                            id: mid++,
+                            group: g,
+                            round: p.r,
+                            home: gt[p.h].name,
+                            away: gt[p.a].name,
+                            hS: null,
+                            aS: null,
+                            status: 'pending'
+                        });
+                    });
+                }
+            });
+        }
+
+        window.saveData = function() {
+            saveCloudData();
+            localStorage.setItem('tournamentStateBackup', JSON.stringify(window.dbState));
+        };
+
+        window.exportData = function() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(window.dbState, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `master_league_world_cup_cloud_${new Date().toISOString().slice(0,10)}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+            showToast("Tournament data exported successfully", "success");
+        };
+
+        window.importData = function(event) {
+            const fileReader = new FileReader();
+            if (event.target.files[0]) {
+                fileReader.readAsText(event.target.files[0], "UTF-8");
+                fileReader.onload = e => {
+                    try {
+                        const parsed = JSON.parse(e.target.result);
+                        if (parsed && parsed.teams && parsed.matches && parsed.groups) {
+                            window.dbState = parsed;
+                            window.saveData();
+                            renderMain();
+                            showToast("Tournament data imported & synced to cloud!", "success");
+                        } else {
+                            showToast("Invalid JSON schema structure", "error");
+                        }
+                    } catch (err) {
+                        showToast("Failed to parse JSON file", "error");
+                    }
+                };
+            }
+        };
+
+        window.resetTournamentData = function() {
+            showConfirmModal(
+                "Reset Tournament",
+                "Are you sure you want to reset all data to default? This will wipe cloud scores and fixtures.",
+                () => {
+                    initDefaultTournamentState();
+                    renderMain();
+                    showToast("Tournament reset to default successfully", "warning");
+                }
+            );
+        };
+
+        window.checkAdminAuth = function() {
+            return sessionStorage.getItem('adminSession') === 'authenticated';
+        };
+
+        window.handleAdminLogin = function(e) {
+            e.preventDefault();
+            const u = document.getElementById('login-username').value.trim();
+            const p = document.getElementById('login-password').value.trim();
+            
+            if (u === 'admin' && p === 'admin123') {
+                sessionStorage.setItem('adminSession', 'authenticated');
+                document.getElementById('admin-login-modal').classList.add('hidden');
+                window.appViewMode = 'admin';
+                renderMain();
+                showToast("Admin session started successfully", "success");
+            } else {
+                const errBox = document.getElementById('login-error');
+                errBox.textContent = "Invalid username or password (try admin / admin123)";
+                errBox.classList.remove('hidden');
+            }
+        };
+
+        window.handleAdminLogout = function() {
+            showConfirmModal(
+                "Logout Admin",
+                "Are you sure you want to exit the admin portal?",
+                () => {
+                    sessionStorage.removeItem('adminSession');
+                    window.appViewMode = 'public';
+                    renderMain();
+                    showToast("Logged out successfully", "success");
+                }
+            );
+        };
+
+        window.toggleViewMode = function() {
+            if (window.appViewMode === 'public') {
+                if (window.checkAdminAuth()) {
+                    window.appViewMode = 'admin';
+                    renderMain();
+                } else {
+                    document.getElementById('login-username').value = '';
+                    document.getElementById('login-password').value = '';
+                    document.getElementById('login-error').classList.add('hidden');
+                    document.getElementById('admin-login-modal').classList.remove('hidden');
+                }
+            } else {
+                window.appViewMode = 'public';
+                renderMain();
+            }
+        };
+
+        window.closeLoginModal = function() {
+            document.getElementById('admin-login-modal').classList.add('hidden');
+        };
+
+        window.calculateStandingsForGroup = function(groupName) {
+            const groupTeams = window.dbState.teams.filter(t => t.group === groupName).map(t => ({
+                ...t,
+                m: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0
+            }));
+
+            const teamMap = {};
+            groupTeams.forEach(gt => teamMap[gt.name] = gt);
+
+            window.dbState.matches.forEach(m => {
+                if (m.group === groupName && m.hS !== null && m.aS !== null) {
+                    const home = teamMap[m.home];
+                    const away = teamMap[m.away];
+                    if (home && away) {
+                        home.m++;
+                        away.m++;
+                        home.gf += Number(m.hS);
+                        home.ga += Number(m.aS);
+                        away.gf += Number(m.aS);
+                        away.ga += Number(m.hS);
+
+                        if (Number(m.hS) > Number(m.aS)) {
+                            home.w++; home.pts += 3;
+                            away.l++;
+                        } else if (Number(m.hS) < Number(m.aS)) {
+                            away.w++; away.pts += 3;
+                            home.l++;
+                        } else {
+                            home.d++; home.pts += 1;
+                            away.d++; away.pts += 1;
+                        }
+                        home.gd = home.gf - home.ga;
+                        away.gd = away.gf - away.ga;
+                    }
+                }
+            });
+
+            return groupTeams.sort((a, b) => 
+                b.pts - a.pts || 
+                b.gd - a.gd || 
+                b.gf - a.gf || 
+                a.name.localeCompare(b.name)
+            );
+        };
+
+        window.getTotalStats = function() {
+            let totalMatches = window.dbState.matches.length;
+            let completedMatches = window.dbState.matches.filter(m => m.hS !== null && m.aS !== null).length;
+            let pendingMatches = totalMatches - completedMatches;
+            return { totalMatches, completedMatches, pendingMatches };
+        };
+
+        function renderMain() {
+            const container = document.getElementById('app-container');
+            const modeBtnText = document.getElementById('mode-btn-text');
+            const headerSub = document.getElementById('header-subtitle');
+
+            if (window.appViewMode === 'public') {
+                modeBtnText.textContent = "Admin";
+                headerSub.textContent = "Cloud Synced Live View";
+                container.innerHTML = renderPublicView();
+            } else {
+                modeBtnText.textContent = "Public View";
+                headerSub.textContent = "Admin Management Portal";
+                container.innerHTML = renderAdminView();
+            }
+        }
+
+        function renderPublicView() {
+            const enabledRounds = window.dbState.rounds.filter(r => r.enabled);
+            const activeRoundObj = window.dbState.rounds.find(r => r.id === window.publicActiveRound) || enabledRounds[0] || { id: 1, name: "Round 1" };
+            
+            const currentRoundMatches = window.dbState.matches.filter(m => m.round === activeRoundObj.id);
+
+            let matchesHtml = '';
+            let lastGroup = '';
+
+            if (currentRoundMatches.length === 0) {
+                matchesHtml = `<div class="glass-panel p-8 text-center rounded-2xl text-zinc-400">No matches found for this round.</div>`;
+            } else {
+                currentRoundMatches.forEach(m => {
+                    let groupHeader = '';
+                    if (m.group !== lastGroup) {
+                        lastGroup = m.group;
+                        groupHeader = `<div class="group-header py-2 px-4 mb-3 text-[10px] font-black text-[var(--world-gold)] uppercase italic">Group ${m.group}</div>`;
+                    }
+
+                    const homeTeamObj = window.dbState.teams.find(t => t.name === m.home);
+                    const awayTeamObj = window.dbState.teams.find(t => t.name === m.away);
+                    const homeLink = homeTeamObj && homeTeamObj.link ? homeTeamObj.link : '#';
+                    const awayLink = awayTeamObj && awayTeamObj.link ? awayTeamObj.link : '#';
+
+                    const hS = m.hS !== null ? m.hS : '-';
+                    const aS = m.aS !== null ? m.aS : '-';
+
+                    let hColor = '';
+                    let aColor = '';
+                    if (m.hS !== null && m.aS !== null) {
+                        if (m.hS === m.aS) { hColor = 'text-yellow-400'; aColor = 'text-yellow-400'; }
+                        else if (m.hS > m.aS) { hColor = 'text-green-500'; aColor = 'text-red-500'; }
+                        else { hColor = 'text-red-500'; aColor = 'text-green-500'; }
+                    }
+
+                    matchesHtml += `${groupHeader}
+                        <div class="glass-panel p-4 rounded-2xl flex items-center justify-between mb-3 shadow-sm">
+                            <div class="flex-1 text-right pr-3 text-xs sm:text-sm font-bold truncate">
+                                ${homeLink !== '#' ? `<a href="${homeLink}" target="_blank" class="team-link">${m.home}</a>` : m.home}
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="score-box ${hColor}">${hS}</div>
+                                <span class="text-zinc-600 text-xs font-bold">:</span>
+                                <div class="score-box ${aColor}">${aS}</div>
+                            </div>
+                            <div class="flex-1 text-left pl-3 text-xs sm:text-sm font-bold truncate">
+                                ${awayLink !== '#' ? `<a href="${awayLink}" target="_blank" class="team-link">${m.away}</a>` : m.away}
+                            </div>
+                        </div>`;
+                });
+            }
+
+            let roundsNavHtml = enabledRounds.map(r => {
+                const isActive = r.id === activeRoundObj.id;
+                return `<button onclick="setPublicRound(${r.id})" class="flex-1 py-3.5 rounded-xl text-xs font-black uppercase transition-all ${isActive ? 'bg-[var(--world-gold)] text-black shadow-lg' : 'bg-zinc-900 text-white hover:bg-zinc-800'}">${r.name}</button>`;
+            }).join('');
+
+            let standingsHtml = window.dbState.groups.map(g => {
+                const groupStandings = calculateStandingsForGroup(g);
+                if (groupStandings.length === 0) return '';
+
+                let rows = groupStandings.map(t => {
+                    const tLink = t.link ? t.link : '#';
+                    return `<tr class="h-12 border-b border-white/5 hover:bg-white/5">
+                        <td class="text-left py-2 pl-3">
+                            <div class="font-bold text-xs">${tLink !== '#' ? `<a href="${tLink}" target="_blank" class="team-link">${t.name}</a>` : t.name}</div>
                         </td>
-                        <td>${t.m}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gf}</td><td>${t.ga}</td><td>${t.gd}</td>
-                        <td class="font-bold text-[var(--world-gold)]">${t.pts}</td>
-                    </tr>`).join('')}</tbody>
-                </table>
-            </div>`;
-        }).join('');
-    }
+                        <td class="text-zinc-400 text-xs">${t.m}</td>
+                        <td class="text-zinc-400 text-xs">${t.w}</td>
+                        <td class="text-zinc-400 text-xs">${t.d}</td>
+                        <td class="text-zinc-400 text-xs">${t.l}</td>
+                        <td class="text-zinc-400 text-xs">${t.gf}</td>
+                        <td class="text-zinc-400 text-xs">${t.ga}</td>
+                        <td class="text-zinc-400 text-xs">${t.gd > 0 ? '+' + t.gd : t.gd}</td>
+                        <td class="font-extrabold text-[var(--world-gold)] text-xs pr-3">${t.pts}</td>
+                    </tr>`;
+                }).join('');
 
-    window.setRound = (r) => { 
-        state.activeRound = r; 
-        document.querySelectorAll('.round-btn').forEach(btn => {
-            btn.classList.remove('bg-[var(--world-gold)]', 'text-black');
-            btn.classList.add('bg-zinc-900', 'text-white');
-        });
-        const activeBtn = document.getElementById('round-'+r);
-        activeBtn.classList.remove('bg-zinc-900', 'text-white');
-        activeBtn.classList.add('bg-[var(--world-gold)]', 'text-black');
-        render(); 
-    };
+                return `<div class="bg-black/40 rounded-3xl p-5 border border-[var(--world-gold)]/10 overflow-x-auto shadow-xl">
+                    <div class="text-xs font-black text-[var(--world-gold)] mb-3 uppercase tracking-wider">GROUP ${g}</div>
+                    <table class="w-full text-center min-w-[320px]">
+                        <thead>
+                            <tr class="text-zinc-500 text-[10px] uppercase font-bold border-b border-white/10">
+                                <th class="text-left pb-2 pl-3">TEAM</th>
+                                <th class="pb-2">M</th>
+                                <th class="pb-2">W</th>
+                                <th class="pb-2">D</th>
+                                <th class="pb-2">L</th>
+                                <th class="pb-2">GF</th>
+                                <th class="pb-2">GA</th>
+                                <th class="pb-2">GD</th>
+                                <th class="pb-2 pr-3">PTS</th>
+                            </tr>
+                        </thead>
+                        <tbody>${rows}</tbody>
+                    </table>
+                </div>`;
+            }).join('');
 
-    window.onload = initLeague;
-</script>
+            return `
+                <div class="space-y-8 fade-in">
+                    <div class="flex space-x-2 overflow-x-auto no-scrollbar">
+                        ${roundsNavHtml}
+                    </div>
+                    <div class="space-y-6">
+                        <div>
+                            <h2 class="text-xs font-black uppercase tracking-[0.2em] text-zinc-400 mb-4 px-1 italic flex items-center justify-between">
+                                <span>Match Fixtures</span>
+                                <span class="text-[var(--world-gold)]">${activeRoundObj.name}</span>
+                            </h2>
+                            <div id="fixture-container" class="space-y-2">${matchesHtml}</div>
+                        </div>
+                        <div class="pt-4">
+                            <h2 class="text-xs font-black uppercase tracking-[0.2em] text-zinc-400 mb-4 px-1 italic">League Standings</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">${standingsHtml}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        window.setPublicRound = function(roundId) {
+            window.publicActiveRound = roundId;
+            renderMain();
+        };
+
+        function renderAdminView() {
+            if (!checkAdminAuth()) {
+                return `<div>Session expired. Please log in again.</div>`;
+            }
+
+            const tabs = [
+                { id: 'dashboard', label: 'Dashboard', icon: 'fa-chart-pie' },
+                { id: 'matches', label: 'Matches', icon: 'fa-futbol' },
+                { id: 'teams', label: 'Teams', icon: 'fa-users' },
+                { id: 'groups', label: 'Groups', icon: 'fa-layer-group' },
+                { id: 'fixtures', label: 'Fixtures', icon: 'fa-calendar-alt' },
+                { id: 'rounds', label: 'Rounds', icon: 'fa-sync-alt' },
+                { id: 'telegram', label: 'Telegram', icon: 'fa-paper-plane' },
+                { id: 'backup', label: 'Backup / Reset', icon: 'fa-database' }
+            ];
+
+            let navTabsHtml = tabs.map(t => {
+                const isActive = window.activeAdminTab === t.id;
+                return `<button onclick="setAdminTab('${t.id}')" class="flex items-center space-x-2.5 px-4 py-3 rounded-xl text-xs font-bold transition-all ${isActive ? 'bg-[var(--world-gold)] text-black shadow-md' : 'bg-zinc-900/80 text-zinc-300 hover:bg-zinc-800 hover:text-white'}">
+                    <i class="fas ${t.icon} w-4"></i>
+                    <span class="whitespace-nowrap">${t.label}</span>
+                </button>`;
+            }).join('');
+
+            let tabContent = '';
+            if (window.activeAdminTab === 'dashboard') tabContent = renderAdminDashboardTab();
+            else if (window.activeAdminTab === 'matches') tabContent = renderAdminMatchesTab();
+            else if (window.activeAdminTab === 'teams') tabContent = renderAdminTeamsTab();
+            else if (window.activeAdminTab === 'groups') tabContent = renderAdminGroupsTab();
+            else if (window.activeAdminTab === 'fixtures') tabContent = renderAdminFixturesTab();
+            else if (window.activeAdminTab === 'rounds') tabContent = renderAdminRoundsTab();
+            else if (window.activeAdminTab === 'telegram') tabContent = renderAdminTelegramTab();
+            else if (window.activeAdminTab === 'backup') tabContent = renderAdminBackupTab();
+
+            return `
+                <div class="space-y-6 fade-in">
+                    <div class="flex items-center justify-between bg-black/40 p-3 rounded-2xl border border-[var(--world-gold)]/20 overflow-x-auto no-scrollbar space-x-2">
+                        <div class="flex space-x-2">${navTabsHtml}</div>
+                        <button onclick="handleAdminLogout()" class="px-4 py-3 bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white rounded-xl text-xs font-bold transition-all flex items-center space-x-2 border border-red-500/20 whitespace-nowrap">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </button>
+                    </div>
+                    <div class="bg-black/40 border border-[var(--world-gold)]/10 rounded-3xl p-6 shadow-2xl">
+                        ${tabContent}
+                    </div>
+                </div>
+            `;
+        }
+
+        window.setAdminTab = function(tabId) {
+            window.activeAdminTab = tabId;
+            renderMain();
+        };
+
+        function renderAdminDashboardTab() {
+            const stats = getTotalStats();
+            const totalTeams = window.dbState.teams.length;
+            const totalGroups = window.dbState.groups.length;
+
+            return `
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-base font-black uppercase tracking-wider text-[var(--world-gold)] italic mb-1">Tournament Overview</h3>
+                        <p class="text-xs text-zinc-400">Cloud Synced Firebase Database Active</p>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+                        <div class="glass-panel p-4 rounded-2xl text-center">
+                            <div class="text-[10px] uppercase font-bold text-zinc-400 mb-1">Total Teams</div>
+                            <div class="text-2xl font-black text-white">${totalTeams}</div>
+                        </div>
+                        <div class="glass-panel p-4 rounded-2xl text-center">
+                            <div class="text-[10px] uppercase font-bold text-zinc-400 mb-1">Groups</div>
+                            <div class="text-2xl font-black text-[var(--world-gold)]">${totalGroups}</div>
+                        </div>
+                        <div class="glass-panel p-4 rounded-2xl text-center">
+                            <div class="text-[10px] uppercase font-bold text-zinc-400 mb-1">Total Matches</div>
+                            <div class="text-2xl font-black text-white">${stats.totalMatches}</div>
+                        </div>
+                        <div class="glass-panel p-4 rounded-2xl text-center">
+                            <div class="text-[10px] uppercase font-bold text-zinc-400 mb-1">Completed</div>
+                            <div class="text-2xl font-black text-green-400">${stats.completedMatches}</div>
+                        </div>
+                        <div class="glass-panel p-4 rounded-2xl text-center">
+                            <div class="text-[10px] uppercase font-bold text-zinc-400 mb-1">Pending</div>
+                            <div class="text-2xl font-black text-yellow-400">${stats.pendingMatches}</div>
+                        </div>
+                        <div class="glass-panel p-4 rounded-2xl text-center">
+                            <div class="text-[10px] uppercase font-bold text-zinc-400 mb-1">Active Rounds</div>
+                            <div class="text-2xl font-black text-blue-400">${window.dbState.rounds.filter(r=>r.enabled).length}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderAdminMatchesTab() {
+            let filteredMatches = window.dbState.matches.filter(m => {
+                if (window.adminMatchFilters.round !== 'all' && m.round !== Number(window.adminMatchFilters.round)) return false;
+                if (window.adminMatchFilters.group !== 'all' && m.group !== window.adminMatchFilters.group) return false;
+                if (window.adminMatchFilters.status !== 'all' && m.status !== window.adminMatchFilters.status) return false;
+                if (window.adminMatchFilters.search && !m.home.toLowerCase().includes(window.adminMatchFilters.search.toLowerCase()) && !m.away.toLowerCase().includes(window.adminMatchFilters.search.toLowerCase())) return false;
+                return true;
+            });
+
+            let roundOptions = window.dbState.rounds.map(r => `<option value="${r.id}" ${window.adminMatchFilters.round == r.id ? 'selected' : ''}>${r.name}</option>`).join('');
+            let groupOptions = window.dbState.groups.map(g => `<option value="${g}" ${window.adminMatchFilters.group === g ? 'selected' : ''}>Group ${g}</option>`).join('');
+
+            let matchesListHtml = filteredMatches.map(m => {
+                const isCompleted = m.hS !== null && m.aS !== null;
+                return `
+                    <div class="glass-panel p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="flex items-center space-x-3 w-full sm:w-auto">
+                            <span class="px-2.5 py-1 bg-black/60 border border-[var(--world-gold)]/20 rounded-lg text-[10px] font-bold text-[var(--world-gold)]">R${m.round} • G${m.group}</span>
+                            <span class="text-xs text-zinc-400">Match #${m.id}</span>
+                        </div>
+                        <div class="flex items-center space-x-4 w-full sm:w-auto justify-center">
+                            <span class="text-xs font-bold text-right flex-1 sm:w-36 truncate">${m.home}</span>
+                            <div class="flex items-center space-x-1">
+                                <input type="number" min="0" id="h-score-${m.id}" value="${m.hS !== null ? m.hS : ''}" placeholder="-" class="w-12 h-10 bg-black border border-zinc-700 text-center font-bold text-sm rounded-lg text-white focus:border-[var(--world-gold)] focus:outline-none">
+                                <span class="text-zinc-500 font-bold">:</span>
+                                <input type="number" min="0" id="a-score-${m.id}" value="${m.aS !== null ? m.aS : ''}" placeholder="-" class="w-12 h-10 bg-black border border-zinc-700 text-center font-bold text-sm rounded-lg text-white focus:border-[var(--world-gold)] focus:outline-none">
+                            </div>
+                            <span class="text-xs font-bold text-left flex-1 sm:w-36 truncate">${m.away}</span>
+                        </div>
+                        <div class="flex items-center space-x-2 w-full sm:w-auto justify-end">
+                            <button onclick="saveMatchScore(${m.id})" class="px-3.5 py-2 bg-[var(--world-gold)] text-black font-extrabold text-xs rounded-xl hover:opacity-90 transition-all shadow-sm">
+                                Save
+                            </button>
+                            ${isCompleted ? `<button onclick="resetMatchScore(${m.id})" class="px-3 py-2 bg-zinc-800 text-zinc-300 hover:text-white font-bold text-xs rounded-xl hover:bg-zinc-700 transition-all">Reset</button>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            return `
+                <div class="space-y-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <h3 class="text-base font-black uppercase tracking-wider text-[var(--world-gold)] italic">Match Score Management</h3>
+                            <p class="text-xs text-zinc-400">Scores sync to cloud instantly for all players.</p>
+                        </div>
+                        <button onclick="clearMatchFilters()" class="text-xs text-[var(--world-gold)] hover:underline flex items-center space-x-1">
+                            <i class="fas fa-undo text-[10px]"></i>
+                            <span>Clear Filters</span>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 bg-black/30 p-4 rounded-2xl border border-white/5">
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-zinc-400 mb-1">Filter Round</label>
+                            <select onchange="updateMatchFilter('round', this.value)" class="w-full bg-black border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white focus:border-[var(--world-gold)] focus:outline-none">
+                                <option value="all">All Rounds</option>
+                                ${roundOptions}
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-zinc-400 mb-1">Filter Group</label>
+                            <select onchange="updateMatchFilter('group', this.value)" class="w-full bg-black border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white focus:border-[var(--world-gold)] focus:outline-none">
+                                <option value="all">All Groups</option>
+                                ${groupOptions}
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-zinc-400 mb-1">Filter Status</label>
+                            <select onchange="updateMatchFilter('status', this.value)" class="w-full bg-black border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white focus:border-[var(--world-gold)] focus:outline-none">
+                                <option value="all" ${window.adminMatchFilters.status === 'all' ? 'selected' : ''}>All Status</option>
+                                <option value="pending" ${window.adminMatchFilters.status === 'pending' ? 'selected' : ''}>Pending</option>
+                                <option value="completed" ${window.adminMatchFilters.status === 'completed' ? 'selected' : ''}>Completed</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-zinc-400 mb-1">Search Team</label>
+                            <input type="text" oninput="updateMatchFilter('search', this.value)" value="${window.adminMatchFilters.search}" placeholder="Team name..." class="w-full bg-black border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white focus:border-[var(--world-gold)] focus:outline-none">
+                        </div>
+                    </div>
+                    <div class="space-y-3">${matchesListHtml || '<div class="text-center py-8 text-zinc-500">No matches match your filter criteria.</div>'}</div>
+                </div>
+            `;
+        }
+
+        window.updateMatchFilter = function(key, val) {
+            window.adminMatchFilters[key] = val;
+            renderMain();
+        };
+
+        window.clearMatchFilters = function() {
+            window.adminMatchFilters = { round: 'all', group: 'all', status: 'all', search: '' };
+            renderMain();
+        };
+
+        window.saveMatchScore = function(matchId) {
+            const hInput = document.getElementById(`h-score-${matchId}`);
+            const aInput = document.getElementById(`a-score-${matchId}`);
+            
+            const hVal = hInput.value.trim();
+            const aVal = aInput.value.trim();
+
+            if (hVal === '' || aVal === '') {
+                showToast("Please enter both home and away scores", "warning");
+                return;
+            }
+
+            const hNum = Number(hVal);
+            const aNum = Number(aVal);
+
+            if (hNum < 0 || aNum < 0) {
+                showToast("Scores cannot be negative numbers", "error");
+                return;
+            }
+
+            const match = window.dbState.matches.find(m => m.id === matchId);
+            if (match) {
+                match.hS = hNum;
+                match.aS = aNum;
+                match.status = 'completed';
+                window.saveData();
+                renderMain();
+                showToast(`Match #${matchId} score saved to cloud`, "success");
+            }
+        };
+
+        window.resetMatchScore = function(matchId) {
+            const match = window.dbState.matches.find(m => m.id === matchId);
+            if (match) {
+                match.hS = null;
+                match.aS = null;
+                match.status = 'pending';
+                window.saveData();
+                renderMain();
+                showToast(`Match #${matchId} score reset`, "info");
+            }
+        };
+
+        function renderAdminTeamsTab() {
+            let teamsRows = window.dbState.teams.map((t, idx) => `
+                <tr class="border-b border-white/5 hover:bg-white/5 h-14">
+                    <td class="pl-4 font-bold text-xs text-zinc-400">#${idx + 1}</td>
+                    <td class="font-bold text-xs">${t.name}</td>
+                    <td><span class="px-2.5 py-1 bg-[var(--world-gold)]/10 border border-[var(--world-gold)]/30 text-[var(--world-gold)] rounded-lg text-xs font-extrabold">Group ${t.group}</span></td>
+                    <td class="text-xs text-zinc-400 truncate max-w-[150px]">${t.link ? `<a href="${t.link}" target="_blank" class="text-[var(--world-gold)] hover:underline">${t.link}</a>` : 'No link'}</td>
+                    <td class="text-right pr-4 space-x-2">
+                        <button onclick="openEditTeamModal(${t.id})" class="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg text-xs font-bold">Edit</button>
+                        <button onclick="confirmDeleteTeam(${t.id})" class="px-3 py-1.5 bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white rounded-lg text-xs font-bold transition-all">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+
+            return `
+                <div class="space-y-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <h3 class="text-base font-black uppercase tracking-wider text-[var(--world-gold)] italic">Team Management</h3>
+                            <p class="text-xs text-zinc-400">Add, edit, or remove teams and assign them to groups</p>
+                        </div>
+                        <button onclick="openAddTeamModal()" class="px-4 py-2.5 bg-[var(--world-gold)] text-black font-extrabold text-xs rounded-xl hover:opacity-90 transition-all flex items-center space-x-2 shadow-md">
+                            <i class="fas fa-plus"></i>
+                            <span>Add New Team</span>
+                        </button>
+                    </div>
+                    <div class="bg-black/30 rounded-2xl border border-white/5 overflow-hidden">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="border-b border-white/10 text-[10px] uppercase font-bold text-zinc-500">
+                                    <th class="pl-4 py-3">#</th>
+                                    <th>Team Name</th>
+                                    <th>Group</th>
+                                    <th>Telegram Link</th>
+                                    <th class="text-right pr-4">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>${teamsRows}</tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        window.openAddTeamModal = function() {
+            let groupOpts = window.dbState.groups.map(g => `<option value="${g}">Group ${g}</option>`).join('');
+            openCustomModal(
+                "Add New Team",
+                `
+                <form onsubmit="handleSaveNewTeam(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Team Name</label>
+                        <input type="text" id="modal-team-name" required class="w-full bg-black border border-zinc-700 rounded-xl px-3 py-2.5 text-xs text-white focus:border-[var(--world-gold)] focus:outline-none" placeholder="e.g. Italy">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Group Assignment</label>
+                        <select id="modal-team-group" class="w-full bg-black border border-zinc-700 rounded-xl px-3 py-2.5 text-xs text-white focus:border-[var(--world-gold)] focus:outline-none">
+                            ${groupOpts}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Telegram Link (Optional)</label>
+                        <input type="url" id="modal-team-link" class="w-full bg-black border border-zinc-700 rounded-xl px-3 py-2.5 text-xs text-white focus:border-[var(--world-gold)] focus:outline-none" placeholder="https://t.me/username">
+                    </div>
+                    <div class="flex justify-end space-x-2 pt-2">
+                        <button type="button" onclick="closeModal()" class="px-4 py-2 bg-zinc-800 text-zinc-300 rounded-xl text-xs font-bold">Cancel</button>
+                        <button type="submit" class="px-4 py-2 bg-[var(--world-gold)] text-black rounded-xl text-xs font-extrabold">Save Team</button>
+                    </div>
+                </form>
+                `
+            );
+        };
+
+        window.handleSaveNewTeam = function(e) {
+            e.preventDefault();
+            const name = document.getElementById('modal-team-name').value.trim();
+            const group = document.getElementById('modal-team-group').value;
+            const link = document.getElementById('modal-team-link').value.trim();
+
+            if (window.dbState.teams.some(t => t.name.toLowerCase() === name.toLowerCase())) {
+                showToast("A team with this name already exists", "error");
+                return;
+            }
+
+            const newId = window.dbState.teams.length > 0 ? Math.max(...window.dbState.teams.map(t => t.id)) + 1 : 1;
+            window.dbState.teams.push({ id: newId, name, group, link });
+            window.saveData();
+            closeModal();
+            renderMain();
+            showToast(`Team "${name}" added successfully`, "success");
+        };
+
+        window.openEditTeamModal = function(teamId) {
+            const team = window.dbState.teams.find(t => t.id === teamId);
+            if (!team) return;
+
+            let groupOpts = window.dbState.groups.map(g => `<option value="${g}" ${team.group === g ? 'selected' : ''}>Group ${g}</option>`).join('');
+            openCustomModal(
+                `Edit Team: ${team.name}`,
+                `
+                <form onsubmit="handleUpdateTeam(event, ${team.id})" class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Team Name</label>
+                        <input type="text" id="modal-edit-team-name" value="${team.name}" required class="w-full bg-black border border-zinc-700 rounded-xl px-3 py-2.5 text-xs text-white focus:border-[var(--world-gold)] focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Group Assignment</label>
+                        <select id="modal-edit-team-group" class="w-full bg-black border border-zinc-700 rounded-xl px-3 py-2.5 text-xs text-white focus:border-[var(--world-gold)] focus:outline-none">
+                            ${groupOpts}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Telegram Link</label>
+                        <input type="url" id="modal-edit-team-link" value="${team.link || ''}" class="w-full bg-black border border-zinc-700 rounded-xl px-3 py-2.5 text-xs text-white focus:border-[var(--world-gold)] focus:outline-none">
+                    </div>
+                    <div class="flex justify-end space-x-2 pt-2">
+                        <button type="button" onclick="closeModal()" class="px-4 py-2 bg-zinc-800 text-zinc-300 rounded-xl text-xs font-bold">Cancel</button>
+                        <button type="submit" class="px-4 py-2 bg-[var(--world-gold)] text-black rounded-xl text-xs font-extrabold">Update Team</button>
+                    </div>
+                </form>
+                `
+            );
+        };
+
+        window.handleUpdateTeam = function(e, teamId) {
+            e.preventDefault();
+            const name = document.getElementById('modal-edit-team-name').value.trim();
+            const group = document.getElementById('modal-edit-team-group').value;
+            const link = document.getElementById('modal-edit-team-link').value.trim();
+
+            const team = window.dbState.teams.find(t => t.id === teamId);
+            if (team) {
+                if (window.dbState.teams.some(t => t.id !== teamId && t.name.toLowerCase() === name.toLowerCase())) {
+                    showToast("Another team with this name already exists", "error");
+                    return;
+                }
+                const oldName = team.name;
+                team.name = name;
+                team.group = group;
+                team.link = link;
+
+                if (oldName !== name) {
+                    window.dbState.matches.forEach(m => {
+                        if (m.home === oldName) m.home = name;
+                        if (m.away === oldName) m.away = name;
+                    });
+                }
+
+                window.saveData();
+                closeModal();
+                renderMain();
+                showToast("Team updated successfully", "success");
+            }
+        };
+
+        window.confirmDeleteTeam = function(teamId) {
+            const team = window.dbState.teams.find(t => t.id === teamId);
+            if (!team) return;
+
+            showConfirmModal(
+                "Delete Team",
+                `Are you sure you want to delete "${team.name}"? This will also affect associated matches.`,
+                () => {
+                    window.dbState.teams = window.dbState.teams.filter(t => t.id !== teamId);
+                    window.dbState.matches = window.dbState.matches.filter(m => m.home !== team.name && m.away !== team.name);
+                    window.saveData();
+                    renderMain();
+                    showToast(`Team "${team.name}" deleted successfully`, "success");
+                }
+            );
+        };
+
+        function renderAdminGroupsTab() {
+            let groupsRows = window.dbState.groups.map(g => {
+                const teamsInGroup = window.dbState.teams.filter(t => t.group === g);
+                const matchesInGroup = window.dbState.matches.filter(m => m.group === g);
+                return `
+                    <div class="glass-panel p-4 rounded-2xl flex items-center justify-between">
+                        <div>
+                            <div class="text-sm font-black text-[var(--world-gold)]">Group ${g}</div>
+                            <div class="text-xs text-zinc-400 mt-0.5">${teamsInGroup.length} Teams • ${matchesInGroup.length} Matches</div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="openRenameGroupModal('${g}')" class="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg text-xs font-bold">Rename</button>
+                            <button onclick="confirmDeleteGroup('${g}')" class="px-3 py-1.5 bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white rounded-lg text-xs font-bold transition-all">Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            return `
+                <div class="space-y-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <h3 class="text-base font-black uppercase tracking-wider text-[var(--world-gold)] italic">Group Management</h3>
+                            <p class="text-xs text-zinc-400">View and organize tournament groups</p>
+                        </div>
+                        <button onclick="openAddGroupModal()" class="px-4 py-2.5 bg-[var(--world-gold)] text-black font-extrabold text-xs rounded-xl hover:opacity-90 transition-all flex items-center space-x-2 shadow-md">
+                            <i class="fas fa-plus"></i>
+                            <span>Add New Group</span>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">${groupsRows}</div>
+                </div>
+            `;
+        }
+
+        window.openAddGroupModal = function() {
+            openCustomModal(
+                "Add New Group",
+                `
+                <form onsubmit="handleSaveNewGroup(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Group Name / Letter</label>
+                        <input type="text" id="modal-group-name" required maxlength="3" class="w-full bg-black border border-zinc-700 rounded-xl px-3 py-2.5 text-xs text-white uppercase focus:border-[var(--world-gold)] focus:outline-none" placeholder="e.g. M">
+                    </div>
+                    <div class="flex justify-end space-x-2 pt-2">
+                        <button type="button" onclick="closeModal()" class="px-4 py-2 bg-zinc-800 text-zinc-300 rounded-xl text-xs font-bold">Cancel</button>
+                        <button type="submit" class="px-4 py-2 bg-[var(--world-gold)] text-black rounded-xl text-xs font-extrabold">Add Group</button>
+                    </div>
+                </form>
+                `
+            );
+        };
+
+        window.handleSaveNewGroup = function(e) {
+            e.preventDefault();
+            const gName = document.getElementById('modal-group-name').value.trim().toUpperCase();
+            if (window.dbState.groups.includes(gName)) {
+                showToast("Group already exists", "error");
+                return;
+            }
+            window.dbState.groups.push(gName);
+            window.dbState.groups.sort();
+            window.saveData();
+            closeModal();
+            renderMain();
+            showToast(`Group ${gName} added successfully`, "success");
+        };
+
+        window.openRenameGroupModal = function(oldGroup) {
+            openCustomModal(
+                `Rename Group ${oldGroup}`,
+                `
+                <form onsubmit="handleRenameGroup(event, '${oldGroup}')" class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">New Group Name / Letter</label>
+                        <input type="text" id="modal-rename-group" value="${oldGroup}" required maxlength="3" class="w-full bg-black border border-zinc-700 rounded-xl px-3 py-2.5 text-xs text-white uppercase focus:border-[var(--world-gold)] focus:outline-none">
+                    </div>
+                    <div class="flex justify-end space-x-2 pt-2">
+                        <button type="button" onclick="closeModal()" class="px-4 py-2 bg-zinc-800 text-zinc-300 rounded-xl text-xs font-bold">Cancel</button>
+                        <button type="submit" class="px-4 py-2 bg-[var(--world-gold)] text-black rounded-xl text-xs font-extrabold">Rename Group</button>
+                    </div>
+                </form>
+                `
+            );
+        };
+
+        window.handleRenameGroup = function(e, oldGroup) {
+            e.preventDefault();
+            const newGroup = document.getElementById('modal-rename-group').value.trim().toUpperCase();
+            if (window.dbState.groups.includes(newGroup)) {
+                showToast("Group name already exists", "error");
+                return;
+            }
+            window.dbState.groups = window.dbState.groups.map(g => g === oldGroup ? newGroup : g);
+            window.dbState.teams.forEach(t => { if (t.group === oldGroup) t.group = newGroup; });
+            window.dbState.matches.forEach(m => { if (m.group === oldGroup) m.group = newGroup; });
+            window.saveData();
+            closeModal();
+            renderMain();
+            showToast(`Group renamed to ${newGroup}`, "success");
+        };
+
+        window.confirmDeleteGroup = function(groupName) {
+            const teamsInGroup = window.dbState.teams.filter(t => t.group === groupName);
+            const matchesInGroup = window.dbState.matches.filter(m => m.group === groupName);
+
+            if (teamsInGroup.length > 0 || matchesInGroup.length > 0) {
+                showToast(`Cannot delete Group ${groupName}: teams or matches are assigned to it.`, "error");
+                return;
+            }
+
+            showConfirmModal(
+                `Delete Group ${groupName}`,
+                `Are you sure you want to delete Group ${groupName}?`,
+                () => {
+                    window.dbState.groups = window.dbState.groups.filter(g => g !== groupName);
+                    window.saveData();
+                    renderMain();
+                    showToast(`Group ${groupName} deleted`, "success");
+                }
+            );
+        };
+
+        function renderAdminFixturesTab() {
+            let fixtureRows = window.dbState.matches.map(m => `
+                <tr class="border-b border-white/5 hover:bg-white/5 h-14">
+                    <td class="pl-4 font-bold text-xs text-zinc-400">#${m.id}</td>
+                    <td class="text-xs font-bold text-[var(--world-gold)]">Round ${m.round}</td>
+                    <td class="text-xs font-bold">Group ${m.group}</td>
+                    <td class="text-xs font-bold">${m.home} vs ${m.away}</td>
+                    <td class="text-xs">${m.hS !== null && m.aS !== null ? `<span class="text-green-400 font-extrabold">${m.hS} - ${m.aS}</span>` : '<span class="text-yellow-400">Pending</span>'}</td>
+                    <td class="text-right pr-4 space-x-2">
+                        <button onclick="openEditFixtureModal(${m.id})" class="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg text-xs font-bold">Edit</button>
+                        <button onclick="confirmDeleteFixture(${m.id})" class="px-3 py-1.5 bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white rounded-lg text-xs font-bold transition-all">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+
+            return `
+                <div class="space-y-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <h3 class="text-base font-black uppercase tracking-wider text-[var(--world-gold)] italic">Fixture Management</h3>
+                            <p class="text-xs text-zinc-400">Create, edit, or delete tournament match fixtures</p>
+                        </div>
+                        <button onclick="openAddFixtureModal()" class="px-4 py-2.5 bg-[var(--world-gold)] text-black font-extrabold text-xs rounded-xl hover:opacity-90 transition-all flex items-center space-x-2 shadow-md">
+                            <i class="fas fa-plus"></i>
+                            <span>Create Fixture</span>
+                        </button>
+                    </div>
+                    <div class="bg-black/30 rounded-2xl border border-white/5 overflow-x-auto">
+                        <table class="w-full text-left min-w-[600px]">
+                            <thead>
+                                <tr class="border-b border-white/10 text-[10px] uppercase font-bold text-zinc-500">
+                                    <th class="pl-4 py-3">ID</th>
+                                    <th>Round</th>
+                                    <th>Group</th>
+                                    <th>Teams</th>
+                                    <th>Score</th>
+                                    <th class="text-right pr-4">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>${fixtureRows}</tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        window.openAddFixtureModal = function() {
+            let roundOpts = window.dbState.rounds.map(r => `<option value="${r.id}">${r.name}</option>`).join('');
+            let groupOpts = window.dbState.groups.map(g => `<option value="${g}">Group ${g}</option>`).join('');
+            let teamOpts = window.dbState.teams.map(t => `<option value="${t.name}">${t.name} (Grp ${t.group})</option>`).join('');
+
+            openCustomModal(
+                "Create New Fixture",
+                `
+                <form onsubmit="handleSaveNewFixture(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Round</label>
+                        <select id="modal-fix-round" class="w-full bg-black border border-zinc-700 rounded-xl px-3 py-2.5 text-xs text-white focus:border-[var(--world-gold)] focus:outline-none">
+                            ${roundOpts}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Group</label>
+                        <select id="modal-fix-group" class="w-full bg-black border border-zinc-700 rounded-xl px-3 py-2.5 text-xs text-white focus:border-[var(--world-gold)] focus:outline-none">
+                            ${groupOpts}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Home Team</label>
+                        <select id="modal-fix-home" class="w-full bg-black border border-zinc-700 rounded-xl px-3 py-2.5 text-xs text-white focus:border-[var(--world-gold)] focus:outline-none">
+                            ${teamOpts}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Away Team</label>
+                        <select id="modal-fix-away" class="w-full bg-black border border-zinc-700 rounded-xl px-3 py-2.5 text-xs text-white focus:border-[var(--world-gold)] focus:outline-none">
+                            ${teamOpts}
+                        </select>
+                    </div>
+                    <div class="flex justify-end space-x-2 pt-2">
+                        <button type="button" onclick="closeModal()" class="px-4 py-2 bg-zinc-800 text-zinc-300 rounded-xl text-xs font-bold">Cancel</button>
+                        <button type="submit" class="px-4 py-2 bg-[var(--world-gold)] text-black rounded-xl text-xs font-extrabold">Create Fixture</button>
+                    </div>
+                </form>
+                `
+            );
+        };
+
+        window.handleSaveNewFixture = function(e) {
+            e.preventDefault();
+            const round = Number(document.getElementById('modal-fix-round').value);
+            const group = document.getElementById('modal-fix-group').value;
+            const home = document.getElementById('modal-fix-home').value;
+            const away = document.getElementById('modal-fix-away').value;
+
+            if (home === away) {
+                showToast("Home and Away teams cannot be the same", "error");
+                return;
+            }
+
+            const newId = window.dbState.matches.length > 0 ? Math.max(...window.dbState.matches.map(m => m.id)) + 1 : 1;
+            window.dbState.matches.push({
+                id: newId,
+                round,
+                group,
+                home,
+                away,
+                hS: null,
+                aS: null,
+                status: 'pending'
+            });
+
+            window.saveData();
+            closeModal();
+            renderMain();
+            showToast("Fixture created successfully", "success");
+        };
+
+        window.openEditFixtureModal = function(matchId) {
+            const match = window.dbState.matches.find(m => m.id === matchId);
+            if (!match) return;
+
+            let roundOpts = window.dbState.rounds.map(r => `<option value="${r.id}" ${match.round === r.id ? 'selected' : ''}>${r.name}</option>`).join('');
+            let groupOpts = window.dbState.groups.map(g => `<option value="${g}" ${match.group === g ? 'selected' : ''}>Group ${g}</option>`).join('');
+            let teamOptsHome = window.dbState.teams.map(t => `<option value="${t.name}" ${match.home === t.name ? 'selected' : ''}>${t.name}</option>`).join('');
+            let teamOptsAway = window.dbState.teams.map(t => `<option value="${t.name}" ${match.away === t.name ? 'selected' : ''}>${t.name}</option>`).join('');
+
+            openCustomModal(
+                `Edit Fixture #${matchId}`,
+                `
+                <form onsubmit="handleUpdateFixture(event, ${match.id})" class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Round</label>
+                        <select id="modal-edit-fix-round" class="w-full bg-black border border-zinc-700 rounded-xl px-3 py-2.5 text-xs text-white focus:border-[var(--world-gold)] focus:outline-none">
+                            ${roundOpts}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Group</label>
+                        <select id="modal-edit-fix-group" class="w-full bg-black border border-zinc-700 rounded-xl px-3 py-2.5 text-xs text-white focus:border-[var(--world-gold)] focus:outline-none">
+                            ${groupOpts}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Home Team</label>
+                        <select id="modal-edit-fix-home" class="w-full bg-black border border-zinc-700 rounded-xl px-3 py-2.5 text-xs text-white focus:border-[var(--world-gold)] focus:outline-none">
+                            ${teamOptsHome}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Away Team</label>
+                        <select id="modal-edit-fix-away" class="w-full bg-black border border-zinc-700 rounded-xl px-3 py-2.5 text-xs text-white focus:border-[var(--world-gold)] focus:outline-none">
+                            ${teamOptsAway}
+                        </select>
+                    </div>
+                    <div class="flex justify-end space-x-2 pt-2">
+                        <button type="button" onclick="closeModal()" class="px-4 py-2 bg-zinc-800 text-zinc-300 rounded-xl text-xs font-bold">Cancel</button>
+                        <button type="submit" class="px-4 py-2 bg-[var(--world-gold)] text-black rounded-xl text-xs font-extrabold">Update Fixture</button>
+                    </div>
+                </form>
+                `
+            );
+        };
+
+        window.handleUpdateFixture = function(e, matchId) {
+            e.preventDefault();
+            const round = Number(document.getElementById('modal-edit-fix-round').value);
+            const group = document.getElementById('modal-edit-fix-group').value;
+            const home = document.getElementById('modal-edit-fix-home').value;
+            const away = document.getElementById('modal-edit-fix-away').value;
+
+            if (home === away) {
+                showToast("Home and Away teams cannot be the same", "error");
+                return;
+            }
+
+            const match = window.dbState.matches.find(m => m.id === matchId);
+            if (match) {
+                match.round = round;
+                match.group = group;
+                match.home = home;
+                match.away = away;
+                window.saveData();
+                closeModal();
+                renderMain();
+                showToast("Fixture updated successfully", "success");
+            }
+        };
+
+        window.confirmDeleteFixture = function(matchId) {
+            showConfirmModal(
+                "Delete Fixture",
+                `Are you sure you want to delete Fixture #${matchId}?`,
+                () => {
+                    window.dbState.matches = window.dbState.matches.filter(m => m.id !== matchId);
+                    window.saveData();
+                    renderMain();
+                    showToast("Fixture deleted successfully", "success");
+                }
+            );
+        };
+
+        function renderAdminRoundsTab() {
+            let roundsRows = window.dbState.rounds.map(r => {
+                const matchCount = window.dbState.matches.filter(m => m.round === r.id).length;
+                return `
+                    <div class="glass-panel p-4 rounded-2xl flex items-center justify-between">
+                        <div>
+                            <div class="text-sm font-black text-[var(--world-gold)]">${r.name}</div>
+                            <div class="text-xs text-zinc-400 mt-0.5">${matchCount} Matches assigned • Status: <span class="${r.enabled ? 'text-green-400' : 'text-red-400'} font-bold">${r.enabled ? 'Enabled' : 'Disabled'}</span></div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="toggleRoundStatus(${r.id})" class="px-3 py-1.5 ${r.enabled ? 'bg-yellow-500/20 text-yellow-300 hover:bg-yellow-500 hover:text-black' : 'bg-green-500/20 text-green-300 hover:bg-green-500 hover:text-black'} rounded-lg text-xs font-bold transition-all">${r.enabled ? 'Disable' : 'Enable'}</button>
+                            <button onclick="openRenameRoundModal(${r.id})" class="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg text-xs font-bold">Rename</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            return `
+                <div class="space-y-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <h3 class="text-base font-black uppercase tracking-wider text-[var(--world-gold)] italic">Round Management</h3>
+                            <p class="text-xs text-zinc-400">Enable, disable, or rename tournament rounds</p>
+                        </div>
+                        <button onclick="openAddRoundModal()" class="px-4 py-2.5 bg-[var(--world-gold)] text-black font-extrabold text-xs rounded-xl hover:opacity-90 transition-all flex items-center space-x-2 shadow-md">
+                            <i class="fas fa-plus"></i>
+                            <span>Add New Round</span>
+                        </button>
+                    </div>
+                    <div class="space-y-3">${roundsRows}</div>
+                </div>
+            `;
+        }
+
+        window.openAddRoundModal = function() {
+            openCustomModal(
+                "Add New Round",
+                `
+                <form onsubmit="handleSaveNewRound(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Round Name</label>
+                        <input type="text" id="modal-round-name" required class="w-full bg-black border border-zinc-700 rounded-xl px-3 py-2.5 text-xs text-white focus:border-[var(--world-gold)] focus:outline-none" placeholder="e.g. Round 4">
+                    </div>
+                    <div class="flex justify-end space-x-2 pt-2">
+                        <button type="button" onclick="closeModal()" class="px-4 py-2 bg-zinc-800 text-zinc-300 rounded-xl text-xs font-bold">Cancel</button>
+                        <button type="submit" class="px-4 py-2 bg-[var(--world-gold)] text-black rounded-xl text-xs font-extrabold">Add Round</button>
+                    </div>
+                </form>
+                `
+            );
+        };
+
+        window.handleSaveNewRound = function(e) {
+            e.preventDefault();
+            const name = document.getElementById('modal-round-name').value.trim();
+            const newId = window.dbState.rounds.length > 0 ? Math.max(...window.dbState.rounds.map(r => r.id)) + 1 : 1;
+            window.dbState.rounds.push({ id: newId, name, enabled: true });
+            window.saveData();
+            closeModal();
+            renderMain();
+            showToast(`Round "${name}" added successfully`, "success");
+        };
+
+        window.toggleRoundStatus = function(roundId) {
+            const round = window.dbState.rounds.find(r => r.id === roundId);
+            if (round) {
+                round.enabled = !round.enabled;
+                window.saveData();
+                renderMain();
+                showToast(`Round status updated`, "info");
+            }
+        };
+
+        window.openRenameRoundModal = function(roundId) {
+            const round = window.dbState.rounds.find(r => r.id === roundId);
+            if (!round) return;
+
+            openCustomModal(
+                `Rename Round`,
+                `
+                <form onsubmit="handleRenameRound(event, ${round.id})" class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Round Name</label>
+                        <input type="text" id="modal-edit-round-name" value="${round.name}" required class="w-full bg-black border border-zinc-700 rounded-xl px-3 py-2.5 text-xs text-white focus:border-[var(--world-gold)] focus:outline-none">
+                    </div>
+                    <div class="flex justify-end space-x-2 pt-2">
+                        <button type="button" onclick="closeModal()" class="px-4 py-2 bg-zinc-800 text-zinc-300 rounded-xl text-xs font-bold">Cancel</button>
+                        <button type="submit" class="px-4 py-2 bg-[var(--world-gold)] text-black rounded-xl text-xs font-extrabold">Update Round</button>
+                    </div>
+                </form>
+                `
+            );
+        };
+
+        window.handleRenameRound = function(e, roundId) {
+            e.preventDefault();
+            const name = document.getElementById('modal-edit-round-name').value.trim();
+            const round = window.dbState.rounds.find(r => r.id === roundId);
+            if (round) {
+                round.name = name;
+                window.saveData();
+                closeModal();
+                renderMain();
+                showToast("Round renamed successfully", "success");
+            }
+        };
+
+        function renderAdminTelegramTab() {
+            let telegramRows = window.dbState.teams.map(t => `
+                <tr class="border-b border-white/5 hover:bg-white/5 h-14">
+                    <td class="pl-4 font-bold text-xs">${t.name}</td>
+                    <td><span class="px-2.5 py-1 bg-[var(--world-gold)]/15 text-[var(--world-gold)] rounded-lg text-xs font-extrabold">Group ${t.group}</span></td>
+                    <td class="text-xs text-zinc-300 truncate max-w-[200px]">${t.link || '<span class="text-zinc-500">No link</span>'}</td>
+                    <td class="text-right pr-4">
+                        <button onclick="openEditTelegramModal(${t.id})" class="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg text-xs font-bold">Edit Link</button>
+                    </td>
+                </tr>
+            `).join('');
+
+            return `
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-base font-black uppercase tracking-wider text-[var(--world-gold)] italic">Telegram Link Management</h3>
+                        <p class="text-xs text-zinc-400">Manage Telegram URLs linked to team names on the public standings page</p>
+                    </div>
+                    <div class="bg-black/30 rounded-2xl border border-white/5 overflow-hidden">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="border-b border-white/10 text-[10px] uppercase font-bold text-zinc-500">
+                                    <th class="pl-4 py-3">Team Name</th>
+                                    <th>Group</th>
+                                    <th>Telegram URL</th>
+                                    <th class="text-right pr-4">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>${telegramRows}</tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        window.openEditTelegramModal = function(teamId) {
+            const team = window.dbState.teams.find(t => t.id === teamId);
+            if (!team) return;
+
+            openCustomModal(
+                `Edit Telegram Link: ${team.name}`,
+                `
+                <form onsubmit="handleUpdateTelegram(event, ${team.id})" class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Telegram URL</label>
+                        <input type="url" id="modal-telegram-url" value="${team.link || ''}" placeholder="https://t.me/username" class="w-full bg-black border border-zinc-700 rounded-xl px-3 py-2.5 text-xs text-white focus:border-[var(--world-gold)] focus:outline-none">
+                    </div>
+                    <div class="flex justify-end space-x-2 pt-2">
+                        <button type="button" onclick="closeModal()" class="px-4 py-2 bg-zinc-800 text-zinc-300 rounded-xl text-xs font-bold">Cancel</button>
+                        <button type="submit" class="px-4 py-2 bg-[var(--world-gold)] text-black rounded-xl text-xs font-extrabold">Save Link</button>
+                    </div>
+                </form>
+                `
+            );
+        };
+
+        window.handleUpdateTelegram = function(e, teamId) {
+            e.preventDefault();
+            const link = document.getElementById('modal-telegram-url').value.trim();
+            const team = window.dbState.teams.find(t => t.id === teamId);
+            if (team) {
+                team.link = link;
+                window.saveData();
+                closeModal();
+                renderMain();
+                showToast(`Telegram link for ${team.name} updated`, "success");
+            }
+        };
+
+        function renderAdminBackupTab() {
+            return `
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-base font-black uppercase tracking-wider text-[var(--world-gold)] italic">Backup, Restore & Reset</h3>
+                        <p class="text-xs text-zinc-400">Download JSON tournament data backup or reset cloud database</p>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="glass-panel p-6 rounded-2xl flex flex-col items-center text-center space-y-4">
+                            <div class="w-12 h-12 bg-blue-500/20 text-blue-400 rounded-2xl flex items-center justify-center text-xl">
+                                <i class="fas fa-download"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm">Export Data</h4>
+                                <p class="text-xs text-zinc-400 mt-1">Download all teams, matches, and groups as a JSON file.</p>
+                            </div>
+                            <button onclick="exportData()" class="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition-all shadow-md">
+                                Export JSON
+                            </button>
+                        </div>
+                        <div class="glass-panel p-6 rounded-2xl flex flex-col items-center text-center space-y-4">
+                            <div class="w-12 h-12 bg-green-500/20 text-green-400 rounded-2xl flex items-center justify-center text-xl">
+                                <i class="fas fa-upload"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm">Import Data</h4>
+                                <p class="text-xs text-zinc-400 mt-1">Restore tournament state and sync to cloud.</p>
+                            </div>
+                            <label class="w-full py-2.5 bg-green-600 hover:bg-green-500 text-white rounded-xl text-xs font-bold transition-all cursor-pointer shadow-md inline-block">
+                                Import JSON
+                                <input type="file" accept=".json" onchange="importData(event)" class="hidden">
+                            </label>
+                        </div>
+                        <div class="glass-panel p-6 rounded-2xl flex flex-col items-center text-center space-y-4">
+                            <div class="w-12 h-12 bg-red-500/20 text-red-400 rounded-2xl flex items-center justify-center text-xl">
+                                <i class="fas fa-trash-alt"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm">Reset Tournament</h4>
+                                <p class="text-xs text-zinc-400 mt-1">Wipe cloud state and restore factory defaults.</p>
+                            </div>
+                            <button onclick="resetTournamentData()" class="w-full py-2.5 bg-red-600 hover:bg-red-500 text-white rounded-xl text-xs font-bold transition-all shadow-md">
+                                Reset Default
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        window.openCustomModal = function(title, htmlContent) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-content').innerHTML = htmlContent;
+            document.getElementById('modal-actions').innerHTML = '';
+            document.getElementById('custom-modal-backdrop').classList.remove('hidden');
+        };
+
+        window.showConfirmModal = function(title, message, onConfirm) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-content').innerHTML = `<p class="text-sm text-zinc-300">${message}</p>`;
+            document.getElementById('modal-actions').innerHTML = `
+                <button onclick="closeModal()" class="px-4 py-2 bg-zinc-800 text-zinc-300 rounded-xl text-xs font-bold">Cancel</button>
+                <button id="modal-confirm-btn" class="px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-xl text-xs font-extrabold shadow-md">Confirm</button>
+            `;
+            document.getElementById('custom-modal-backdrop').classList.remove('hidden');
+            
+            document.getElementById('modal-confirm-btn').onclick = () => {
+                closeModal();
+                onConfirm();
+            };
+        };
+
+        window.closeModal = function() {
+            document.getElementById('custom-modal-backdrop').classList.add('hidden');
+        };
+
+        window.showToast = function(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            let bg = 'bg-zinc-900 border-[var(--world-gold)]/40 text-white';
+            let icon = 'fa-check-circle text-[var(--world-gold)]';
+            
+            if (type === 'error') {
+                bg = 'bg-red-950/90 border-red-500/40 text-red-200';
+                icon = 'fa-exclamation-circle text-red-400';
+            } else if (type === 'warning') {
+                bg = 'bg-amber-950/90 border-amber-500/40 text-amber-200';
+                icon = 'fa-exclamation-triangle text-amber-400';
+            } else if (type === 'info') {
+                bg = 'bg-blue-950/90 border-blue-500/40 text-blue-200';
+                icon = 'fa-info-circle text-blue-400';
+            }
+
+            toast.className = `pointer-events-auto flex items-center space-x-3 px-4 py-3 rounded-2xl border shadow-2xl backdrop-blur-md transform transition-all translate-y-2 opacity-0 ${bg}`;
+            toast.innerHTML = `
+                <i class="fas ${icon} text-base"></i>
+                <span class="text-xs font-bold">${message}</span>
+            `;
+
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        };
+
+        window.onload = function() {
+            initFirebase();
+        };
+    </script>
 </body>
 </html>
