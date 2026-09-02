@@ -118,9 +118,11 @@
                 <h1 class="heading-font text-lg sm:text-xl leading-none italic font-black">
                     Master League <span class="text-[var(--world-gold)]">| World Cup</span>
                 </h1>
-                <p class="text-[10px] sm:text-xs text-zinc-400 mt-1 flex items-center gap-1.5">
-                    <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    Official Match & Standings Hub
+                <p class="text-[10px] sm:text-xs text-zinc-400 mt-1 flex items-center gap-2">
+                    <span id="cloud-status-badge" class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1">
+                        <i class="fas fa-circle-notch animate-spin text-[8px]"></i> Cloud Connecting...
+                    </span>
+                    <span class="hidden sm:inline text-zinc-500">• Official Hub</span>
                 </p>
             </div>
         </div>
@@ -288,8 +290,28 @@
 
     let currentUser = null;
 
+    function updateCloudBadge(status, message) {
+        const badge = document.getElementById('cloud-status-badge');
+        if (!badge) return;
+
+        if (status === 'connected') {
+            badge.className = "px-2.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1.5";
+            badge.innerHTML = `<i class="fas fa-cloud text-emerald-400"></i> Cloud Live`;
+        } else if (status === 'restricted') {
+            badge.className = "px-2.5 py-0.5 rounded-full text-[9px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30 flex items-center gap-1.5";
+            badge.innerHTML = `<i class="fas fa-exclamation-triangle text-rose-400"></i> Local Fallback (${message || 'Rules Locked'})`;
+        } else {
+            badge.className = "px-2.5 py-0.5 rounded-full text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1.5";
+            badge.innerHTML = `<i class="fas fa-circle-notch animate-spin text-[8px]"></i> Connecting...`;
+        }
+    }
+
     // Authenticate anonymously
-    signInAnonymously(auth).catch(err => console.warn("Firebase Auth Note:", err.message));
+    signInAnonymously(auth).catch(err => {
+        console.warn("Firebase Auth Note:", err.message);
+        updateCloudBadge('restricted', 'Auth Blocked');
+    });
+
     onAuthStateChanged(auth, user => {
         currentUser = user;
     });
@@ -314,30 +336,42 @@
                 updatedAt: new Date().toISOString()
             };
 
-            // Save to Firestore with permission exception guard
+            let cloudSaved = false;
+            let cloudErrorMsg = "";
+
+            // Attempt write to Firestore
             try {
                 await setDoc(doc(db, "matchResults", matchIdStr), dataPayload);
+                cloudSaved = true;
+                updateCloudBadge('connected');
             } catch (err) {
-                console.warn("Firestore write restricted (falling back seamlessly to LocalStorage):", err.message);
+                console.error("Firestore Write Failed:", err);
+                cloudErrorMsg = err.code || err.message;
+                updateCloudBadge('restricted', 'Rules Restricted');
             }
 
             // Fallback & local sync
             localResultsCache[matchIdStr] = dataPayload;
             saveLocalResults();
+
+            return { cloudSaved, cloudErrorMsg };
         },
 
         clearMatchResult: async (matchId) => {
             const matchIdStr = String(matchId);
+            let cloudDeleted = false;
             
-            // Delete from Firestore with permission exception guard
             try {
                 await deleteDoc(doc(db, "matchResults", matchIdStr));
+                cloudDeleted = true;
             } catch (err) {
-                console.warn("Firestore delete restricted (falling back seamlessly to LocalStorage):", err.message);
+                console.error("Firestore Delete Failed:", err);
             }
 
             delete localResultsCache[matchIdStr];
             saveLocalResults();
+
+            return { cloudDeleted };
         },
 
         subscribeToMatchResults: (callback) => {
@@ -353,7 +387,7 @@
                 }
             });
 
-            // Live Firestore Real-time Synchronization with permission safety net
+            // Live Firestore Real-time Synchronization
             let unsubscribeFS = () => {};
             try {
                 unsubscribeFS = onSnapshot(collection(db, "matchResults"), (snapshot) => {
@@ -364,11 +398,14 @@
                     localResultsCache = liveResults;
                     saveLocalResults();
                     callback(localResultsCache);
+                    updateCloudBadge('connected');
                 }, (err) => {
-                    console.warn("Firestore rules restricted (operating smoothly in local mode):", err.message);
+                    console.warn("Firestore subscription restricted:", err.message);
+                    updateCloudBadge('restricted', 'Permission Denied');
                 });
             } catch (err) {
-                console.warn("Firestore listener initialization skipped:", err.message);
+                console.warn("Firestore listener error:", err.message);
+                updateCloudBadge('restricted', 'Offline');
             }
 
             return unsubscribeFS;
@@ -877,8 +914,12 @@
         }
 
         try {
-            await DataService.saveMatchResult(matchId, hScore, aScore);
-            showToast(`Match #${matchId} result saved!`);
+            const res = await DataService.saveMatchResult(matchId, hScore, aScore);
+            if (res.cloudSaved) {
+                showToast(`Match #${matchId} Cloud သို့ သိမ်းဆည်းပြီးပါပြီ! ☁️✅`);
+            } else {
+                showToast(`Match #${matchId} Local တွင်သာ သိမ်းဆည်းနိုင်သည် (Cloud Permission Denied)`, true);
+            }
         } catch (e) {
             showToast(e.message, true);
         }
