@@ -937,8 +937,8 @@
                                     if (idx === 0 || idx === 1) {
                                         badge = `<span class="px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-bold bg-emerald-500/20 text-emerald-400">R32</span>`;
                                     } else if (idx === 2) {
-                                        const isQ = qualifiedThirdNames.has(t.name) && isGroupStageComplete(matchResults);
-                                        badge = isQ ? `<span class="px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-bold bg-emerald-500/20 text-emerald-400">3RD Q</span>` : `<span class="px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-bold bg-amber-500/20 text-amber-400">PEND</span>`;
+                                        const isQ = qualifiedThirdNames.has(t.name);
+                                        badge = isQ ? `<span class="px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-bold bg-emerald-500/20 text-emerald-400">3RD Q</span>` : `<span class="px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-bold bg-rose-500/20 text-rose-400">OUT</span>`;
                                     }
                                     return `
                                     <tr class="h-10 hover:bg-white/5 transition">
