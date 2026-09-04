@@ -1456,7 +1456,7 @@
                     </span>
                     <div class="flex space-x-2">
                         ${isFinished ? `<button onclick="clearMatchResult(${m.id})" class="px-3 py-2 rounded-xl text-xs font-bold bg-rose-950/60 hover:bg-rose-900 text-rose-300 border border-rose-800/50 transition">Reset</button>` : ''}
-                        <button onclick="saveMatchResult(${m.id}, '${m.home}', '${m.away}', ${isKnockout})" class="px-4 py-2 rounded-xl text-xs font-black uppercase bg-[var(--world-gold)] text-black hover:bg-[var(--world-gold-hover)] shadow-md transition">Save</button>
+                        <button onclick="saveMatchResult(${m.id}, ${isKnockout})" class="px-4 py-2 rounded-xl text-xs font-black uppercase bg-[var(--world-gold)] text-black hover:bg-[var(--world-gold-hover)] shadow-md transition">Save</button>
                     </div>
                 </div>
             </div>`;
@@ -1476,9 +1476,36 @@
         }
     }
 
-    async function saveMatchResult(matchId, homeTeam, awayTeam, isKnockout) {
-        const hInput = document.getElementById(`score-h-${matchId}`).value;
-        const aInput = document.getElementById(`score-a-${matchId}`).value;
+    async function saveMatchResult(matchId, isKnockout) {
+        const numericMatchId = Number(matchId);
+
+        // Resolve the fixture from the current tournament state instead of
+        // embedding team names inside an inline JavaScript string.
+        // This prevents names containing apostrophes (e.g. Côte d'Ivoire)
+        // from breaking the Save button handler.
+        const allFixtures = getAllTournamentFixtures(matchResults);
+        const fixture = Object.values(allFixtures)
+            .flat()
+            .find(f => Number(f.id) === numericMatchId);
+
+        if (!fixture) {
+            showToast(`Match #${numericMatchId} fixture not found.`, true);
+            return;
+        }
+
+        const homeTeam = fixture.home;
+        const awayTeam = fixture.away;
+
+        const hEl = document.getElementById(`score-h-${numericMatchId}`);
+        const aEl = document.getElementById(`score-a-${numericMatchId}`);
+
+        if (!hEl || !aEl) {
+            showToast(`Match #${numericMatchId} score inputs not found.`, true);
+            return;
+        }
+
+        const hInput = hEl.value.trim();
+        const aInput = aEl.value.trim();
 
         if (hInput === "" || aInput === "") {
             showToast("Please enter both home & away scores.", true);
@@ -1508,8 +1535,8 @@
             winnerName = awayTeam; loserName = homeTeam;
         } else {
             if (isKnockout) {
-                const penHInput = document.getElementById(`pen-h-${matchId}`)?.value;
-                const penAInput = document.getElementById(`pen-a-${matchId}`)?.value;
+                const penHInput = document.getElementById(`pen-h-${numericMatchId}`)?.value;
+                const penAInput = document.getElementById(`pen-a-${numericMatchId}`)?.value;
                 if (penHInput === "" || penAInput === "" || penHInput === penAInput) {
                     showToast("Scores are tied! Penalty shootout winners required.", true);
                     return;
@@ -1529,7 +1556,7 @@
         }
 
         const payload = {
-            matchId: Number(matchId),
+            matchId: numericMatchId,
             homeScore: hScore,
             awayScore: aScore,
             homePenalties: hPen,
@@ -1542,14 +1569,19 @@
             updatedAt: new Date().toISOString()
         };
 
-        matchResults[matchId] = payload;
+        matchResults[numericMatchId] = payload;
         saveLocalResults();
 
         if (window.CloudDataService) {
-            await window.CloudDataService.saveResultToCloud(matchId, payload);
+            const cloudResult = await window.CloudDataService.saveResultToCloud(numericMatchId, payload);
+            if (cloudResult && !cloudResult.cloudSaved) {
+                showToast(`Match #${numericMatchId} saved locally, but cloud save failed.`, true);
+            } else {
+                showToast(`Match #${numericMatchId} result saved successfully!`);
+            }
+        } else {
+            showToast(`Match #${numericMatchId} result saved successfully!`);
         }
-
-        showToast(`Match #${matchId} result saved successfully!`);
         renderAdminMatches();
         renderPublicView();
     }
