@@ -611,8 +611,8 @@
         GROUPS.forEach(g => {
             const list = groupStandings[g];
             if (list && list.length >= 2) {
-                winners.push({ ...list[0], position: 1 });
-                runnersUp.push({ ...list[1], position: 2 });
+                winners.push({ ...list[0], group: g, position: 1 });
+                runnersUp.push({ ...list[1], group: g, position: 2 });
             }
         });
 
@@ -629,20 +629,81 @@
         };
     }
 
+    function validateR32Teams(qualifiedTeamsList) {
+        const errors = [];
+        if (!Array.isArray(qualifiedTeamsList) || qualifiedTeamsList.length !== 32) {
+            errors.push(`Expected exactly 32 qualified teams, got ${qualifiedTeamsList ? qualifiedTeamsList.length : 0}`);
+        }
+        const seenIds = new Set();
+        const seenNames = new Set();
+        (qualifiedTeamsList || []).forEach(t => {
+            if (!t || !t.id) {
+                errors.push("Team missing ID");
+                return;
+            }
+            if (seenIds.has(t.id)) {
+                errors.push(`Duplicate team ID detected: ${t.id} (${t.name})`);
+            }
+            if (seenNames.has(t.name)) {
+                errors.push(`Duplicate team name detected: ${t.name}`);
+            }
+            seenIds.add(t.id);
+            seenNames.add(t.name);
+        });
+
+        if (errors.length > 0) {
+            console.error("R32 TEAM VALIDATION FAILED:", errors);
+            return false;
+        }
+        return true;
+    }
+
     function generateRoundOf32Fixtures(qualifiedData) {
-        const matches = [];
         const { winners, runnersUp, qualifiedThirds } = qualifiedData;
-        
+        const usedTeamIds = new Set();
+        const qualifiedTeams = [];
+
+        // Helper to safely add unique teams
+        const addTeam = (t) => {
+            if (t && t.id && !usedTeamIds.has(t.id) && qualifiedTeams.length < 32) {
+                usedTeamIds.add(t.id);
+                qualifiedTeams.push(t);
+            }
+        };
+
+        // Add 12 group winners
+        winners.forEach(t => addTeam(t));
+        // Add 12 group runners-up
+        runnersUp.forEach(t => addTeam(t));
+        // Add 8 qualified third-place teams
+        qualifiedThirds.forEach(t => addTeam(t));
+
+        // If we don't have 32 unique teams yet (e.g. group stage incomplete or edge cases), fill deterministically from TEAMS
+        if (qualifiedTeams.length < 32) {
+            TEAMS.forEach(t => {
+                if (!usedTeamIds.has(t.id) && qualifiedTeams.length < 32) {
+                    usedTeamIds.add(t.id);
+                    qualifiedTeams.push({ ...t, m: 0, pts: 0 });
+                }
+            });
+        }
+
+        // Validate 32 unique teams
+        validateR32Teams(qualifiedTeams);
+
+        const matches = [];
         for (let i = 0; i < 16; i++) {
-            const home = winners[i % winners.length] || { name: `Winner Group ${GROUPS[i % 12]}` };
-            const away = runnersUp[(i + 4) % runnersUp.length] || qualifiedThirds[i % qualifiedThirds.length] || { name: `Qualifier ${i+1}` };
-            
+            const team1 = qualifiedTeams[i * 2] || { id: 0, name: `Team ${i*2 + 1}` };
+            const team2 = qualifiedTeams[i * 2 + 1] || { id: 0, name: `Team ${i*2 + 2}` };
+
             matches.push({
                 id: 73 + i,
                 stage: "R32",
                 matchNumber: i + 1,
-                home: home.name || home,
-                away: away.name || away,
+                home: team1.name,
+                homeId: team1.id,
+                away: team2.name,
+                awayId: team2.id,
                 nextMatchId: 89 + Math.floor(i / 2)
             });
         }
@@ -741,6 +802,33 @@
         ];
     }
 
+    function validateKnockoutFixtures(allFixtures) {
+        const errors = [];
+        if (!allFixtures.R32 || allFixtures.R32.length !== 16) errors.push("R32 must have exactly 16 matches");
+        if (!allFixtures.R16 || allFixtures.R16.length !== 8) errors.push("R16 must have exactly 8 matches");
+        if (!allFixtures.QF || allFixtures.QF.length !== 4) errors.push("QF must have exactly 4 matches");
+        if (!allFixtures.SF || allFixtures.SF.length !== 2) errors.push("SF must have exactly 2 matches");
+        if (!allFixtures.THIRD || allFixtures.THIRD.length !== 1) errors.push("Third place must have 1 match");
+        if (!allFixtures.FINAL || allFixtures.FINAL.length !== 1) errors.push("Final must have 1 match");
+
+        if (allFixtures.R32) {
+            const r32Teams = new Set();
+            allFixtures.R32.forEach(m => {
+                if (m.home === m.away) errors.push(`R32 Match #${m.matchNumber} home and away are identical (${m.home})`);
+                r32Teams.add(m.home);
+                r32Teams.add(m.away);
+            });
+            if (r32Teams.size !== 32) {
+                errors.push(`R32 matches contain duplicate teams! Unique count: ${r32Teams.size}/32`);
+            }
+        }
+
+        if (errors.length > 0) {
+            console.error("INVALID KNOCKOUT FIXTURE STRUCTURE:", errors);
+        }
+        return errors.length === 0;
+    }
+
     function getAllTournamentFixtures(resultsMap) {
         const qData = getQualifiedTeamsData(resultsMap);
         const r32 = generateRoundOf32Fixtures(qData);
@@ -761,7 +849,7 @@
         sf.forEach(m => { if(resultsMap[m.id]) sfRes[m.id] = resultsMap[m.id]; });
         const finalsArr = generateThirdAndFinalFixtures(sfRes);
 
-        return {
+        const fixturesObj = {
             R32: r32,
             R16: r16,
             QF: qf,
@@ -769,6 +857,89 @@
             THIRD: [finalsArr[0]],
             FINAL: [finalsArr[1]]
         };
+
+        validateKnockoutFixtures(fixturesObj);
+        return fixturesObj;
+    }
+
+    function renderPublicBracket(container) {
+        const allFixtures = getAllTournamentFixtures(matchResults);
+        container.innerHTML = `
+        <div class="glass-panel rounded-3xl p-4 sm:p-6 space-y-4 overflow-x-auto">
+            <div class="flex items-center justify-between min-w-[1200px] border-b border-white/5 pb-4">
+                <h2 class="heading-font text-base sm:text-lg font-black italic">Tournament Knockout Bracket (Complete 32-Team Tree)</h2>
+                <span class="text-xs text-zinc-400">Interactive Progression Tree</span>
+            </div>
+            <div class="flex space-x-8 min-w-[1400px] items-center justify-between">
+                <!-- R32 (All 16 Matches) -->
+                <div class="space-y-2 w-64">
+                    <div class="text-[10px] font-black uppercase text-zinc-500 tracking-widest text-center">Round of 32 (16 Matches)</div>
+                    ${allFixtures.R32.map(m => {
+                        const res = matchResults[m.id] || {};
+                        return `<div class="bg-black/60 border border-zinc-800 p-2 rounded-xl text-[11px] space-y-0.5">
+                            <div class="flex justify-between font-bold ${res.winner === 'home' ? 'text-emerald-400' : 'text-zinc-300'}"><span class="truncate pr-2">${m.home}</span><span>${res.homeScore ?? '-'}</span></div>
+                            <div class="flex justify-between font-bold ${res.winner === 'away' ? 'text-emerald-400' : 'text-zinc-300'}"><span class="truncate pr-2">${m.away}</span><span>${res.awayScore ?? '-'}</span></div>
+                        </div>`;
+                    }).join('')}
+                </div>
+                <!-- R16 (All 8 Matches) -->
+                <div class="space-y-5 w-64">
+                    <div class="text-[10px] font-black uppercase text-zinc-500 tracking-widest text-center">Round of 16 (8 Matches)</div>
+                    ${allFixtures.R16.map(m => {
+                        const res = matchResults[m.id] || {};
+                        return `<div class="bg-black/60 border border-zinc-800 p-2.5 rounded-xl text-xs space-y-1">
+                            <div class="flex justify-between font-bold ${res.winner === 'home' ? 'text-emerald-400' : 'text-zinc-300'}"><span class="truncate pr-2">${m.home}</span><span>${res.homeScore ?? '-'}</span></div>
+                            <div class="flex justify-between font-bold ${res.winner === 'away' ? 'text-emerald-400' : 'text-zinc-300'}"><span class="truncate pr-2">${m.away}</span><span>${res.awayScore ?? '-'}</span></div>
+                        </div>`;
+                    }).join('')}
+                </div>
+                <!-- QF (All 4 Matches) -->
+                <div class="space-y-12 w-64">
+                    <div class="text-[10px] font-black uppercase text-zinc-500 tracking-widest text-center">Quarter-Finals (4 Matches)</div>
+                    ${allFixtures.QF.map(m => {
+                        const res = matchResults[m.id] || {};
+                        return `<div class="bg-black/60 border border-zinc-800 p-3 rounded-xl text-xs space-y-1">
+                            <div class="flex justify-between font-bold ${res.winner === 'home' ? 'text-emerald-400' : 'text-zinc-300'}"><span class="truncate pr-2">${m.home}</span><span>${res.homeScore ?? '-'}</span></div>
+                            <div class="flex justify-between font-bold ${res.winner === 'away' ? 'text-emerald-400' : 'text-zinc-300'}"><span class="truncate pr-2">${m.away}</span><span>${res.awayScore ?? '-'}</span></div>
+                        </div>`;
+                    }).join('')}
+                </div>
+                <!-- SF (All 2 Matches) -->
+                <div class="space-y-24 w-64">
+                    <div class="text-[10px] font-black uppercase text-zinc-500 tracking-widest text-center">Semi-Finals (2 Matches)</div>
+                    ${allFixtures.SF.map(m => {
+                        const res = matchResults[m.id] || {};
+                        return `<div class="bg-black/60 border border-zinc-800 p-3.5 rounded-xl text-xs space-y-1.5">
+                            <div class="flex justify-between font-bold ${res.winner === 'home' ? 'text-emerald-400' : 'text-zinc-300'}"><span class="truncate pr-2">${m.home}</span><span>${res.homeScore ?? '-'}</span></div>
+                            <div class="flex justify-between font-bold ${res.winner === 'away' ? 'text-emerald-400' : 'text-zinc-300'}"><span class="truncate pr-2">${m.away}</span><span>${res.awayScore ?? '-'}</span></div>
+                        </div>`;
+                    }).join('')}
+                </div>
+                <!-- FINAL & THIRD -->
+                <div class="w-64 text-center space-y-6">
+                    <div>
+                        <div class="text-[10px] font-black uppercase text-[var(--world-gold)] tracking-widest mb-2">World Cup Final</div>
+                        ${allFixtures.FINAL.map(m => {
+                            const res = matchResults[m.id] || {};
+                            return `<div class="glass-panel border-2 border-[var(--world-gold)]/50 p-4 rounded-2xl text-xs space-y-2 bg-[var(--world-gold)]/5">
+                                <div class="flex justify-between font-black ${res.winner === 'home' ? 'text-[var(--world-gold)]' : 'text-white'}"><span class="truncate pr-2">${m.home}</span><span>${res.homeScore ?? '-'}</span></div>
+                                <div class="flex justify-between font-black ${res.winner === 'away' ? 'text-[var(--world-gold)]' : 'text-white'}"><span class="truncate pr-2">${m.away}</span><span>${res.awayScore ?? '-'}</span></div>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                    <div>
+                        <div class="text-[10px] font-black uppercase text-zinc-400 tracking-widest mb-2">Third-Place Match</div>
+                        ${allFixtures.THIRD.map(m => {
+                            const res = matchResults[m.id] || {};
+                            return `<div class="bg-black/60 border border-zinc-800 p-3 rounded-2xl text-xs space-y-1">
+                                <div class="flex justify-between font-bold ${res.winner === 'home' ? 'text-emerald-400' : 'text-zinc-300'}"><span class="truncate pr-2">${m.home}</span><span>${res.homeScore ?? '-'}</span></div>
+                                <div class="flex justify-between font-bold ${res.winner === 'away' ? 'text-emerald-400' : 'text-zinc-300'}"><span class="truncate pr-2">${m.away}</span><span>${res.awayScore ?? '-'}</span></div>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                </div>
+            </div>
+        </div>`;
     }
 
     function switchTab(tab) {
