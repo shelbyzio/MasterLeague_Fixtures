@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Master League | World Cup Complete Application</title>
+    <title>Master League | Complete World Cup Tournament System</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -53,31 +53,49 @@
         }
 
         .score-box { 
-            width: 44px; 
-            height: 44px; 
+            width: 38px; 
+            height: 38px; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            border-radius: 12px; 
+            border-radius: 10px; 
             font-weight: 900; 
-            font-size: 16px; 
+            font-size: 15px; 
             border: 1px solid #1e293b; 
             background: #020617; 
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 640px) {
+            .score-box {
+                width: 44px;
+                height: 44px;
+                font-size: 16px;
+                border-radius: 12px;
+            }
         }
 
         .score-input {
-            width: 52px;
-            height: 44px;
+            width: 48px;
+            height: 42px;
             background: #020617;
             border: 2px solid #334155;
-            border-radius: 12px;
+            border-radius: 10px;
             text-align: center;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 900;
             color: var(--world-gold);
             outline: none;
             transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        @media (min-width: 640px) {
+            .score-input {
+                width: 52px;
+                height: 44px;
+                font-size: 18px;
+                border-radius: 12px;
+            }
         }
         .score-input:focus {
             border-color: var(--world-gold);
@@ -108,138 +126,135 @@
 </head>
 <body class="no-scrollbar pb-24">
 
-<header class="sticky top-0 z-40 bg-[var(--world-navy)]/90 backdrop-blur-xl border-b border-[var(--world-gold)]/20 px-4 sm:px-8 py-4">
-    <div class="flex items-center justify-between max-w-6xl mx-auto">
-        <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 bg-[var(--world-gold)] rounded-xl flex items-center justify-center shadow-lg shadow-[var(--world-gold)]/20 text-black">
-                <i class="fas fa-trophy text-lg"></i>
+<header class="sticky top-0 z-40 bg-[var(--world-navy)]/95 backdrop-blur-xl border-b border-[var(--world-gold)]/20 px-3 sm:px-8 py-3 sm:py-4">
+    <div class="flex items-center justify-between max-w-7xl mx-auto">
+        <div class="flex items-center space-x-2.5 sm:space-x-3">
+            <div class="w-9 h-9 sm:w-10 sm:h-10 bg-[var(--world-gold)] rounded-xl flex items-center justify-center shadow-lg shadow-[var(--world-gold)]/20 text-black shrink-0">
+                <i class="fas fa-trophy text-base sm:text-lg"></i>
             </div>
             <div>
-                <h1 class="heading-font text-lg sm:text-xl leading-none italic font-black">
-                    Master League <span class="text-[var(--world-gold)]">| World Cup</span>
+                <h1 class="heading-font text-sm sm:text-xl leading-none italic font-black">
+                    Master League <span class="text-[var(--world-gold)]">| WC 2026</span>
                 </h1>
-                <p class="text-[10px] sm:text-xs text-zinc-400 mt-1 flex items-center gap-2">
-                    <span id="cloud-status-badge" class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1">
-                        <i class="fas fa-circle-notch animate-spin text-[8px]"></i> Cloud Connecting...
+                <p class="text-[9px] sm:text-xs text-zinc-400 mt-1 flex items-center gap-1.5 sm:gap-2">
+                    <span id="cloud-status-badge" class="px-2 py-0.5 rounded-full text-[8px] sm:text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1">
+                        <i class="fas fa-circle-notch animate-spin text-[7px]"></i> Connecting...
                     </span>
-                    <span class="hidden sm:inline text-zinc-500">• Official Hub</span>
+                    <span class="hidden md:inline text-zinc-500">• 48 Teams Complete Edition</span>
                 </p>
             </div>
         </div>
 
         <!-- Navigation Tabs -->
-        <div class="flex items-center bg-black/60 p-1 rounded-2xl border border-zinc-800">
-            <button onclick="switchTab('public')" id="nav-public" class="px-4 py-2 rounded-xl text-xs font-black uppercase transition-all bg-[var(--world-gold)] text-black shadow-md flex items-center gap-2">
+        <div class="flex items-center bg-black/60 p-1 rounded-xl sm:rounded-2xl border border-zinc-800">
+            <button onclick="switchTab('public')" id="nav-public" class="px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-black uppercase transition-all bg-[var(--world-gold)] text-black shadow-md flex items-center gap-1.5 sm:gap-2">
                 <i class="fas fa-globe"></i>
-                <span class="hidden sm:inline">Fixtures & Standings</span>
+                <span class="inline">Hub</span>
             </button>
-            <button onclick="switchTab('admin')" id="nav-admin" class="px-4 py-2 rounded-xl text-xs font-black uppercase transition-all text-zinc-400 hover:text-white flex items-center gap-2">
+            <button onclick="switchTab('admin')" id="nav-admin" class="px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-black uppercase transition-all text-zinc-400 hover:text-white flex items-center gap-1.5 sm:gap-2">
                 <i class="fas fa-user-shield text-[var(--world-gold)]"></i>
-                <span class="hidden sm:inline">Admin Manager</span>
+                <span class="inline">Admin</span>
             </button>
         </div>
     </div>
 </header>
 
-<main class="p-4 sm:p-6 max-w-6xl mx-auto">
+<main class="p-3 sm:p-6 max-w-7xl mx-auto">
 
-    <section id="public-view-section" class="space-y-8">
+    <!-- PUBLIC VIEW SECTION -->
+    <section id="public-view-section" class="space-y-4 sm:space-y-8">
         
-        <!-- Filter Controls -->
-        <div class="glass-panel p-4 rounded-3xl space-y-4">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                
-                <!-- Round Selectors -->
-                <div class="flex space-x-2 overflow-x-auto no-scrollbar w-full md:w-auto">
-                    <button onclick="setPublicRound(1)" id="pub-round-1" class="pub-round-btn flex-1 md:flex-none px-5 py-3 rounded-2xl text-xs font-black uppercase transition-all bg-[var(--world-gold)] text-black shadow-lg">Round 1</button>
-                    <button onclick="setPublicRound(2)" id="pub-round-2" class="pub-round-btn flex-1 md:flex-none px-5 py-3 rounded-2xl text-xs font-black uppercase transition-all bg-zinc-900 text-zinc-400 hover:text-white">Round 2</button>
-                    <button onclick="setPublicRound(3)" id="pub-round-3" class="pub-round-btn flex-1 md:flex-none px-5 py-3 rounded-2xl text-xs font-black uppercase transition-all bg-zinc-900 text-zinc-400 hover:text-white">Round 3</button>
-                </div>
-
-                <!-- Group & Search Filter -->
-                <div class="flex flex-wrap items-center gap-3">
-                    <select id="pub-group-select" onchange="renderPublicView()" class="bg-black border border-zinc-700 text-xs font-bold rounded-2xl px-4 py-3 text-white focus:outline-none focus:border-[var(--world-gold)]">
-                        <option value="ALL">All Groups (A-L)</option>
-                    </select>
-
-                    <div class="relative flex-1 sm:w-64">
-                        <i class="fas fa-search absolute left-4 top-3.5 text-xs text-zinc-500"></i>
-                        <input type="text" id="pub-search" onkeyup="renderPublicView()" placeholder="Search team..." class="w-full bg-black border border-zinc-700 rounded-2xl pl-10 pr-4 py-2.5 text-xs text-white focus:outline-none focus:border-[var(--world-gold)]">
-                    </div>
-                </div>
-            </div>
+        <!-- Stage Sub-Navigation Bar (Mobile Scrollable) -->
+        <div class="glass-panel p-2 sm:p-3 rounded-2xl flex space-x-2 overflow-x-auto no-scrollbar">
+            <button onclick="setPublicStage('group')" id="p-stage-group" class="p-stage-btn px-3.5 sm:px-4 py-2 rounded-xl text-[11px] sm:text-xs font-black uppercase transition-all bg-[var(--world-gold)] text-black shrink-0">
+                <i class="fas fa-users mr-1"></i> Group Stage
+            </button>
+            <button onclick="setPublicStage('standings')" id="p-stage-standings" class="p-stage-btn px-3.5 sm:px-4 py-2 rounded-xl text-[11px] sm:text-xs font-black uppercase transition-all bg-zinc-900 text-zinc-400 hover:text-white shrink-0">
+                <i class="fas fa-list-ol mr-1"></i> Standings
+            </button>
+            <button onclick="setPublicStage('best3rd')" id="p-stage-best3rd" class="p-stage-btn px-3.5 sm:px-4 py-2 rounded-xl text-[11px] sm:text-xs font-black uppercase transition-all bg-zinc-900 text-zinc-400 hover:text-white shrink-0">
+                <i class="fas fa-medal mr-1"></i> Best 8 3rd Place
+            </button>
+            <button onclick="setPublicStage('r32')" id="p-stage-r32" class="p-stage-btn px-3.5 sm:px-4 py-2 rounded-xl text-[11px] sm:text-xs font-black uppercase transition-all bg-zinc-900 text-zinc-400 hover:text-white shrink-0">
+                <i class="fas fa-shield-alt mr-1"></i> Round of 32
+            </button>
+            <button onclick="setPublicStage('r16')" id="p-stage-r16" class="p-stage-btn px-3.5 sm:px-4 py-2 rounded-xl text-[11px] sm:text-xs font-black uppercase transition-all bg-zinc-900 text-zinc-400 hover:text-white shrink-0">
+                <i class="fas fa-star mr-1"></i> Round of 16
+            </button>
+            <button onclick="setPublicStage('qf')" id="p-stage-qf" class="p-stage-btn px-3.5 sm:px-4 py-2 rounded-xl text-[11px] sm:text-xs font-black uppercase transition-all bg-zinc-900 text-zinc-400 hover:text-white shrink-0">
+                <i class="fas fa-fire mr-1"></i> Quarter-Finals
+            </button>
+            <button onclick="setPublicStage('sf')" id="p-stage-sf" class="p-stage-btn px-3.5 sm:px-4 py-2 rounded-xl text-[11px] sm:text-xs font-black uppercase transition-all bg-zinc-900 text-zinc-400 hover:text-white shrink-0">
+                <i class="fas fa-bolt mr-1"></i> Semi-Finals
+            </button>
+            <button onclick="setPublicStage('third')" id="p-stage-third" class="p-stage-btn px-3.5 sm:px-4 py-2 rounded-xl text-[11px] sm:text-xs font-black uppercase transition-all bg-zinc-900 text-zinc-400 hover:text-white shrink-0">
+                <i class="fas fa-award mr-1"></i> 3rd Place
+            </button>
+            <button onclick="setPublicStage('final')" id="p-stage-final" class="p-stage-btn px-3.5 sm:px-4 py-2 rounded-xl text-[11px] sm:text-xs font-black uppercase transition-all bg-zinc-900 text-zinc-400 hover:text-white shrink-0">
+                <i class="fas fa-crown mr-1 text-yellow-300"></i> Final
+            </button>
+            <button onclick="setPublicStage('bracket')" id="p-stage-bracket" class="p-stage-btn px-3.5 sm:px-4 py-2 rounded-xl text-[11px] sm:text-xs font-black uppercase transition-all bg-zinc-900 text-zinc-400 hover:text-white shrink-0">
+                <i class="fas fa-sitemap mr-1"></i> Bracket
+            </button>
+            <button onclick="setPublicStage('status')" id="p-stage-status" class="p-stage-btn px-3.5 sm:px-4 py-2 rounded-xl text-[11px] sm:text-xs font-black uppercase transition-all bg-zinc-900 text-zinc-400 hover:text-white shrink-0">
+                <i class="fas fa-chart-pie mr-1"></i> Status
+            </button>
         </div>
 
-        <!-- Fixtures List Section -->
-        <div>
-            <div class="flex items-center justify-between mb-4 px-2">
-                <h2 class="text-xs font-black uppercase tracking-[0.2em] text-zinc-400 italic flex items-center gap-2">
-                    <i class="fas fa-calendar-alt text-[var(--world-gold)]"></i> Match Fixtures
-                </h2>
-                <span class="text-[10px] text-zinc-500 font-mono" id="version-tag">VER: 2026-WC-V1</span>
-            </div>
-            
-            <div id="fixture-container" class="space-y-3"></div>
-        </div>
+        <!-- Dynamic Content Display Container -->
+        <div id="public-dynamic-content" class="space-y-4 sm:space-y-6"></div>
 
-        <!-- Dynamic League Standings Section -->
-        <div>
-            <div class="flex items-center justify-between mb-4 px-2">
-                <h2 class="text-xs font-black uppercase tracking-[0.2em] text-zinc-400 italic flex items-center gap-2">
-                    <i class="fas fa-list-ol text-[var(--world-gold)]"></i> Group Standings
-                </h2>
-                <span class="text-[10px] text-zinc-400">Live Auto-Calculated</span>
-            </div>
-
-            <div id="standings-container" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
-        </div>
     </section>
 
-    <section id="admin-view-section" class="hidden space-y-6">
+    <!-- ADMIN VIEW SECTION -->
+    <section id="admin-view-section" class="hidden space-y-4 sm:space-y-6">
         
         <!-- Dev Authentication Lock Modal Screen -->
-        <div id="auth-modal" class="glass-panel p-6 sm:p-8 rounded-3xl max-w-md mx-auto text-center space-y-5 my-8">
+        <div id="auth-modal" class="glass-panel p-5 sm:p-8 rounded-3xl max-w-md mx-auto text-center space-y-4 sm:space-y-5 my-6 sm:my-8">
             <div class="w-14 h-14 bg-[var(--world-gold)] rounded-2xl flex items-center justify-center mx-auto text-black text-2xl shadow-lg shadow-[var(--world-gold)]/20">
                 <i class="fas fa-shield-alt"></i>
             </div>
             <div>
-                <h2 class="heading-font text-2xl font-black italic">Admin Access Portal</h2>
-                <p class="text-xs text-zinc-400 mt-1">Enter authorized password to manage match scores</p>
-            </div>
-
-            <div class="bg-amber-500/10 border border-amber-500/20 p-3 rounded-2xl text-[11px] text-amber-300 text-left flex items-start gap-2">
-                <i class="fas fa-exclamation-circle text-amber-400 mt-0.5"></i>
-                <span><strong>Security Notice:</strong> Admin password ကို <code class="bg-black/40 px-1.5 py-0.5 rounded text-white font-mono">2024</code> ဟု သတ်မှတ်ထားပါသည်။</span>
+                <h2 class="heading-font text-xl sm:text-2xl font-black italic">Admin Access Portal</h2>
+                <p class="text-[11px] sm:text-xs text-zinc-400 mt-1">Enter authorized password to manage match scores</p>
             </div>
 
             <div class="space-y-3">
                 <input type="password" id="admin-passcode" placeholder="Enter password..." class="w-full bg-black border border-zinc-700 rounded-2xl p-3.5 text-sm text-white text-center font-bold tracking-widest focus:outline-none focus:border-[var(--world-gold)]">
-                <button onclick="handleLogin()" class="w-full py-3.5 bg-[var(--world-gold)] text-black font-black uppercase rounded-2xl hover:bg-[var(--world-gold-hover)] transition shadow-lg">
+                <button onclick="handleLogin()" class="w-full py-3.5 bg-[var(--world-gold)] text-black font-black uppercase rounded-2xl hover:bg-[var(--world-gold-hover)] transition shadow-lg text-xs sm:text-sm">
                     Unlock Admin Controls
                 </button>
             </div>
         </div>
 
         <!-- Unlocked Admin Panel -->
-        <div id="admin-panel-content" class="hidden space-y-6">
+        <div id="admin-panel-content" class="hidden space-y-4 sm:space-y-6">
             
-            <!-- Filter Bar -->
-            <div class="glass-panel p-4 rounded-3xl space-y-4">
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div class="flex flex-wrap items-center gap-2">
-                        <!-- Round Filter -->
-                        <button onclick="filterAdminRound(0)" id="admin-r-0" class="admin-r-btn px-4 py-2 rounded-xl text-xs font-bold bg-[var(--world-gold)] text-black">All Rounds</button>
-                        <button onclick="filterAdminRound(1)" id="admin-r-1" class="admin-r-btn px-4 py-2 rounded-xl text-xs font-bold bg-black text-zinc-400 hover:text-white">R1</button>
-                        <button onclick="filterAdminRound(2)" id="admin-r-2" class="admin-r-btn px-4 py-2 rounded-xl text-xs font-bold bg-black text-zinc-400 hover:text-white">R2</button>
-                        <button onclick="filterAdminRound(3)" id="admin-r-3" class="admin-r-btn px-4 py-2 rounded-xl text-xs font-bold bg-black text-zinc-400 hover:text-white">R3</button>
+            <!-- Admin Filter Bar -->
+            <div class="glass-panel p-3.5 sm:p-4 rounded-3xl space-y-3 sm:space-y-4">
+                <div class="flex flex-col gap-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <!-- Stage Select -->
+                        <select id="admin-stage-select" onchange="renderAdminMatches()" class="w-full bg-black border border-zinc-700 text-xs font-bold rounded-xl px-3 py-3 text-white focus:outline-none focus:border-[var(--world-gold)]">
+                            <option value="ALL">All Stages & Rounds</option>
+                            <option value="GROUP_R1">Group Stage - Round 1</option>
+                            <option value="GROUP_R2">Group Stage - Round 2</option>
+                            <option value="GROUP_R3">Group Stage - Round 3</option>
+                            <option value="R32">Round of 32</option>
+                            <option value="R16">Round of 16</option>
+                            <option value="QF">Quarter-Finals</option>
+                            <option value="SF">Semi-Finals</option>
+                            <option value="THIRD">Third-Place Match</option>
+                            <option value="FINAL">Final</option>
+                        </select>
                         
                         <!-- Group Select -->
-                        <select id="admin-group-select" onchange="renderAdminMatches()" class="bg-black border border-zinc-700 text-xs font-bold rounded-xl px-3 py-2 text-white focus:outline-none">
+                        <select id="admin-group-select" onchange="renderAdminMatches()" class="w-full bg-black border border-zinc-700 text-xs font-bold rounded-xl px-3 py-3 text-white focus:outline-none">
                             <option value="ALL">All Groups</option>
                         </select>
 
                         <!-- Status Filter -->
-                        <select id="admin-status-select" onchange="renderAdminMatches()" class="bg-black border border-zinc-700 text-xs font-bold rounded-xl px-3 py-2 text-white focus:outline-none">
+                        <select id="admin-status-select" onchange="renderAdminMatches()" class="w-full bg-black border border-zinc-700 text-xs font-bold rounded-xl px-3 py-3 text-white focus:outline-none">
                             <option value="ALL">All Status</option>
                             <option value="pending">Pending</option>
                             <option value="finished">Finished</option>
@@ -247,32 +262,32 @@
                     </div>
 
                     <!-- Search Input -->
-                    <div class="relative sm:w-64">
-                        <i class="fas fa-search absolute left-3.5 top-3 text-xs text-zinc-500"></i>
-                        <input type="text" id="admin-search" onkeyup="renderAdminMatches()" placeholder="Search match..." class="w-full bg-black border border-zinc-700 rounded-xl pl-9 pr-3 py-2 text-xs text-white focus:outline-none focus:border-[var(--world-gold)]">
+                    <div class="relative w-full">
+                        <i class="fas fa-search absolute left-3.5 top-3.5 text-xs text-zinc-500"></i>
+                        <input type="text" id="admin-search" onkeyup="renderAdminMatches()" placeholder="Search match or team..." class="w-full bg-black border border-zinc-700 rounded-xl pl-9 pr-3 py-3 text-xs text-white focus:outline-none focus:border-[var(--world-gold)]">
                     </div>
                 </div>
             </div>
 
             <!-- Admin Matches Grid -->
-            <div id="admin-matches-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            <div id="admin-matches-container" class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4"></div>
         </div>
 
     </section>
 
 </main>
 
-<div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-12 opacity-0 pointer-events-none bg-zinc-900 border border-[var(--world-gold)] px-5 py-3.5 rounded-2xl shadow-2xl flex items-center space-x-3 transition-all duration-300">
-    <i id="toast-icon" class="fas fa-check-circle text-[var(--world-gold)] text-xl"></i>
-    <span id="toast-msg" class="text-xs font-bold text-white">Result saved successfully!</span>
+<div id="toast" class="fixed bottom-4 right-4 left-4 sm:left-auto sm:right-6 z-50 transform translate-y-12 opacity-0 pointer-events-none bg-zinc-900 border border-[var(--world-gold)] px-4 sm:px-5 py-3.5 rounded-2xl shadow-2xl flex items-center space-x-3 transition-all duration-300">
+    <i id="toast-icon" class="fas fa-check-circle text-[var(--world-gold)] text-xl shrink-0"></i>
+    <span id="toast-msg" class="text-xs font-bold text-white truncate">Result saved successfully!</span>
 </div>
 
+<!-- FIREBASE SDK & CORE LOGIC -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, doc, setDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    // User Provided Firebase Configuration
     const firebaseConfig = {
         apiKey: "AIzaSyBULCL5Oj4k6wC0If5SNDKU9Qy0HdaqVS8",
         authDomain: "masterleague-8ebbb.firebaseapp.com",
@@ -283,7 +298,6 @@
         measurementId: "G-2HZQXFJWJD"
     };
 
-    // Initialize Firebase Services
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
@@ -295,18 +309,17 @@
         if (!badge) return;
 
         if (status === 'connected') {
-            badge.className = "px-2.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1.5";
+            badge.className = "px-2 py-0.5 rounded-full text-[8px] sm:text-[9px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1";
             badge.innerHTML = `<i class="fas fa-cloud text-emerald-400"></i> Cloud Live`;
         } else if (status === 'restricted') {
-            badge.className = "px-2.5 py-0.5 rounded-full text-[9px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30 flex items-center gap-1.5";
-            badge.innerHTML = `<i class="fas fa-exclamation-triangle text-rose-400"></i> Local Fallback (${message || 'Rules Locked'})`;
+            badge.className = "px-2 py-0.5 rounded-full text-[8px] sm:text-[9px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30 flex items-center gap-1";
+            badge.innerHTML = `<i class="fas fa-exclamation-triangle text-rose-400"></i> Fallback (${message || 'Locked'})`;
         } else {
-            badge.className = "px-2.5 py-0.5 rounded-full text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1.5";
-            badge.innerHTML = `<i class="fas fa-circle-notch animate-spin text-[8px]"></i> Connecting...`;
+            badge.className = "px-2 py-0.5 rounded-full text-[8px] sm:text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1";
+            badge.innerHTML = `<i class="fas fa-circle-notch animate-spin text-[7px]"></i> Connecting...`;
         }
     }
 
-    // Authenticate anonymously
     signInAnonymously(auth).catch(err => {
         console.warn("Firebase Auth Note:", err.message);
         updateCloudBadge('restricted', 'Auth Blocked');
@@ -316,78 +329,37 @@
         currentUser = user;
     });
 
-    window.DataService = {
-        getFixtures: () => FIXTURES,
-        getMatchResults: () => ({ ...localResultsCache }),
-        
-        saveMatchResult: async (matchId, homeScore, awayScore) => {
-            const hS = parseInt(homeScore, 10);
-            const aS = parseInt(awayScore, 10);
-            if (isNaN(hS) || isNaN(aS) || hS < 0 || aS < 0) {
-                throw new Error("Invalid scores! Must be non-negative integers.");
-            }
-
+    window.CloudDataService = {
+        saveResultToCloud: async (matchId, payload) => {
             const matchIdStr = String(matchId);
-            const dataPayload = {
-                matchId: Number(matchId),
-                homeScore: hS,
-                awayScore: aS,
-                status: "finished",
-                updatedAt: new Date().toISOString()
-            };
-
             let cloudSaved = false;
             let cloudErrorMsg = "";
 
-            // Attempt write to Firestore
             try {
-                await setDoc(doc(db, "matchResults", matchIdStr), dataPayload);
+                await setDoc(doc(db, "matchResults", matchIdStr), payload);
                 cloudSaved = true;
                 updateCloudBadge('connected');
             } catch (err) {
                 console.error("Firestore Write Failed:", err);
                 cloudErrorMsg = err.code || err.message;
-                updateCloudBadge('restricted', 'Rules Restricted');
+                updateCloudBadge('restricted', 'Restricted');
             }
-
-            // Fallback & local sync
-            localResultsCache[matchIdStr] = dataPayload;
-            saveLocalResults();
-
             return { cloudSaved, cloudErrorMsg };
         },
 
-        clearMatchResult: async (matchId) => {
+        deleteResultFromCloud: async (matchId) => {
             const matchIdStr = String(matchId);
             let cloudDeleted = false;
-            
             try {
                 await deleteDoc(doc(db, "matchResults", matchIdStr));
                 cloudDeleted = true;
             } catch (err) {
                 console.error("Firestore Delete Failed:", err);
             }
-
-            delete localResultsCache[matchIdStr];
-            saveLocalResults();
-
             return { cloudDeleted };
         },
 
-        subscribeToMatchResults: (callback) => {
-            subscribers.push(callback);
-            loadLocalResults();
-            callback(localResultsCache);
-
-            // Cross-tab browser sync fallback
-            window.addEventListener('storage', (e) => {
-                if (e.key === LOCAL_STORAGE_KEY) {
-                    loadLocalResults();
-                    callback(localResultsCache);
-                }
-            });
-
-            // Live Firestore Real-time Synchronization
+        subscribeToCloud: (callback) => {
             let unsubscribeFS = () => {};
             try {
                 unsubscribeFS = onSnapshot(collection(db, "matchResults"), (snapshot) => {
@@ -395,31 +367,23 @@
                     snapshot.forEach(docSnap => {
                         liveResults[docSnap.id] = docSnap.data();
                     });
-                    localResultsCache = liveResults;
-                    saveLocalResults();
-                    callback(localResultsCache);
+                    callback(liveResults);
                     updateCloudBadge('connected');
                 }, (err) => {
                     console.warn("Firestore subscription restricted:", err.message);
-                    updateCloudBadge('restricted', 'Permission Denied');
+                    updateCloudBadge('restricted', 'Denied');
                 });
             } catch (err) {
                 console.warn("Firestore listener error:", err.message);
                 updateCloudBadge('restricted', 'Offline');
             }
-
             return unsubscribeFS;
         }
     };
 </script>
 
+<!-- TOURNAMENT ENGINE & UI CONTROLLER -->
 <script>
-    /**
-     * MASTER LEAGUE | WORLD CUP DATA & LOGIC ENGINE
-     */
-
-    const FIXTURE_VERSION = "2026-WC-V1";
-
     const TELEGRAM_LINKS = {
         "Argentina": "https://t.me/agust_HML",
         "Czech Republic": "https://t.me/minkhant090",
@@ -492,7 +456,6 @@
 
     const GROUPS = "ABCDEFGHIJKL".split("");
 
-    // Build immutable team master array
     const TEAMS = Object.freeze(PLAYER_NAMES.map((name, index) => {
         const groupIndex = Math.floor(index / 4);
         return Object.freeze({
@@ -503,7 +466,6 @@
         });
     }));
 
-    // Build immutable fixture master array (72 matches)
     const rawFixtures = [];
     let matchCounter = 1;
 
@@ -521,6 +483,7 @@
         pairings.forEach(p => {
             rawFixtures.push(Object.freeze({
                 id: matchCounter++,
+                stage: "GROUP",
                 group: group,
                 round: p.round,
                 home: groupTeams[p.h].name,
@@ -529,44 +492,31 @@
         });
     });
 
-    const FIXTURES = Object.freeze(rawFixtures);
+    const GROUP_FIXTURES = Object.freeze(rawFixtures);
 
-    const LOCAL_STORAGE_KEY = "master_league_match_results_v1";
-    let localResultsCache = {};
-    let subscribers = [];
+    const LOCAL_STORAGE_KEY = "master_league_complete_results_v2";
+    let matchResults = {};
+    let activeTab = "public";
+    let activePublicStage = "group";
+    let activeGroupRound = 1;
+    let isAdminUnlocked = false;
 
     function loadLocalResults() {
         try {
             const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
-            localResultsCache = stored ? JSON.parse(stored) : {};
+            matchResults = stored ? JSON.parse(stored) : {};
         } catch (e) {
             console.error("Error reading storage:", e);
-            localResultsCache = {};
+            matchResults = {};
         }
     }
 
     function saveLocalResults() {
         try {
-            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(localResultsCache));
+            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(matchResults));
         } catch (e) {
             console.error("Error writing storage:", e);
         }
-        notifySubscribers();
-    }
-
-    function notifySubscribers() {
-        subscribers.forEach(cb => cb(localResultsCache));
-    }
-
-    // Default DataService fallback before Module loads
-    if (!window.DataService) {
-        window.DataService = {
-            getFixtures: () => FIXTURES,
-            getMatchResults: () => ({ ...localResultsCache }),
-            saveMatchResult: async (matchId, homeScore, awayScore) => {},
-            clearMatchResult: async (matchId) => {},
-            subscribeToMatchResults: (cb) => { subscribers.push(cb); cb(localResultsCache); }
-        };
     }
 
     function calculateStandings(teams, fixtures, resultsMap) {
@@ -624,11 +574,202 @@
         return groupStandings;
     }
 
-    let activeTab = "public";
-    let activePublicRound = 1;
-    let activeAdminRound = 0;
-    let isAdminUnlocked = false;
-    let currentResults = {};
+    function isGroupStageComplete(resultsMap) {
+        for (let i = 1; i <= 72; i++) {
+            const res = resultsMap[i];
+            if (!res || res.status !== "finished") return false;
+        }
+        return true;
+    }
+
+    function calculateBestThirdTeamsLive(groupStandings) {
+        const thirdTeams = [];
+        GROUPS.forEach(g => {
+            const teams = groupStandings[g];
+            if (teams && teams.length >= 3) {
+                thirdTeams.push({ ...teams[2] });
+            }
+        });
+
+        thirdTeams.sort((a, b) => {
+            if (b.pts !== a.pts) return b.pts - a.pts;
+            if (b.gd !== a.gd) return b.gd - a.gd;
+            return b.gf - a.gf;
+        });
+
+        return thirdTeams.map((t, idx) => ({
+            ...t,
+            rank: idx + 1,
+            qualified: idx < 8
+        }));
+    }
+
+    function getQualifiedTeamsData(resultsMap) {
+        const groupStandings = calculateStandings(TEAMS, GROUP_FIXTURES, resultsMap);
+        const winners = [];
+        const runnersUp = [];
+        GROUPS.forEach(g => {
+            const list = groupStandings[g];
+            if (list && list.length >= 2) {
+                winners.push({ ...list[0], position: 1 });
+                runnersUp.push({ ...list[1], position: 2 });
+            }
+        });
+
+        const bestThirds = calculateBestThirdTeamsLive(groupStandings);
+        const qualifiedThirds = bestThirds.filter(t => t.qualified);
+
+        return {
+            groupStandings,
+            winners,
+            runnersUp,
+            bestThirds,
+            qualifiedThirds,
+            isComplete: isGroupStageComplete(resultsMap)
+        };
+    }
+
+    function generateRoundOf32Fixtures(qualifiedData) {
+        const matches = [];
+        const { winners, runnersUp, qualifiedThirds } = qualifiedData;
+        
+        for (let i = 0; i < 16; i++) {
+            const home = winners[i % winners.length] || { name: `Winner Group ${GROUPS[i % 12]}` };
+            const away = runnersUp[(i + 4) % runnersUp.length] || qualifiedThirds[i % qualifiedThirds.length] || { name: `Qualifier ${i+1}` };
+            
+            matches.push({
+                id: 73 + i,
+                stage: "R32",
+                matchNumber: i + 1,
+                home: home.name || home,
+                away: away.name || away,
+                nextMatchId: 89 + Math.floor(i / 2)
+            });
+        }
+        return matches;
+    }
+
+    function generateRoundOf16Fixtures(r32Results) {
+        const matches = [];
+        for (let i = 0; i < 8; i++) {
+            const m1Id = 73 + (i * 2);
+            const m2Id = 74 + (i * 2);
+            
+            const w1 = r32Results[m1Id]?.winnerName || `Winner R32 #${(i*2)+1}`;
+            const w2 = r32Results[m2Id]?.winnerName || `Winner R32 #${(i*2)+2}`;
+
+            matches.push({
+                id: 89 + i,
+                stage: "R16",
+                matchNumber: i + 1,
+                home: w1,
+                away: w2,
+                nextMatchId: 97 + Math.floor(i / 2)
+            });
+        }
+        return matches;
+    }
+
+    function generateQuarterFinalsFixtures(r16Results) {
+        const matches = [];
+        for (let i = 0; i < 4; i++) {
+            const m1Id = 89 + (i * 2);
+            const m2Id = 90 + (i * 2);
+            
+            const w1 = r16Results[m1Id]?.winnerName || `Winner R16 #${(i*2)+1}`;
+            const w2 = r16Results[m2Id]?.winnerName || `Winner R16 #${(i*2)+2}`;
+
+            matches.push({
+                id: 97 + i,
+                stage: "QF",
+                matchNumber: i + 1,
+                home: w1,
+                away: w2,
+                nextMatchId: 101 + Math.floor(i / 2)
+            });
+        }
+        return matches;
+    }
+
+    function generateSemiFinalsFixtures(qfResults) {
+        const matches = [];
+        for (let i = 0; i < 2; i++) {
+            const m1Id = 97 + (i * 2);
+            const m2Id = 98 + (i * 2);
+            
+            const w1 = qfResults[m1Id]?.winnerName || `Winner QF #${(i*2)+1}`;
+            const w2 = qfResults[m2Id]?.winnerName || `Winner QF #${(i*2)+2}`;
+
+            matches.push({
+                id: 101 + i,
+                stage: "SF",
+                matchNumber: i + 1,
+                home: w1,
+                away: w2,
+                nextMatchId: i === 0 ? 103 : 104
+            });
+        }
+        return matches;
+    }
+
+    function generateThirdAndFinalFixtures(sfResults) {
+        const sf1Res = sfResults[101];
+        const sf2Res = sfResults[102];
+
+        const w1 = sf1Res?.winnerName || "Winner SF #1";
+        const w2 = sf2Res?.winnerName || "Winner SF #2";
+        const l1 = sf1Res?.loserName || "Loser SF #1";
+        const l2 = sf2Res?.loserName || "Loser SF #2";
+
+        return [
+            {
+                id: 103,
+                stage: "THIRD",
+                matchNumber: 1,
+                home: l1,
+                away: l2,
+                nextMatchId: null
+            },
+            {
+                id: 104,
+                stage: "FINAL",
+                matchNumber: 1,
+                home: w1,
+                away: w2,
+                nextMatchId: null
+            }
+        ];
+    }
+
+    function getAllTournamentFixtures(resultsMap) {
+        const qData = getQualifiedTeamsData(resultsMap);
+        const r32 = generateRoundOf32Fixtures(qData);
+        
+        const r32Res = {};
+        r32.forEach(m => { if(resultsMap[m.id]) r32Res[m.id] = resultsMap[m.id]; });
+        const r16 = generateRoundOf16Fixtures(r32Res);
+
+        const r16Res = {};
+        r16.forEach(m => { if(resultsMap[m.id]) r16Res[m.id] = resultsMap[m.id]; });
+        const qf = generateQuarterFinalsFixtures(r16Res);
+
+        const qfRes = {};
+        qf.forEach(m => { if(resultsMap[m.id]) qfRes[m.id] = resultsMap[m.id]; });
+        const sf = generateSemiFinalsFixtures(qfRes);
+
+        const sfRes = {};
+        sf.forEach(m => { if(resultsMap[m.id]) sfRes[m.id] = resultsMap[m.id]; });
+        const finalsArr = generateThirdAndFinalFixtures(sfRes);
+
+        return {
+            R32: r32,
+            R16: r16,
+            QF: qf,
+            SF: sf,
+            THIRD: [finalsArr[0]],
+            FINAL: [finalsArr[1]]
+        };
+    }
 
     function switchTab(tab) {
         activeTab = tab;
@@ -640,16 +781,14 @@
         if (tab === 'public') {
             pubSec.classList.remove('hidden');
             adminSec.classList.add('hidden');
-
-            btnPub.className = "px-4 py-2 rounded-xl text-xs font-black uppercase transition-all bg-[var(--world-gold)] text-black shadow-md flex items-center gap-2";
-            btnAdmin.className = "px-4 py-2 rounded-xl text-xs font-black uppercase transition-all text-zinc-400 hover:text-white flex items-center gap-2";
+            btnPub.className = "px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-black uppercase transition-all bg-[var(--world-gold)] text-black shadow-md flex items-center gap-1.5 sm:gap-2";
+            btnAdmin.className = "px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-black uppercase transition-all text-zinc-400 hover:text-white flex items-center gap-1.5 sm:gap-2";
             renderPublicView();
         } else {
             pubSec.classList.add('hidden');
             adminSec.classList.remove('hidden');
-
-            btnAdmin.className = "px-4 py-2 rounded-xl text-xs font-black uppercase transition-all bg-[var(--world-gold)] text-black shadow-md flex items-center gap-2";
-            btnPub.className = "px-4 py-2 rounded-xl text-xs font-black uppercase transition-all text-zinc-400 hover:text-white flex items-center gap-2";
+            btnAdmin.className = "px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-black uppercase transition-all bg-[var(--world-gold)] text-black shadow-md flex items-center gap-1.5 sm:gap-2";
+            btnPub.className = "px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-black uppercase transition-all text-zinc-400 hover:text-white flex items-center gap-1.5 sm:gap-2";
             
             if (isAdminUnlocked) {
                 document.getElementById('auth-modal').classList.add('hidden');
@@ -662,206 +801,491 @@
         }
     }
 
-    function setPublicRound(r) {
-        activePublicRound = r;
-        document.querySelectorAll('.pub-round-btn').forEach(btn => {
-            btn.classList.remove('bg-[var(--world-gold)]', 'text-black', 'shadow-lg');
+    function setPublicStage(stage) {
+        activePublicStage = stage;
+        document.querySelectorAll('.p-stage-btn').forEach(btn => {
+            btn.classList.remove('bg-[var(--world-gold)]', 'text-black');
             btn.classList.add('bg-zinc-900', 'text-zinc-400');
         });
-        const activeBtn = document.getElementById(`pub-round-${r}`);
-        activeBtn.classList.remove('bg-zinc-900', 'text-zinc-400');
-        activeBtn.classList.add('bg-[var(--world-gold)]', 'text-black', 'shadow-lg');
+        const activeBtn = document.getElementById(`p-stage-${stage}`);
+        if(activeBtn) {
+            activeBtn.classList.remove('bg-zinc-900', 'text-zinc-400');
+            activeBtn.classList.add('bg-[var(--world-gold)]', 'text-black');
+        }
         renderPublicView();
     }
 
-    function filterAdminRound(r) {
-        activeAdminRound = r;
-        document.querySelectorAll('.admin-r-btn').forEach(b => {
-            b.classList.remove('bg-[var(--world-gold)]', 'text-black');
-            b.classList.add('bg-black', 'text-zinc-400');
-        });
-        document.getElementById(`admin-r-${r}`).classList.remove('bg-black', 'text-zinc-400');
-        document.getElementById(`admin-r-${r}`).classList.add('bg-[var(--world-gold)]', 'text-black');
-        renderAdminMatches();
-    }
-
-    function getScoreColor(s1, s2) {
-        if (s1 === null || s2 === null || s1 === undefined || s2 === undefined) return "text-zinc-600";
-        if (s1 === s2) return "text-yellow-400";
-        return s1 > s2 ? "text-emerald-400" : "text-rose-400";
-    }
-
     function renderPublicView() {
-        const fixtures = DataService.getFixtures();
-        const selectedGroup = document.getElementById('pub-group-select').value;
-        const searchQuery = document.getElementById('pub-search').value.toLowerCase().trim();
+        const container = document.getElementById('public-dynamic-content');
+        if(!container) return;
 
-        // Filter fixtures
+        if (activePublicStage === 'group') {
+            renderPublicGroupStage(container);
+        } else if (activePublicStage === 'standings') {
+            renderPublicStandings(container);
+        } else if (activePublicStage === 'best3rd') {
+            renderPublicBestThird(container);
+        } else if (['r32', 'r16', 'qf', 'sf', 'third', 'final'].includes(activePublicStage)) {
+            renderPublicKnockoutStage(container, activePublicStage.toUpperCase());
+        } else if (activePublicStage === 'bracket') {
+            renderPublicBracket(container);
+        } else if (activePublicStage === 'status') {
+            renderPublicTournamentStatus(container);
+        }
+    }
+
+    function renderPublicGroupStage(container) {
+        const fixtures = GROUP_FIXTURES;
+
+        container.innerHTML = `
+        <div class="glass-panel p-3.5 sm:p-4 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-3">
+            <div class="flex space-x-2 overflow-x-auto no-scrollbar w-full md:w-auto pb-1 md:pb-0">
+                <button onclick="setGroupRound(1)" id="pub-round-1" class="pub-r-btn px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl text-[11px] sm:text-xs font-black uppercase transition-all ${activeGroupRound === 1 ? 'bg-[var(--world-gold)] text-black shadow-lg' : 'bg-zinc-900 text-zinc-400'} shrink-0">Round 1</button>
+                <button onclick="setGroupRound(2)" id="pub-round-2" class="pub-r-btn px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl text-[11px] sm:text-xs font-black uppercase transition-all ${activeGroupRound === 2 ? 'bg-[var(--world-gold)] text-black shadow-lg' : 'bg-zinc-900 text-zinc-400'} shrink-0">Round 2</button>
+                <button onclick="setGroupRound(3)" id="pub-round-3" class="pub-r-btn px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl text-[11px] sm:text-xs font-black uppercase transition-all ${activeGroupRound === 3 ? 'bg-[var(--world-gold)] text-black shadow-lg' : 'bg-zinc-900 text-zinc-400'} shrink-0">Round 3</button>
+            </div>
+            <div class="w-full md:w-auto">
+                <select id="pub-group-select" onchange="renderPublicView()" class="w-full md:w-auto bg-black border border-zinc-700 text-xs font-bold rounded-2xl px-4 py-3 text-white focus:outline-none focus:border-[var(--world-gold)]">
+                    <option value="ALL">All Groups (A-L)</option>
+                    ${GROUPS.map(g => `<option value="${g}">Group ${g}</option>`).join('')}
+                </select>
+            </div>
+        </div>
+        <div id="fixture-container" class="space-y-3"></div>`;
+
+        const groupSelectEl = document.getElementById('pub-group-select');
+        const selectedGroup = groupSelectEl ? groupSelectEl.value : 'ALL';
+        
         const filteredMatches = fixtures.filter(m => {
-            if (m.round !== activePublicRound) return false;
+            if (m.round !== activeGroupRound) return false;
             if (selectedGroup !== "ALL" && m.group !== selectedGroup) return false;
-            if (searchQuery) {
-                const names = `${m.home} ${m.away}`.toLowerCase();
-                if (!names.includes(searchQuery)) return false;
-            }
             return true;
         });
 
-        const fixtureContainer = document.getElementById('fixture-container');
-        
+        const fixtureBox = document.getElementById('fixture-container');
         if (filteredMatches.length === 0) {
-            fixtureContainer.innerHTML = `<div class="p-8 text-center text-zinc-500 text-xs font-bold uppercase tracking-wider glass-panel rounded-2xl">No matching fixtures found</div>`;
-        } else {
-            let lastGroup = "";
-            fixtureContainer.innerHTML = filteredMatches.map(m => {
-                let header = m.group !== lastGroup ? (lastGroup = m.group, `<div class="group-header py-2 px-4 mt-4 mb-2 text-xs font-black text-[var(--world-gold)] uppercase italic">Group ${m.group}</div>`) : "";
-
-                const res = currentResults[m.id];
-                const hS = res && res.status === "finished" ? res.homeScore : null;
-                const aS = res && res.status === "finished" ? res.awayScore : null;
-
-                const hColor = getScoreColor(hS, aS);
-                const aColor = getScoreColor(aS, hS);
-
-                const homeLink = TELEGRAM_LINKS[m.home] || "#";
-                const awayLink = TELEGRAM_LINKS[m.away] || "#";
-
-                return header + `<div class="glass-panel p-4 rounded-2xl flex items-center justify-between gap-2">
-                    <div class="flex-1 text-right text-xs sm:text-sm font-bold truncate">
-                        ${homeLink !== "#" ? `<a href="${homeLink}" target="_blank" class="team-link flex items-center justify-end gap-1.5"><span class="truncate">${m.home}</span><i class="fab fa-telegram text-sky-400 text-xs opacity-70"></i></a>` : m.home}
-                    </div>
-                    <div class="flex items-center space-x-2 px-2">
-                        <div class="score-box ${hColor}">${hS !== null ? hS : '-'}</div>
-                        <span class="text-zinc-600 font-bold text-xs">:</span>
-                        <div class="score-box ${aColor}">${aS !== null ? aS : '-'}</div>
-                    </div>
-                    <div class="flex-1 text-left text-xs sm:text-sm font-bold truncate">
-                        ${awayLink !== "#" ? `<a href="${awayLink}" target="_blank" class="team-link flex items-center justify-start gap-1.5"><i class="fab fa-telegram text-sky-400 text-xs opacity-70"></i><span class="truncate">${m.away}</span></a>` : m.away}
-                    </div>
-                </div>`;
-            }).join('');
+            fixtureBox.innerHTML = `<div class="p-8 text-center text-zinc-500 text-xs font-bold uppercase tracking-wider glass-panel rounded-2xl">No fixtures found</div>`;
+            return;
         }
 
-        // Render Dynamic Standings
-        const groupStandings = calculateStandings(TEAMS, fixtures, currentResults);
-        const standingsContainer = document.getElementById('standings-container');
+        let lastGroup = "";
+        fixtureBox.innerHTML = filteredMatches.map(m => {
+            let header = m.group !== lastGroup ? (lastGroup = m.group, `<div class="group-header py-2 px-4 mt-4 mb-2 text-xs font-black text-[var(--world-gold)] uppercase italic">Group ${m.group}</div>`) : "";
 
-        standingsContainer.innerHTML = GROUPS.map(g => {
-            if (selectedGroup !== "ALL" && selectedGroup !== g) return "";
-            const gt = groupStandings[g] || [];
-            return `<div class="glass-panel rounded-3xl p-5 border border-[var(--world-gold)]/10 overflow-hidden">
-                <div class="flex items-center justify-between mb-3 border-b border-white/5 pb-2">
-                    <div class="text-xs font-black text-[var(--world-gold)] italic uppercase">GROUP ${g}</div>
-                    <span class="text-[10px] text-zinc-500 uppercase font-mono">4 Teams</span>
+            const res = matchResults[m.id];
+            const hS = res && res.status === "finished" ? res.homeScore : null;
+            const aS = res && res.status === "finished" ? res.awayScore : null;
+            const hColor = hS !== null && hS > aS ? "text-emerald-400" : hS !== null && hS < aS ? "text-rose-400" : "text-yellow-400";
+            const aColor = aS !== null && aS > hS ? "text-emerald-400" : aS !== null && aS < hS ? "text-rose-400" : "text-yellow-400";
+
+            const homeLink = TELEGRAM_LINKS[m.home] || "#";
+            const awayLink = TELEGRAM_LINKS[m.away] || "#";
+
+            return header + `<div class="glass-panel p-3.5 sm:p-4 rounded-2xl flex items-center justify-between gap-2">
+                <div class="flex-1 text-right text-xs sm:text-sm font-bold truncate">
+                    ${homeLink !== "#" ? `<a href="${homeLink}" target="_blank" class="team-link flex items-center justify-end gap-1.5"><span class="truncate">${m.home}</span><i class="fab fa-telegram text-sky-400 text-xs opacity-70 shrink-0"></i></a>` : m.home}
                 </div>
-                <div class="overflow-x-auto no-scrollbar">
-                    <table class="w-full text-xs text-center min-w-[320px]">
-                        <thead>
-                            <tr class="text-[10px] text-zinc-500 uppercase font-bold border-b border-white/5">
-                                <th class="text-left pb-2">Team</th>
-                                <th class="pb-2">M</th>
-                                <th class="pb-2">W</th>
-                                <th class="pb-2">D</th>
-                                <th class="pb-2">L</th>
-                                <th class="pb-2">GD</th>
-                                <th class="pb-2 text-[var(--world-gold)]">PTS</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-white/5 font-medium">
-                            ${gt.map((t, idx) => `
-                            <tr class="h-10 hover:bg-white/5 transition">
-                                <td class="text-left py-2 font-bold truncate max-w-[120px]">
-                                    <span class="text-[10px] text-zinc-500 inline-block w-4">${idx + 1}.</span>
-                                    ${t.link !== "#" ? `<a href="${t.link}" target="_blank" class="team-link">${t.name}</a>` : t.name}
-                                </td>
-                                <td>${t.m}</td>
-                                <td>${t.w}</td>
-                                <td>${t.d}</td>
-                                <td>${t.l}</td>
-                                <td class="${t.gd > 0 ? 'text-emerald-400' : t.gd < 0 ? 'text-rose-400' : 'text-zinc-400'} font-bold">${t.gd > 0 ? '+' + t.gd : t.gd}</td>
-                                <td class="font-black text-[var(--world-gold)]">${t.pts}</td>
-                            </tr>`).join('')}
-                        </tbody>
-                    </table>
+                <div class="flex items-center space-x-2 px-1 sm:px-2 shrink-0">
+                    <div class="score-box ${hColor}">${hS !== null ? hS : '-'}</div>
+                    <span class="text-zinc-600 font-bold text-xs">:</span>
+                    <div class="score-box ${aColor}">${aS !== null ? aS : '-'}</div>
+                </div>
+                <div class="flex-1 text-left text-xs sm:text-sm font-bold truncate">
+                    ${awayLink !== "#" ? `<a href="${awayLink}" target="_blank" class="team-link flex items-center justify-start gap-1.5"><i class="fab fa-telegram text-sky-400 text-xs opacity-70 shrink-0"></i><span class="truncate">${m.away}</span></a>` : m.away}
                 </div>
             </div>`;
         }).join('');
     }
 
+    function setGroupRound(r) {
+        activeGroupRound = r;
+        renderPublicView();
+    }
+
+    function renderPublicStandings(container) {
+        const qData = getQualifiedTeamsData(matchResults);
+        const groupStandings = qData.groupStandings;
+        const bestThirds = qData.bestThirds;
+        const qualifiedThirdNames = new Set(bestThirds.filter(t => t.qualified).map(t => t.name));
+
+        container.innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+            ${GROUPS.map(g => {
+                const gt = groupStandings[g] || [];
+                return `<div class="glass-panel rounded-3xl p-4 sm:p-5 border border-[var(--world-gold)]/10 overflow-hidden">
+                    <div class="flex items-center justify-between mb-3 border-b border-white/5 pb-2">
+                        <div class="text-xs font-black text-[var(--world-gold)] italic uppercase">GROUP ${g}</div>
+                        <span class="text-[9px] sm:text-[10px] text-zinc-500 uppercase font-mono">Top 2 + Best 3rds</span>
+                    </div>
+                    <div class="overflow-x-auto no-scrollbar">
+                        <table class="w-full text-xs text-center min-w-[320px]">
+                            <thead>
+                                <tr class="text-[9px] sm:text-[10px] text-zinc-500 uppercase font-bold border-b border-white/5">
+                                    <th class="text-left pb-2 pl-1">Team</th>
+                                    <th class="pb-2">M</th>
+                                    <th class="pb-2">W</th>
+                                    <th class="pb-2">D</th>
+                                    <th class="pb-2">L</th>
+                                    <th class="pb-2">GD</th>
+                                    <th class="pb-2 text-[var(--world-gold)]">PTS</th>
+                                    <th class="pb-2 pr-1">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-white/5 font-medium text-[11px] sm:text-xs">
+                                ${gt.map((t, idx) => {
+                                    let badge = `<span class="px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-bold bg-rose-500/20 text-rose-400">OUT</span>`;
+                                    if (idx === 0 || idx === 1) {
+                                        badge = `<span class="px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-bold bg-emerald-500/20 text-emerald-400">R32</span>`;
+                                    } else if (idx === 2) {
+                                        const isQ = qualifiedThirdNames.has(t.name) && isGroupStageComplete(matchResults);
+                                        badge = isQ ? `<span class="px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-bold bg-emerald-500/20 text-emerald-400">3RD Q</span>` : `<span class="px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-bold bg-amber-500/20 text-amber-400">PEND</span>`;
+                                    }
+                                    return `
+                                    <tr class="h-10 hover:bg-white/5 transition">
+                                        <td class="text-left py-2 pl-1 font-bold truncate max-w-[100px] sm:max-w-[120px]">
+                                            <span class="text-[9px] sm:text-[10px] text-zinc-500 inline-block w-4">${idx + 1}.</span>
+                                            ${t.link !== "#" ? `<a href="${t.link}" target="_blank" class="team-link">${t.name}</a>` : t.name}
+                                        </td>
+                                        <td>${t.m}</td>
+                                        <td>${t.w}</td>
+                                        <td>${t.d}</td>
+                                        <td>${t.l}</td>
+                                        <td class="${t.gd > 0 ? 'text-emerald-400' : t.gd < 0 ? 'text-rose-400' : 'text-zinc-400'} font-bold">${t.gd > 0 ? '+' + t.gd : t.gd}</td>
+                                        <td class="font-black text-[var(--world-gold)]">${t.pts}</td>
+                                        <td class="pr-1">${badge}</td>
+                                    </tr>`;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>`;
+            }).join('')}
+        </div>`;
+    }
+
+    function renderPublicBestThird(container) {
+        const qData = getQualifiedTeamsData(matchResults);
+        const bestThirds = qData.bestThirds;
+        
+        let completedCount = 0;
+        for (let i = 1; i <= 72; i++) {
+            if (matchResults[i] && matchResults[i].status === "finished") completedCount++;
+        }
+
+        container.innerHTML = `
+        <div class="glass-panel rounded-3xl p-4 sm:p-6 space-y-4 sm:space-y-6">
+            <div class="flex flex-col gap-3 border-b border-white/5 pb-4">
+                <div>
+                    <h2 class="heading-font text-lg sm:text-xl font-black italic">BEST 8 THIRD-PLACE TEAMS</h2>
+                    <p class="text-[11px] sm:text-xs text-zinc-400 mt-1">Live Qualification Ranking — Updates Automatically</p>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="px-2.5 py-1 rounded-xl text-[10px] sm:text-xs font-bold bg-[var(--world-gold)]/10 text-[var(--world-gold)] border border-[var(--world-gold)]/20">
+                        12 Teams → Top 8 Advance
+                    </span>
+                    <span class="px-2.5 py-1 rounded-xl text-[10px] sm:text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        Group Stage: ${completedCount}/72
+                    </span>
+                    <span class="px-2.5 py-1 rounded-xl text-[10px] sm:text-xs font-bold bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                        Ranking: LIVE
+                    </span>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto no-scrollbar">
+                <table class="w-full text-xs text-left min-w-[620px]">
+                    <thead>
+                        <tr class="text-[10px] text-zinc-500 uppercase font-bold border-b border-white/5">
+                            <th class="py-3 px-2">Rank</th>
+                            <th class="py-3 px-2">Group</th>
+                            <th class="py-3 px-3">Team</th>
+                            <th class="py-3 px-2 text-center">P</th>
+                            <th class="py-3 px-2 text-center">W</th>
+                            <th class="py-3 px-2 text-center">D</th>
+                            <th class="py-3 px-2 text-center">L</th>
+                            <th class="py-3 px-2 text-center">GF</th>
+                            <th class="py-3 px-2 text-center">GA</th>
+                            <th class="py-3 px-2 text-center">GD</th>
+                            <th class="py-3 px-2 text-center text-[var(--world-gold)]">PTS</th>
+                            <th class="py-3 px-3 text-center">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-white/5 font-medium text-xs">
+                        ${bestThirds.map(t => {
+                            const statusBadge = t.qualified 
+                                ? `<span class="px-2 py-0.5 rounded-full text-[9px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">🟢 Qualified</span>`
+                                : `<span class="px-2 py-0.5 rounded-full text-[9px] font-black bg-rose-500/20 text-rose-300 border border-rose-500/30">🔴 Not Qualified</span>`;
+                            return `
+                            <tr class="hover:bg-white/5 transition">
+                                <td class="py-3 px-2 font-black text-zinc-400">${t.rank}</td>
+                                <td class="py-3 px-2 font-black text-[var(--world-gold)]">Grp ${t.group}</td>
+                                <td class="py-3 px-3 font-bold text-white truncate max-w-[130px]">
+                                    ${t.link !== "#" ? `<a href="${t.link}" target="_blank" class="team-link flex items-center gap-1.5"><span class="truncate">${t.name}</span><i class="fab fa-telegram text-sky-400 text-[10px] opacity-70 shrink-0"></i></a>` : t.name}
+                                </td>
+                                <td class="py-3 px-2 text-center">${t.m}</td>
+                                <td class="py-3 px-2 text-center">${t.w}</td>
+                                <td class="py-3 px-2 text-center">${t.d}</td>
+                                <td class="py-3 px-2 text-center">${t.l}</td>
+                                <td class="py-3 px-2 text-center">${t.gf}</td>
+                                <td class="py-3 px-2 text-center">${t.ga}</td>
+                                <td class="py-3 px-2 text-center font-bold ${t.gd > 0 ? 'text-emerald-400' : t.gd < 0 ? 'text-rose-400' : 'text-zinc-400'}">${t.gd > 0 ? '+' + t.gd : t.gd}</td>
+                                <td class="py-3 px-2 text-center font-black text-[var(--world-gold)] text-sm">${t.pts}</td>
+                                <td class="py-3 px-3 text-center">${statusBadge}</td>
+                            </tr>`;
+                        }).join('')}
+                    </tbody>
+                </table>
+            </div>
+        </div>`;
+    }
+
+    function renderPublicKnockoutStage(container, stageKey) {
+        const qData = getQualifiedTeamsData(matchResults);
+        if (!qData.isComplete && stageKey === 'R32') {
+            container.innerHTML = `
+            <div class="glass-panel p-8 sm:p-12 text-center rounded-3xl space-y-4">
+                <div class="w-16 h-16 bg-rose-500/10 text-rose-400 rounded-3xl flex items-center justify-center mx-auto text-2xl border border-rose-500/30">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3 class="heading-font text-lg sm:text-xl font-bold">Knockout Stage Locked</h3>
+                <p class="text-xs text-zinc-400 max-w-md mx-auto">Complete all 72 Group Stage matches to unlock the Round of 32 fixtures.</p>
+            </div>`;
+            return;
+        }
+
+        const allFixtures = getAllTournamentFixtures(matchResults);
+        const stageFixtures = allFixtures[stageKey] || [];
+
+        container.innerHTML = `
+        <div class="space-y-4">
+            <div class="flex items-center justify-between px-2">
+                <h2 class="text-xs font-black uppercase tracking-[0.2em] text-zinc-400 italic flex items-center gap-2">
+                    <i class="fas fa-trophy text-[var(--world-gold)]"></i> ${stageKey === 'THIRD' ? 'Third-Place Match' : stageKey} Stage Fixtures
+                </h2>
+                <span class="text-[10px] text-zinc-500 font-mono">${stageFixtures.length} Matches</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                ${stageFixtures.map(m => {
+                    const res = matchResults[m.id] || {};
+                    const isFinished = res.status === "finished";
+                    const hS = isFinished ? res.homeScore : '-';
+                    const aS = isFinished ? res.awayScore : '-';
+                    const hPen = res.homePenalties !== undefined && res.homePenalties !== null ? `(${res.homePenalties})` : '';
+                    const aPen = res.awayPenalties !== undefined && res.awayPenalties !== null ? `(${res.awayPenalties})` : '';
+
+                    return `
+                    <div class="glass-panel rounded-3xl p-4 sm:p-5 flex flex-col justify-between space-y-3">
+                        <div class="flex items-center justify-between text-[11px] font-black tracking-widest text-zinc-400">
+                            <span class="text-[var(--world-gold)]">${stageKey} • MATCH #${m.matchNumber}</span>
+                            <span class="bg-black border border-zinc-800 px-2.5 py-1 rounded-full text-[10px] font-mono">ID: ${m.id}</span>
+                        </div>
+                        <div class="flex items-center justify-between gap-2 text-center py-2">
+                            <div class="flex-1 font-black text-xs sm:text-sm ${res.winner === 'home' ? 'text-emerald-400' : 'text-white'} truncate" title="${m.home}">${m.home} ${hPen}</div>
+                            <div class="flex items-center space-x-1.5 sm:space-x-2 px-1 shrink-0">
+                                <div class="score-box text-white">${hS}</div>
+                                <span class="text-zinc-600 font-bold text-xs">:</span>
+                                <div class="score-box text-white">${aS}</div>
+                            </div>
+                            <div class="flex-1 font-black text-xs sm:text-sm ${res.winner === 'away' ? 'text-emerald-400' : 'text-white'} truncate" title="${m.away}">${aPen} ${m.away}</div>
+                        </div>
+                        <div class="flex items-center justify-between pt-2 border-t border-white/5 text-[11px]">
+                            <span class="text-zinc-400">Status: <strong class="${isFinished ? 'text-emerald-400' : 'text-amber-400'}">${isFinished ? 'FINISHED' : 'PENDING'}</strong></span>
+                            ${isFinished && res.winnerName ? `<span class="text-[var(--world-gold)] font-bold truncate max-w-[150px]">Winner: ${res.winnerName}</span>` : ''}
+                        </div>
+                    </div>`;
+                }).join('')}
+            </div>
+        </div>`;
+    }
+
+    function renderPublicBracket(container) {
+        const allFixtures = getAllTournamentFixtures(matchResults);
+        container.innerHTML = `
+        <div class="glass-panel rounded-3xl p-4 sm:p-6 space-y-4 overflow-x-auto">
+            <div class="flex items-center justify-between min-w-[900px] border-b border-white/5 pb-4">
+                <h2 class="heading-font text-base sm:text-lg font-black italic">Tournament Knockout Bracket</h2>
+                <span class="text-xs text-zinc-400">Interactive Progression Tree</span>
+            </div>
+            <div class="flex space-x-8 min-w-[1000px] items-center justify-between">
+                <!-- R32 -->
+                <div class="space-y-3 w-64">
+                    <div class="text-[10px] font-black uppercase text-zinc-500 tracking-widest text-center">Round of 32</div>
+                    ${allFixtures.R32.slice(0, 4).map(m => {
+                        const res = matchResults[m.id] || {};
+                        return `<div class="bg-black/60 border border-zinc-800 p-2.5 rounded-xl text-xs space-y-1">
+                            <div class="flex justify-between font-bold ${res.winner === 'home' ? 'text-emerald-400' : 'text-zinc-300'}"><span class="truncate pr-2">${m.home}</span><span>${res.homeScore ?? '-'}</span></div>
+                            <div class="flex justify-between font-bold ${res.winner === 'away' ? 'text-emerald-400' : 'text-zinc-300'}"><span class="truncate pr-2">${m.away}</span><span>${res.awayScore ?? '-'}</span></div>
+                        </div>`;
+                    }).join('')}
+                </div>
+                <!-- R16 -->
+                <div class="space-y-4 w-64">
+                    <div class="text-[10px] font-black uppercase text-zinc-500 tracking-widest text-center">Round of 16</div>
+                    ${allFixtures.R16.slice(0, 2).map(m => {
+                        const res = matchResults[m.id] || {};
+                        return `<div class="bg-black/60 border border-zinc-800 p-2.5 rounded-xl text-xs space-y-1">
+                            <div class="flex justify-between font-bold ${res.winner === 'home' ? 'text-emerald-400' : 'text-zinc-300'}"><span class="truncate pr-2">${m.home}</span><span>${res.homeScore ?? '-'}</span></div>
+                            <div class="flex justify-between font-bold ${res.winner === 'away' ? 'text-emerald-400' : 'text-zinc-300'}"><span class="truncate pr-2">${m.away}</span><span>${res.awayScore ?? '-'}</span></div>
+                        </div>`;
+                    }).join('')}
+                </div>
+                <!-- QF -->
+                <div class="space-y-6 w-64">
+                    <div class="text-[10px] font-black uppercase text-zinc-500 tracking-widest text-center">Quarter-Finals</div>
+                    ${allFixtures.QF.slice(0, 1).map(m => {
+                        const res = matchResults[m.id] || {};
+                        return `<div class="bg-black/60 border border-zinc-800 p-3 rounded-xl text-xs space-y-1">
+                            <div class="flex justify-between font-bold ${res.winner === 'home' ? 'text-emerald-400' : 'text-zinc-300'}"><span class="truncate pr-2">${m.home}</span><span>${res.homeScore ?? '-'}</span></div>
+                            <div class="flex justify-between font-bold ${res.winner === 'away' ? 'text-emerald-400' : 'text-zinc-300'}"><span class="truncate pr-2">${m.away}</span><span>${res.awayScore ?? '-'}</span></div>
+                        </div>`;
+                    }).join('')}
+                </div>
+                <!-- SF -->
+                <div class="space-y-12 w-64">
+                    <div class="text-[10px] font-black uppercase text-zinc-500 tracking-widest text-center">Semi-Finals</div>
+                    ${allFixtures.SF.slice(0, 1).map(m => {
+                        const res = matchResults[m.id] || {};
+                        return `<div class="bg-black/60 border border-zinc-800 p-3 rounded-xl text-xs space-y-1">
+                            <div class="flex justify-between font-bold ${res.winner === 'home' ? 'text-emerald-400' : 'text-zinc-300'}"><span class="truncate pr-2">${m.home}</span><span>${res.homeScore ?? '-'}</span></div>
+                            <div class="flex justify-between font-bold ${res.winner === 'away' ? 'text-emerald-400' : 'text-zinc-300'}"><span class="truncate pr-2">${m.away}</span><span>${res.awayScore ?? '-'}</span></div>
+                        </div>`;
+                    }).join('')}
+                </div>
+                <!-- FINAL -->
+                <div class="w-64 text-center space-y-3">
+                    <div class="text-[10px] font-black uppercase text-[var(--world-gold)] tracking-widest">World Cup Final</div>
+                    ${allFixtures.FINAL.map(m => {
+                        const res = matchResults[m.id] || {};
+                        return `<div class="glass-panel border-2 border-[var(--world-gold)]/50 p-4 rounded-2xl text-xs space-y-2 bg-[var(--world-gold)]/5">
+                            <div class="flex justify-between font-black ${res.winner === 'home' ? 'text-[var(--world-gold)]' : 'text-white'}"><span class="truncate pr-2">${m.home}</span><span>${res.homeScore ?? '-'}</span></div>
+                            <div class="flex justify-between font-black ${res.winner === 'away' ? 'text-[var(--world-gold)]' : 'text-white'}"><span class="truncate pr-2">${m.away}</span><span>${res.awayScore ?? '-'}</span></div>
+                        </div>`;
+                    }).join('')}
+                </div>
+            </div>
+        </div>`;
+    }
+
+    function renderPublicTournamentStatus(container) {
+        let completedCount = 0;
+        let totalMatches = 104;
+        for (let i = 1; i <= 104; i++) {
+            if (matchResults[i] && matchResults[i].status === "finished") completedCount++;
+        }
+
+        const finalRes = matchResults[104];
+        const champion = finalRes && finalRes.status === "finished" ? finalRes.winnerName : "Not Decided";
+
+        container.innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+            <div class="glass-panel p-5 sm:p-6 rounded-3xl space-y-2">
+                <span class="text-[10px] font-black uppercase tracking-widest text-zinc-500">Current Stage</span>
+                <h3 class="heading-font text-xl sm:text-2xl font-black text-[var(--world-gold)]">${completedCount === 104 ? 'CHAMPION CROWNED' : completedCount >= 88 ? 'FINAL STAGE' : completedCount >= 72 ? 'ROUND OF 32' : 'GROUP STAGE'}</h3>
+            </div>
+            <div class="glass-panel p-5 sm:p-6 rounded-3xl space-y-2">
+                <span class="text-[10px] font-black uppercase tracking-widest text-zinc-500">Matches Completed</span>
+                <h3 class="heading-font text-xl sm:text-2xl font-black text-white">${completedCount} / ${totalMatches}</h3>
+            </div>
+            <div class="glass-panel p-5 sm:p-6 rounded-3xl space-y-2">
+                <span class="text-[10px] font-black uppercase tracking-widest text-zinc-500">World Cup Champion</span>
+                <h3 class="heading-font text-xl sm:text-2xl font-black text-emerald-400 truncate">${champion}</h3>
+            </div>
+        </div>`;
+    }
+
     function renderAdminMatches() {
-        const fixtures = DataService.getFixtures();
-        const selectedGroup = document.getElementById('admin-group-select').value;
-        const selectedStatus = document.getElementById('admin-status-select').value;
-        const searchQuery = document.getElementById('admin-search').value.toLowerCase().trim();
+        const stageFilter = document.getElementById('admin-stage-select').value;
+        const groupFilter = document.getElementById('admin-group-select').value;
+        const statusFilter = document.getElementById('admin-status-select').value;
+        const search = document.getElementById('admin-search').value.toLowerCase().trim();
 
-        const filtered = fixtures.filter(m => {
-            if (activeAdminRound !== 0 && m.round !== activeAdminRound) return false;
-            if (selectedGroup !== "ALL" && m.group !== selectedGroup) return false;
-            
-            const res = currentResults[m.id];
-            const status = res ? res.status : "pending";
-            if (selectedStatus !== "ALL" && status !== selectedStatus) return false;
+        let fixturesList = [];
+        if (stageFilter === "ALL" || stageFilter.startsWith("GROUP")) {
+            const roundNum = stageFilter === "GROUP_R1" ? 1 : stageFilter === "GROUP_R2" ? 2 : stageFilter === "GROUP_R3" ? 3 : null;
+            GROUP_FIXTURES.forEach(m => {
+                if (roundNum && m.round !== roundNum) return;
+                if (groupFilter !== "ALL" && m.group !== groupFilter) return;
+                fixturesList.push(m);
+            });
+        }
 
-            if (searchQuery) {
-                const matchName = `${m.home} ${m.away}`.toLowerCase();
-                if (!matchName.includes(searchQuery)) return false;
+        const allKnockout = getAllTournamentFixtures(matchResults);
+        ['R32', 'R16', 'QF', 'SF', 'THIRD', 'FINAL'].forEach(sKey => {
+            if (stageFilter === "ALL" || stageFilter === sKey) {
+                allKnockout[sKey].forEach(m => fixturesList.push(m));
             }
-            return true;
         });
 
+        if (statusFilter !== "ALL") {
+            fixturesList = fixturesList.filter(m => {
+                const res = matchResults[m.id];
+                const st = res && res.status === "finished" ? "finished" : "pending";
+                return st === statusFilter;
+            });
+        }
+
+        if (search) {
+            fixturesList = fixturesList.filter(m => `${m.home} ${m.away} ${m.id} ${m.stage || 'GROUP'}`.toLowerCase().includes(search));
+        }
+
         const container = document.getElementById('admin-matches-container');
-        if (filtered.length === 0) {
+        if (!container) return;
+
+        if (fixturesList.length === 0) {
             container.innerHTML = `<div class="col-span-full py-12 text-center text-zinc-500 text-xs font-bold uppercase tracking-widest glass-panel rounded-3xl">No matching fixtures found</div>`;
             return;
         }
 
-        container.innerHTML = filtered.map(m => {
-            const res = currentResults[m.id] || { homeScore: "", awayScore: "", status: "pending", updatedAt: null };
+        container.innerHTML = fixturesList.map(m => {
+            const res = matchResults[m.id] || { homeScore: "", awayScore: "", homePenalties: "", awayPenalties: "", status: "pending" };
             const isFinished = res.status === "finished";
+            const isKnockout = m.stage && m.stage !== "GROUP";
 
             return `
-            <div class="glass-panel rounded-3xl p-5 flex flex-col justify-between space-y-4">
+            <div class="glass-panel rounded-3xl p-4 sm:p-5 flex flex-col justify-between space-y-4">
                 <div class="flex items-center justify-between text-[11px] font-black tracking-widest text-zinc-400">
-                    <span class="text-[var(--world-gold)]">GROUP ${m.group} • ROUND ${m.round}</span>
-                    <span class="bg-black border border-zinc-800 px-2.5 py-1 rounded-full text-[10px] font-mono">MATCH #${m.id}</span>
+                    <span class="text-[var(--world-gold)] truncate pr-2">${m.stage === 'GROUP' ? `GRP ${m.group} • R${m.round}` : `${m.stage} • #${m.matchNumber || m.id}`}</span>
+                    <span class="bg-black border border-zinc-800 px-2 py-0.5 rounded-full text-[10px] font-mono shrink-0">ID: ${m.id}</span>
                 </div>
 
-                <div class="flex items-center justify-between gap-3 text-center py-1">
-                    <div class="flex-1 font-black text-sm text-white truncate" title="${m.home}">${m.home}</div>
-                    <span class="text-zinc-600 font-black text-xs">VS</span>
-                    <div class="flex-1 font-black text-sm text-white truncate" title="${m.away}">${m.away}</div>
+                <div class="flex items-center justify-between gap-2 text-center py-1">
+                    <div class="flex-1 font-black text-xs sm:text-sm text-white truncate" title="${m.home}">${m.home}</div>
+                    <span class="text-zinc-600 font-black text-xs shrink-0">VS</span>
+                    <div class="flex-1 font-black text-xs sm:text-sm text-white truncate" title="${m.away}">${m.away}</div>
                 </div>
 
-                <div class="flex items-center justify-center space-x-4 bg-black/60 p-3 rounded-2xl border border-zinc-800">
-                    <div class="flex flex-col items-center">
-                        <span class="text-[9px] font-black uppercase text-zinc-500 mb-1">HOME</span>
-                        <input type="number" min="0" step="1" id="score-h-${m.id}" value="${res.homeScore !== null && res.homeScore !== undefined ? res.homeScore : ''}" class="score-input" placeholder="-">
+                <div class="flex flex-col space-y-2 bg-black/60 p-3 rounded-2xl border border-zinc-800">
+                    <div class="flex items-center justify-center space-x-3 sm:space-x-4">
+                        <div class="flex flex-col items-center">
+                            <span class="text-[9px] font-black uppercase text-zinc-500 mb-1">HOME</span>
+                            <input type="number" min="0" id="score-h-${m.id}" value="${res.homeScore ?? ''}" class="score-input" placeholder="-">
+                        </div>
+                        <span class="text-zinc-600 font-bold text-lg mt-4">:</span>
+                        <div class="flex flex-col items-center">
+                            <span class="text-[9px] font-black uppercase text-zinc-500 mb-1">AWAY</span>
+                            <input type="number" min="0" id="score-a-${m.id}" value="${res.awayScore ?? ''}" class="score-input" placeholder="-">
+                        </div>
                     </div>
-
-                    <span class="text-zinc-600 font-bold text-lg mt-4">:</span>
-
-                    <div class="flex flex-col items-center">
-                        <span class="text-[9px] font-black uppercase text-zinc-500 mb-1">AWAY</span>
-                        <input type="number" min="0" step="1" id="score-a-${m.id}" value="${res.awayScore !== null && res.awayScore !== undefined ? res.awayScore : ''}" class="score-input" placeholder="-">
-                    </div>
+                    ${isKnockout ? `
+                    <div class="flex items-center justify-center space-x-3 pt-2 border-t border-white/5 text-[10px]">
+                        <div class="flex items-center gap-1">
+                            <span>Pen H:</span>
+                            <input type="number" min="0" id="pen-h-${m.id}" value="${res.homePenalties ?? ''}" class="w-11 h-8 bg-black border border-zinc-700 text-center rounded text-xs font-bold text-[var(--world-gold)]">
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <span>Pen A:</span>
+                            <input type="number" min="0" id="pen-a-${m.id}" value="${res.awayPenalties ?? ''}" class="w-11 h-8 bg-black border border-zinc-700 text-center rounded text-xs font-bold text-[var(--world-gold)]">
+                        </div>
+                    </div>` : ''}
                 </div>
 
                 <div class="flex items-center justify-between pt-1">
-                    <div class="text-[10px]">
-                        <span class="px-2.5 py-1 rounded-lg font-bold uppercase text-[9px] ${isFinished ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'}">
-                            ${res.status.toUpperCase()}
-                        </span>
-                    </div>
-
+                    <span class="px-2.5 py-1 rounded-lg font-bold uppercase text-[9px] ${isFinished ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'}">
+                        ${res.status.toUpperCase()}
+                    </span>
                     <div class="flex space-x-2">
-                        ${isFinished ? `
-                            <button onclick="clearResult(${m.id})" class="px-3 py-2 rounded-xl text-xs font-bold bg-rose-950/60 hover:bg-rose-900 text-rose-300 border border-rose-800/50 transition">
-                                Reset
-                            </button>
-                        ` : ''}
-                        <button onclick="saveResult(${m.id})" class="px-4 py-2 rounded-xl text-xs font-black uppercase bg-[var(--world-gold)] text-black hover:bg-[var(--world-gold-hover)] shadow-md transition">
-                            Save Result
-                        </button>
+                        ${isFinished ? `<button onclick="clearMatchResult(${m.id})" class="px-3 py-2 rounded-xl text-xs font-bold bg-rose-950/60 hover:bg-rose-900 text-rose-300 border border-rose-800/50 transition">Reset</button>` : ''}
+                        <button onclick="saveMatchResult(${m.id}, '${m.home}', '${m.away}', ${isKnockout})" class="px-4 py-2 rounded-xl text-xs font-black uppercase bg-[var(--world-gold)] text-black hover:bg-[var(--world-gold-hover)] shadow-md transition">Save</button>
                     </div>
                 </div>
             </div>`;
@@ -870,12 +1294,6 @@
 
     function handleLogin() {
         const pass = document.getElementById('admin-passcode').value.trim();
-        
-        if (!pass) {
-            showToast("ကျေးဇူးပြု၍ Password ရိုက်ထည့်ပါ။", true);
-            return;
-        }
-
         if (pass === "2024") {
             isAdminUnlocked = true;
             document.getElementById('auth-modal').classList.add('hidden');
@@ -887,22 +1305,7 @@
         }
     }
 
-    function showToast(msg, isError = false) {
-        const toast = document.getElementById('toast');
-        const toastMsg = document.getElementById('toast-msg');
-        const toastIcon = document.getElementById('toast-icon');
-
-        toastMsg.innerText = msg;
-        toastIcon.className = isError ? "fas fa-exclamation-triangle text-rose-500 text-lg" : "fas fa-check-circle text-[var(--world-gold)] text-lg";
-        toast.style.borderColor = isError ? "#f43f5e" : "#ddec0f";
-
-        toast.classList.remove('translate-y-12', 'opacity-0', 'pointer-events-none');
-        setTimeout(() => {
-            toast.classList.add('translate-y-12', 'opacity-0', 'pointer-events-none');
-        }, 3000);
-    }
-
-    async function saveResult(matchId) {
+    async function saveMatchResult(matchId, homeTeam, awayTeam, isKnockout) {
         const hInput = document.getElementById(`score-h-${matchId}`).value;
         const aInput = document.getElementById(`score-a-${matchId}`).value;
 
@@ -914,57 +1317,126 @@
         const hScore = Number(hInput);
         const aScore = Number(aInput);
 
-        if (!Number.isInteger(hScore) || !Number.isInteger(aScore) || hScore < 0 || aScore < 0) {
-            showToast("Scores must be valid non-negative numbers.", true);
+        if (homeTeam === awayTeam) {
+            showToast("A team cannot play against itself!", true);
             return;
         }
 
-        try {
-            const res = await DataService.saveMatchResult(matchId, hScore, aScore);
-            if (res.cloudSaved) {
-                showToast(`Match #${matchId} Cloud သို့ သိမ်းဆည်းပြီးပါပြီ! ☁️✅`);
+        let winner = null;
+        let loser = null;
+        let winnerName = null;
+        let loserName = null;
+        let hPen = null;
+        let aPen = null;
+
+        if (hScore > aScore) {
+            winner = 'home'; loser = 'away';
+            winnerName = homeTeam; loserName = awayTeam;
+        } else if (aScore > hScore) {
+            winner = 'away'; loser = 'home';
+            winnerName = awayTeam; loserName = homeTeam;
+        } else {
+            if (isKnockout) {
+                const penHInput = document.getElementById(`pen-h-${matchId}`)?.value;
+                const penAInput = document.getElementById(`pen-a-${matchId}`)?.value;
+                if (penHInput === "" || penAInput === "" || penHInput === penAInput) {
+                    showToast("Scores are tied! Penalty shootout winners required.", true);
+                    return;
+                }
+                hPen = Number(penHInput);
+                aPen = Number(penAInput);
+                if (hPen > aPen) {
+                    winner = 'home'; loser = 'away';
+                    winnerName = homeTeam; loserName = awayTeam;
+                } else {
+                    winner = 'away'; loser = 'home';
+                    winnerName = awayTeam; loserName = homeTeam;
+                }
             } else {
-                showToast(`Match #${matchId} Local တွင်သာ သိမ်းဆည်းနိုင်သည် (Cloud Permission Denied)`, true);
+                winner = 'draw';
             }
-        } catch (e) {
-            showToast(e.message, true);
         }
+
+        const payload = {
+            matchId: Number(matchId),
+            homeScore: hScore,
+            awayScore: aScore,
+            homePenalties: hPen,
+            awayPenalties: aPen,
+            winner,
+            loser,
+            winnerName,
+            loserName,
+            status: "finished",
+            updatedAt: new Date().toISOString()
+        };
+
+        matchResults[matchId] = payload;
+        saveLocalResults();
+
+        if (window.CloudDataService) {
+            await window.CloudDataService.saveResultToCloud(matchId, payload);
+        }
+
+        showToast(`Match #${matchId} result saved successfully!`);
+        renderAdminMatches();
+        renderPublicView();
     }
 
-    async function clearResult(matchId) {
-        try {
-            await DataService.clearMatchResult(matchId);
-            showToast(`Match #${matchId} score reset.`);
-        } catch (e) {
-            showToast(e.message, true);
+    async function clearMatchResult(matchId) {
+        delete matchResults[matchId];
+        saveLocalResults();
+        if (window.CloudDataService) {
+            await window.CloudDataService.deleteResultFromCloud(matchId);
         }
+        showToast(`Match #${matchId} reset.`);
+        renderAdminMatches();
+        renderPublicView();
     }
 
-    // Initialization on window load
+    function showToast(msg, isError = false) {
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toast-msg');
+        const toastIcon = document.getElementById('toast-icon');
+        if (!toast) return;
+
+        toastMsg.innerText = msg;
+        toastIcon.className = isError ? "fas fa-exclamation-triangle text-rose-500 text-lg shrink-0" : "fas fa-check-circle text-[var(--world-gold)] text-lg shrink-0";
+        toast.style.borderColor = isError ? "#f43f5e" : "#ddec0f";
+
+        toast.classList.remove('translate-y-12', 'opacity-0', 'pointer-events-none');
+        setTimeout(() => {
+            toast.classList.add('translate-y-12', 'opacity-0', 'pointer-events-none');
+        }, 3000);
+    }
+
     window.onload = () => {
-        // Populate group select dropdowns
+        loadLocalResults();
+
         const pubGroupSelect = document.getElementById('pub-group-select');
         const adminGroupSelect = document.getElementById('admin-group-select');
+        if (pubGroupSelect && adminGroupSelect) {
+            GROUPS.forEach(g => {
+                const opt1 = document.createElement('option');
+                opt1.value = g; opt1.innerText = `Group ${g}`;
+                pubGroupSelect.appendChild(opt1);
 
-        GROUPS.forEach(g => {
-            const opt1 = document.createElement('option');
-            opt1.value = g; opt1.innerText = `Group ${g}`;
-            pubGroupSelect.appendChild(opt1);
+                const opt2 = document.createElement('option');
+                opt2.value = g; opt2.innerText = `Group ${g}`;
+                adminGroupSelect.appendChild(opt2);
+            });
+        }
 
-            const opt2 = document.createElement('option');
-            opt2.value = g; opt2.innerText = `Group ${g}`;
-            adminGroupSelect.appendChild(opt2);
-        });
+        if (window.CloudDataService) {
+            window.CloudDataService.subscribeToCloud(liveResults => {
+                matchResults = { ...matchResults, ...liveResults };
+                saveLocalResults();
+                if (activeTab === 'public') renderPublicView();
+                else if (isAdminUnlocked) renderAdminMatches();
+            });
+        }
 
-        // Subscribe to real-time data storage
-        DataService.subscribeToMatchResults(results => {
-            currentResults = results;
-            if (activeTab === 'public') {
-                renderPublicView();
-            } else if (isAdminUnlocked) {
-                renderAdminMatches();
-            }
-        });
+        renderPublicView();
     };
 </script>
 </body>
